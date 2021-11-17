@@ -1,210 +1,263 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" color-mode=light>
+<html lang="zh-CN">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>关系型数据库：MySQL - JavaLearning</title>
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="google" content="notranslate" />
-  
-  <meta name="description" content="MySQL是一个关系型数据库管理系统，由瑞典[MySQ...">
-  <meta name="author" content="wenk207">
-  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
-  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
-  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
-  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
-  
-    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
-    <meta rel="msapplication-TileColor" content="#000000">
-  
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-  
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/main.css">
 
 
-  
-    
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_p6ry5n7lrr.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  
-
-  
-    
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
-
-  
-
-  
-    
-      
-        
-        
-<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
-
-      
-        
-        
-<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
-
-      
-  
-
-  <script>
-    var CONFIG = window.CONFIG || {};
-    var ZHAOO = window.ZHAOO || {};
-    CONFIG = {
-      isHome: false,
-      fancybox: true,
-      pjax: false,
-      loading: {
-        gif: '/images/theme/loading.gif',
-        lottie: ''
-      },
-      lazyload: {
-        enable: true,
-        only_post: 'false',
-        loading: {
-          gif: '/images/theme/loading.gif',
-          lottie: ''
-        }
-      },
-      donate: {
-        enable: false,
-        alipay: 'https://pic.izhaoo.com/alipay.jpg',
-        wechat: 'https://pic.izhaoo.com/wechat.jpg'
-      },
-      galleries: {
-        enable: true
-      },
-      fab: {
-        enable: true,
-        always_show: false
-      },
-      carrier: {
-        enable: true
-      },
-      daovoice: {
-        enable: false
-      },
-      preview: {
-        background: {
-          default: '',
-          api: ''
-        },
-        motto: {
-          default: '谦逊，努力，保持学习状态！',
-          typing: true,
-          api: 'https://v2.jinrishici.com/one.json',
-          data_contents: '["data","content"]'
-        },
-      },
-      qrcode: {
-        enable: false,
-        type: 'url',
-        image: 'https://pic.izhaoo.com/weapp-code.jpg',
-      },
-      toc: {
-        enable: true
-      },
-      scrollbar: {
-        type: 'default'
-      },
-      notification: {
-        enable: false,
-        delay: 4500,
-        list: '',
-        page_white_list: '',
-        page_black_list: ''
-      },
-      search: {
-        enable: true,
-        path: '/search.xml'
-      }
-    }
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"/search.xml"};
   </script>
 
+  <meta name="description" content="MySQL是一个关系型数据库管理系统，由瑞典[MySQL AB](https:&#x2F;&#x2F;baike.baidu.com&#x2F;item&#x2F;MySQL AB&#x2F;2620844) 公司开发，属于 Oracle 旗下产品。MySQL 是最流行的关系型数据库管理系统之一，在 WEB 应用方面，MySQL是最好的 RDBMS (Relational Database Management System，关系数据库管理系统)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关系型数据库：MySQL">
+<meta property="og:url" content="http://example.com/2021/11/15/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9AMySQL/index.html">
+<meta property="og:site_name" content="JavaLearning">
+<meta property="og:description" content="MySQL是一个关系型数据库管理系统，由瑞典[MySQL AB](https:&#x2F;&#x2F;baike.baidu.com&#x2F;item&#x2F;MySQL AB&#x2F;2620844) 公司开发，属于 Oracle 旗下产品。MySQL 是最流行的关系型数据库管理系统之一，在 WEB 应用方面，MySQL是最好的 RDBMS (Relational Database Management System，关系数据库管理系统)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_1.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_3.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_2.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_4.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_5.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_6.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_7.png">
+<meta property="article:published_time" content="2021-11-15T07:54:54.000Z">
+<meta property="article:modified_time" content="2021-11-15T08:18:03.698Z">
+<meta property="article:author" content="wenk207">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_1.png">
+
+<link rel="canonical" href="http://example.com/2021/11/15/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9AMySQL/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>关系型数据库：MySQL | JavaLearning</title>
   
 
-  
-
-<meta name="generator" content="Hexo 5.4.0"></head>
-
-<body class="lock-screen">
-  <div class="loading" id="loading"></div>
-  
-    
 
 
-  <nav class="navbar">
-    <div class="left">
-      
-        <i class="iconfont iconhome j-navbar-back-home"></i>
-      
-      
-      
-        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
-      
-      
-        <i class="iconfont iconsearch j-navbar-search"></i>
-      
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    <div class="center">关系型数据库：MySQL</div>
-    <div class="right">
-      <i class="iconfont iconmenu j-navbar-menu"></i>
-    </div>
-    
-  </nav>
-
-  
-  
-
-<nav class="menu">
-  <div class="menu-container">
-    <div class="menu-close">
-      <i class="iconfont iconbaseline-close-px"></i>
-    </div>
-    <ul class="menu-content"><li class="menu-item">
-        <a href="/ " class="underline "> 首页</a>
-      </li><li class="menu-item">
-        <a href="/galleries/ " class="underline "> 摄影</a>
-      </li><li class="menu-item">
-        <a href="/archives/ " class="underline "> 归档</a>
-      </li><li class="menu-item">
-        <a href="/tags/ " class="underline "> 标签</a>
-      </li><li class="menu-item">
-        <a href="/categories/ " class="underline "> 分类</a>
-      </li><li class="menu-item">
-        <a href="/about/ " class="underline "> 关于</a>
-      </li></ul>
-    
-      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="http://wenk207.top/">wenk207</a></p></div>
-    
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">JavaLearning</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="download fa-fw"></i>资源</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
 </nav>
-  <main id="main">
-  <div class="article-wrap">
-    <div class="row container">
-      <div class="col-xl-3"></div>
-      <div class="col-xl-6"><article class="article">
-  <div class="wrap">
-    <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
-  <div class="head-mask">
-    <h1 class="head-title">关系型数据库：MySQL</h1>
-    <div class="head-info">
-      <span class="post-info-item"><i class="iconfont iconcalendar"></i>十一月 15, 2021</span>
-      
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>40614</span>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
     </div>
   </div>
-</section>
-    <section class="main">
-      <section class="content">
-        <h1 id="一、数据库概述"><a href="#一、数据库概述" class="headerlink" title="一、数据库概述"></a>一、数据库概述</h1><h2 id="1、使用数据库的优势"><a href="#1、使用数据库的优势" class="headerlink" title="1、使用数据库的优势"></a>1、使用数据库的优势</h2><p>使用数据库有两个优势：</p>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/15/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9AMySQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="wenk207">
+      <meta itemprop="description" content="谦逊，努力，时刻保持学习状态">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JavaLearning">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关系型数据库：MySQL
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-15 15:54:54 / 修改时间：16:18:03" itemprop="dateCreated datePublished" datetime="2021-11-15T15:54:54+08:00">2021-11-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>MySQL是一个<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/696511">关系型数据库管理系统</a>，由瑞典[MySQL AB](<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/MySQL">https://baike.baidu.com/item/MySQL</a> AB/2620844) 公司开发，属于 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/Oracle">Oracle</a> 旗下产品。MySQL 是最流行的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/696511">关系型数据库管理系统</a>之一，在 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/WEB/150564">WEB</a> 应用方面，MySQL是最好的 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/RDBMS/1048260">RDBMS</a> (Relational Database Management System，关系数据库管理系统) 应用软件之一。</p>
+<span id="more"></span>
+
+<h1 id="一、数据库概述"><a href="#一、数据库概述" class="headerlink" title="一、数据库概述"></a>一、数据库概述</h1><h2 id="1、使用数据库的优势"><a href="#1、使用数据库的优势" class="headerlink" title="1、使用数据库的优势"></a>1、使用数据库的优势</h2><p>使用数据库有两个优势：</p>
 <ul>
 <li>持久化数据到本地。</li>
 <li>可以实现结构化查询，方便管理。</li>
@@ -272,7 +325,7 @@
 </li>
 </ul>
 <p>如下图：</p>
-<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_1.png"><img    class="lazyload" data-original="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_1.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></a></p>
+<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_1.png"><img src="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_1.png" alt="img"></a></p>
 <h2 id="5、MySQL的常见命令"><a href="#5、MySQL的常见命令" class="headerlink" title="5、MySQL的常见命令"></a>5、MySQL的常见命令</h2><p>查看当前所有的数据库:</p>
 <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">show databases<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
 
@@ -480,15 +533,15 @@
 <p>→<code>AVG/SUM/MAX/MIN等分组函数</code>→<code>having</code>→<code>select</code>→<code>distinct</code>→<code>order by</code>→<code>limit</code></p>
 <p>以下案例使用的数据库：<code>myemployees</code>，其中有<code>departments</code>、<code>employees</code>、<code>job_grades</code>、<code>jobs</code>、<code>locations</code>共五张表。各自的包含的字段如下：</p>
 <p><code>departments</code>表：</p>
-<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_3.png"><img    class="lazyload" data-original="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_3.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></a></p>
+<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_3.png"><img src="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_3.png" alt="img"></a></p>
 <p><code>employees</code>表：</p>
-<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_2.png"><img    class="lazyload" data-original="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_2.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></a></p>
+<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_2.png"><img src="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_2.png" alt="img"></a></p>
 <p><code>job_grades</code>表：</p>
-<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_4.png"><img    class="lazyload" data-original="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_4.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></a></p>
+<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_4.png"><img src="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_4.png" alt="img"></a></p>
 <p><code>jobs</code>表：</p>
-<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_5.png"><img    class="lazyload" data-original="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_5.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></a></p>
+<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_5.png"><img src="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_5.png" alt="img"></a></p>
 <p><code>locations</code>表：</p>
-<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_6.png"><img    class="lazyload" data-original="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_6.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></a></p>
+<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_6.png"><img src="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_6.png" alt="img"></a></p>
 <h2 id="1、基础查询"><a href="#1、基础查询" class="headerlink" title="1、基础查询"></a>1、基础查询</h2><p>语法：</p>
 <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> 查询内容 [<span class="hljs-keyword">FROM</span> 表名];<br></code></pre></td></tr></table></figure>
 
@@ -812,7 +865,7 @@
 
 <p><strong>总结</strong></p>
 <p>以集合关系来理解内连接和外连接：</p>
-<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_7.png"><img    class="lazyload" data-original="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_7.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></a></p>
+<p><a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_7.png"><img src="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_7.png" alt="img"></a></p>
 <h2 id="7、子查询"><a href="#7、子查询" class="headerlink" title="7、子查询"></a>7、子查询</h2><p>嵌套在其他语句内部的select语句称为<strong>子查询</strong>或<strong>内查询</strong>。外面的语句可以是insert、update、delete、select等，一般为select语句较多。</p>
 <p>如果外面的语句是select语句，则称其为<strong>主查询</strong>或<strong>外查询</strong>。</p>
 <p>子查询根据位置的不同和结果集的不同可以有以下分类。</p>
@@ -1356,171 +1409,215 @@
 
 <p>使用循环结构的案例：</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"># 使用存储结构和循环结构，实现批量插入，要求只插入偶数次的记录<br><span class="hljs-keyword">DELIMITER</span> @@   # 先将分隔符设置为@@<br><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">PROCEDURE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> test_while@@<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">PROCEDURE</span> test_while(<span class="hljs-keyword">IN</span> insertCount <span class="hljs-type">INT</span>)<br><span class="hljs-keyword">BEGIN</span><br>	<span class="hljs-keyword">DECLARE</span> i <span class="hljs-type">INT</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">0</span>;<br>	a: <span class="hljs-keyword">WHILE</span> i&lt;=insertCount <span class="hljs-keyword">DO</span><br>		<span class="hljs-keyword">SET</span> i=i+<span class="hljs-number">1</span>;<br>		<span class="hljs-keyword">IF</span> MOD(i,<span class="hljs-number">2</span>)!=<span class="hljs-number">0</span> <span class="hljs-keyword">THEN</span> ITERATE a;<br>		<span class="hljs-keyword">END</span> <span class="hljs-keyword">IF</span>;<br>		<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-keyword">admin</span>(username,`<span class="hljs-keyword">password</span>`) <br>		<span class="hljs-keyword">VALUES</span>(CONCAT(<span class="hljs-string">&#x27;xiaohua&#x27;</span>,i),<span class="hljs-string">&#x27;0000&#x27;</span>);<br>	<span class="hljs-keyword">END</span> <span class="hljs-keyword">WHILE</span> a;<br><span class="hljs-keyword">END</span> @@<br><span class="hljs-keyword">DELIMITER</span> ;<br><br># 传入<span class="hljs-number">100</span>，只会插入偶数时的记录<br><span class="hljs-keyword">CALL</span> test_while1(<span class="hljs-number">100</span>);<br></code></pre></td></tr></table></figure>
-      </section>
-      <section class="extra">
-        
-          <ul class="copyright">
-  
-    <li><strong>本文作者：</strong>wenk207</li>
-    <li><strong>本文链接：</strong><a href="http://example.com/2021/11/15/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9AMySQL/index.html" title="http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;11&#x2F;15&#x2F;%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9AMySQL&#x2F;index.html">http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;11&#x2F;15&#x2F;%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9AMySQL&#x2F;index.html</a></li>
-    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
-  
-</ul>
-        
-        
-        
-  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li></ul> 
 
-        
-  <nav class="nav">
-    <a href="/2021/11/15/key-value%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9ARedis/"><i class="iconfont iconleft"></i>key-value型数据库：Redis</a>
-    <a href="/2021/11/15/Java%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%EF%BC%9AJDBC/">Java数据库连接：JDBC<i class="iconfont iconright"></i></a>
-  </nav>
-
-      </section>
-      
-    </section>
-  </div>
-</article></div>
-      <div class="col-xl-3">
-        
-          
-  <aside class="toc-wrap">
-    <h3 class="toc-title">文章目录：</h3>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E6%A6%82%E8%BF%B0"><span class="toc-text">一、数据库概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-text">1、使用数据库的优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-text">2、数据库相关概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81SQL%E7%9A%84%E8%AF%AD%E8%A8%80%E5%88%86%E7%B1%BB"><span class="toc-text">3、SQL的语言分类</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">二、关系数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">1、什么是关系型数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81RDBMS%E5%AD%98%E5%82%A8%E6%95%B0%E6%8D%AE%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-text">2、RDBMS存储数据的特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E5%B8%B8%E8%A7%81%E7%9A%84%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">3、常见的关系型数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81NoSQL"><span class="toc-text">4、NoSQL</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81MySQL"><span class="toc-text">三、MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81MySQL%E4%BB%8B%E7%BB%8D"><span class="toc-text">1、MySQL介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81MySQL%E5%AE%89%E8%A3%85"><span class="toc-text">2、MySQL安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81MySQL%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%90%AF%E5%8A%A8%E5%92%8C%E5%81%9C%E6%AD%A2"><span class="toc-text">3、MySQL服务的启动和停止</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81MySQL%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%99%BB%E5%BD%95%E5%92%8C%E9%80%80%E5%87%BA"><span class="toc-text">4、MySQL服务的登录和退出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81MySQL%E7%9A%84%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4"><span class="toc-text">5、MySQL的常见命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E3%80%81MySQL%E7%9A%84%E8%AF%AD%E6%B3%95%E8%A7%84%E8%8C%83"><span class="toc-text">6、MySQL的语法规范</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81MySQL%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">四、MySQL数据类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81DQL%E8%AF%AD%E8%A8%80"><span class="toc-text">五、DQL语言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%9F%BA%E7%A1%80%E6%9F%A5%E8%AF%A2"><span class="toc-text">1、基础查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2"><span class="toc-text">2、条件查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E6%8E%92%E5%BA%8F%E6%9F%A5%E8%AF%A2"><span class="toc-text">3、排序查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0"><span class="toc-text">4、常见函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81%E5%88%86%E7%BB%84%E6%9F%A5%E8%AF%A2"><span class="toc-text">5、分组查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E3%80%81%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="toc-text">6、多表连接查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7%E3%80%81%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="toc-text">7、子查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8%E3%80%81%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2"><span class="toc-text">8、分页查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9%E3%80%81%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-text">9、联合查询</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81DML%E8%AF%AD%E8%A8%80"><span class="toc-text">六、DML语言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81insert"><span class="toc-text">1、insert</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81update"><span class="toc-text">2、update</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81delete"><span class="toc-text">3、delete</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%83%E3%80%81DDL%E8%AF%AD%E5%8F%A5"><span class="toc-text">七、DDL语句</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81create"><span class="toc-text">1、create</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81alter"><span class="toc-text">2、alter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81drop"><span class="toc-text">3、drop</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E7%BA%A6%E6%9D%9F%E5%92%8C%E6%A0%87%E8%AF%86%E5%88%97"><span class="toc-text">八、约束和标识列</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E7%BA%A6%E6%9D%9F"><span class="toc-text">1、约束</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E6%A0%87%E8%AF%86%E5%88%97"><span class="toc-text">2、标识列</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1"><span class="toc-text">九、数据库事务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E4%BA%8B%E5%8A%A1%E6%A6%82%E8%BF%B0"><span class="toc-text">1、事务概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%BC%80%E5%90%AF"><span class="toc-text">2、事务的开启</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-text">3、事务的隔离级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E8%AE%BE%E7%BD%AE%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-text">4、设置隔离级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81MyISAM%E5%BC%95%E6%93%8E%E5%92%8CInnoDB%E5%BC%95%E6%93%8E%E5%AF%B9%E6%AF%94"><span class="toc-text">5、MyISAM引擎和InnoDB引擎对比</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E8%A7%86%E5%9B%BE"><span class="toc-text">十、视图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E6%A6%82%E8%BF%B0"><span class="toc-text">1、概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E5%88%9B%E5%BB%BA%E8%A7%86%E5%9B%BE"><span class="toc-text">2、创建视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E5%88%A0%E9%99%A4%E8%A7%86%E5%9B%BE"><span class="toc-text">3、删除视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E6%9F%A5%E7%9C%8B%E8%A7%86%E5%9B%BE"><span class="toc-text">4、查看视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE"><span class="toc-text">5、更新视图</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E5%8F%98%E9%87%8F"><span class="toc-text">十一、变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F"><span class="toc-text">1、系统变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="toc-text">2、自定义变量</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%92%8C%E5%87%BD%E6%95%B0"><span class="toc-text">十二、存储过程和函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="toc-text">1、存储过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E5%87%BD%E6%95%B0"><span class="toc-text">2、函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%B8%89%E3%80%81%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84"><span class="toc-text">十三、流程控制结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84"><span class="toc-text">1、分支结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84"><span class="toc-text">2、循环结构</span></a></li></ol></li></ol>
-  </aside>
-
-        
-      </div>
     </div>
-  </div>
-</main>
-  
 
-<footer class="footer">
-  <div class="footer-social"><a 
-        href="tencent://message/?Menu=yes&uin=894519210 "
-        target="_blank"
-        class="footer-social-item"
-        onMouseOver="this.style.color= '#12B7F5'" 
-        onMouseOut="this.style.color='#33333D'">
-          <i class="iconfont  iconQQ "></i>
-      </a><a 
-        href="javascript:; "
-        target="_blank"
-        class="footer-social-item"
-        onMouseOver="this.style.color= '#09BB07'" 
-        onMouseOut="this.style.color='#33333D'">
-          <i class="iconfont  iconwechat-fill "></i>
-      </a><a 
-        href="https://www.instagram.com/izhaoo/ "
-        target="_blank"
-        class="footer-social-item"
-        onMouseOver="this.style.color= '#DA2E76'" 
-        onMouseOut="this.style.color='#33333D'">
-          <i class="iconfont  iconinstagram "></i>
-      </a><a 
-        href="https://github.com/zhaoo "
-        target="_blank"
-        class="footer-social-item"
-        onMouseOver="this.style.color= '#9f7be1'" 
-        onMouseOut="this.style.color='#33333D'">
-          <i class="iconfont  icongithub-fill "></i>
-      </a><a 
-        href="mailto:izhaoo@163.com "
-        target="_blank"
-        class="footer-social-item"
-        onMouseOver="this.style.color=#FF3B00" 
-        onMouseOut="this.style.color='#33333D'">
-          <i class="iconfont  iconmail"></i>
-      </a></div>
-  
-    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="http://wenk207.top/">wenk207</a></p></div>
-  
-</footer>
-  
-      <div class="fab fab-plus">
-    <i class="iconfont iconplus"></i>
-  </div>
-  
-  
-  
-  <div class="fab fab-up">
-    <i class="iconfont iconcaret-up"></i>
-  </div>
-  
-  
-  
     
-<script src="/js/color-mode.js"></script>
+    
+    
+        
 
-  
-  
-    <div class="search">
-  <div class="search-container">
-    <div class="search-close">
-      <i class="iconfont iconbaseline-close-px"></i>
-    </div>
-    <div class="search-input-wrapper">
-      <i class="search-input-icon iconfont iconsearch"></i>
-      <input class="search-input" type="search" id="search-input" placeholder="Search..." autofocus autocomplete="off"
-        autocorrect="off" autocapitalize="off">
-    </div>
-    <div class="search-output" id="search-output"></div>
-  </div>
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>wenk207
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/11/15/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9AMySQL/" title="关系型数据库：MySQL">http://example.com/2021/11/15/关系型数据库：MySQL/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
 </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/15/Java%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%EF%BC%9AJDBC/" rel="prev" title="Java数据库连接：JDBC">
+      <i class="fa fa-chevron-left"></i> Java数据库连接：JDBC
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/15/key-value%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9ARedis/" rel="next" title="key-value型数据库：Redis">
+      key-value型数据库：Redis <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
   
-</body>
-
-<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-
+  
+  
 
 
 
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一、数据库概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-number">1.1.</span> <span class="nav-text">1、使用数据库的优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="nav-number">1.2.</span> <span class="nav-text">2、数据库相关概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81SQL%E7%9A%84%E8%AF%AD%E8%A8%80%E5%88%86%E7%B1%BB"><span class="nav-number">1.3.</span> <span class="nav-text">3、SQL的语言分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">二、关系数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.1.</span> <span class="nav-text">1、什么是关系型数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81RDBMS%E5%AD%98%E5%82%A8%E6%95%B0%E6%8D%AE%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">2、RDBMS存储数据的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E5%B8%B8%E8%A7%81%E7%9A%84%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.3.</span> <span class="nav-text">3、常见的关系型数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81NoSQL"><span class="nav-number">2.4.</span> <span class="nav-text">4、NoSQL</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81MySQL"><span class="nav-number">3.</span> <span class="nav-text">三、MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81MySQL%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.1.</span> <span class="nav-text">1、MySQL介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81MySQL%E5%AE%89%E8%A3%85"><span class="nav-number">3.2.</span> <span class="nav-text">2、MySQL安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81MySQL%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%90%AF%E5%8A%A8%E5%92%8C%E5%81%9C%E6%AD%A2"><span class="nav-number">3.3.</span> <span class="nav-text">3、MySQL服务的启动和停止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81MySQL%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%99%BB%E5%BD%95%E5%92%8C%E9%80%80%E5%87%BA"><span class="nav-number">3.4.</span> <span class="nav-text">4、MySQL服务的登录和退出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81MySQL%E7%9A%84%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4"><span class="nav-number">3.5.</span> <span class="nav-text">5、MySQL的常见命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E3%80%81MySQL%E7%9A%84%E8%AF%AD%E6%B3%95%E8%A7%84%E8%8C%83"><span class="nav-number">3.6.</span> <span class="nav-text">6、MySQL的语法规范</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81MySQL%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">四、MySQL数据类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81DQL%E8%AF%AD%E8%A8%80"><span class="nav-number">5.</span> <span class="nav-text">五、DQL语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%9F%BA%E7%A1%80%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.1.</span> <span class="nav-text">1、基础查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.2.</span> <span class="nav-text">2、条件查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E6%8E%92%E5%BA%8F%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.3.</span> <span class="nav-text">3、排序查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0"><span class="nav-number">5.4.</span> <span class="nav-text">4、常见函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81%E5%88%86%E7%BB%84%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.5.</span> <span class="nav-text">5、分组查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E3%80%81%E5%A4%9A%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.6.</span> <span class="nav-text">6、多表连接查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7%E3%80%81%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.7.</span> <span class="nav-text">7、子查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8%E3%80%81%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.8.</span> <span class="nav-text">8、分页查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9%E3%80%81%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.9.</span> <span class="nav-text">9、联合查询</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81DML%E8%AF%AD%E8%A8%80"><span class="nav-number">6.</span> <span class="nav-text">六、DML语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81insert"><span class="nav-number">6.1.</span> <span class="nav-text">1、insert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81update"><span class="nav-number">6.2.</span> <span class="nav-text">2、update</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81delete"><span class="nav-number">6.3.</span> <span class="nav-text">3、delete</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81DDL%E8%AF%AD%E5%8F%A5"><span class="nav-number">7.</span> <span class="nav-text">七、DDL语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81create"><span class="nav-number">7.1.</span> <span class="nav-text">1、create</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81alter"><span class="nav-number">7.2.</span> <span class="nav-text">2、alter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81drop"><span class="nav-number">7.3.</span> <span class="nav-text">3、drop</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E7%BA%A6%E6%9D%9F%E5%92%8C%E6%A0%87%E8%AF%86%E5%88%97"><span class="nav-number">8.</span> <span class="nav-text">八、约束和标识列</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E7%BA%A6%E6%9D%9F"><span class="nav-number">8.1.</span> <span class="nav-text">1、约束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E6%A0%87%E8%AF%86%E5%88%97"><span class="nav-number">8.2.</span> <span class="nav-text">2、标识列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1"><span class="nav-number">9.</span> <span class="nav-text">九、数据库事务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E4%BA%8B%E5%8A%A1%E6%A6%82%E8%BF%B0"><span class="nav-number">9.1.</span> <span class="nav-text">1、事务概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%BC%80%E5%90%AF"><span class="nav-number">9.2.</span> <span class="nav-text">2、事务的开启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">9.3.</span> <span class="nav-text">3、事务的隔离级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E8%AE%BE%E7%BD%AE%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">9.4.</span> <span class="nav-text">4、设置隔离级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81MyISAM%E5%BC%95%E6%93%8E%E5%92%8CInnoDB%E5%BC%95%E6%93%8E%E5%AF%B9%E6%AF%94"><span class="nav-number">9.5.</span> <span class="nav-text">5、MyISAM引擎和InnoDB引擎对比</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E3%80%81%E8%A7%86%E5%9B%BE"><span class="nav-number">10.</span> <span class="nav-text">十、视图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%A6%82%E8%BF%B0"><span class="nav-number">10.1.</span> <span class="nav-text">1、概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%88%9B%E5%BB%BA%E8%A7%86%E5%9B%BE"><span class="nav-number">10.2.</span> <span class="nav-text">2、创建视图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E5%88%A0%E9%99%A4%E8%A7%86%E5%9B%BE"><span class="nav-number">10.3.</span> <span class="nav-text">3、删除视图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E6%9F%A5%E7%9C%8B%E8%A7%86%E5%9B%BE"><span class="nav-number">10.4.</span> <span class="nav-text">4、查看视图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE"><span class="nav-number">10.5.</span> <span class="nav-text">5、更新视图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E5%8F%98%E9%87%8F"><span class="nav-number">11.</span> <span class="nav-text">十一、变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F"><span class="nav-number">11.1.</span> <span class="nav-text">1、系统变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">11.2.</span> <span class="nav-text">2、自定义变量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%92%8C%E5%87%BD%E6%95%B0"><span class="nav-number">12.</span> <span class="nav-text">十二、存储过程和函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="nav-number">12.1.</span> <span class="nav-text">1、存储过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%87%BD%E6%95%B0"><span class="nav-number">12.2.</span> <span class="nav-text">2、函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%B8%89%E3%80%81%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84"><span class="nav-number">13.</span> <span class="nav-text">十三、流程控制结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84"><span class="nav-number">13.1.</span> <span class="nav-text">1、分支结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84"><span class="nav-number">13.2.</span> <span class="nav-text">2、循环结构</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="wenk207"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">wenk207</p>
+  <div class="site-description" itemprop="description">谦逊，努力，时刻保持学习状态</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021-11 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wenk207</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共32.3k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
 
   
-<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
-
-
-
-
   
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-
-
-
-
-
-
-
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
 <script src="/js/utils.js"></script>
-<script src="/js/script.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
 
 
 
 
-
-
-
-  <script>
-    (function () {
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-      } else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-      }
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
-    })();
-  </script>
+  
 
 
 
 
-
+  
+<script src="/js/local-search.js"></script>
 
 
 
@@ -1529,4 +1626,14 @@
 
 
 
+
+
+
+
+
+  
+
+  
+
+</body>
 </html>
