@@ -83,7 +83,70 @@
   <entry>
     <title>Ambari</title>
     <url>/2021/12/04/Ambari/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p>Ambari是hadoop分布式集群配置管理工具；从Ambari 的作用来说，就是<strong>创建、管理、监视 Hadoop 的集群</strong>，但是这里的 Hadoop 是广义，指的是 Hadoop 整个生态圈(例如 Hive数据仓库，Hbase数据库，Sqoop，Zookeeper 等)，而并不仅是特指 Hadoop。用一句话来说，Ambari 就是为了让 Hadoop 以及相关的大数据软件更容易使用的一个工具。</p>
+<span id="more"></span>
+
+
+
+<h1 id="Ambari的作用"><a href="#Ambari的作用" class="headerlink" title="Ambari的作用"></a>Ambari的作用</h1><ul>
+<li><p>提供Hadoop集群</p>
+<ul>
+<li>Ambari提供了跨任意数量的主机安装Hadoop服务的分步向导</li>
+<li>Ambari处理群集的Hadoop服务配置</li>
+</ul>
+</li>
+<li><p>管理Hadoop集群</p>
+<ul>
+<li>集中管理，用于在整个集群中启动、停止和重新配置Hadoop集群</li>
+</ul>
+</li>
+<li><p>监控Hadoop集群</p>
+<ul>
+<li>收集Hadoop的运行指标</li>
+<li>提供了一个仪表盘，监控Hadoop集群的运行情况</li>
+<li>故障预警</li>
+</ul>
+</li>
+</ul>
+<p><strong>Ambari使应用程序开发人员和系统集成商能够</strong></p>
+<ul>
+<li>使用Ambari REST API轻松将Hadoop配置，管理和监控功能集成到自己的应用程序中。</li>
+</ul>
+<h1 id="Ambari的组件"><a href="#Ambari的组件" class="headerlink" title="Ambari的组件"></a>Ambari的组件</h1><p>Ambari的主要组成有三部分：</p>
+<ul>
+<li><strong>Ambari-Server</strong>：将集群的状态通过web UI 或RESTAPI的形式呈献给用户，并且通过这两种方式将用户指令下发到集群中，从而实现用户与Hadoop集群的交互。<strong>hadoop集群节点上一般没有server。</strong>（不知道为啥）</li>
+<li><strong>Ambari-Agent</strong>：负责对集群内主机状态的采集以及执行Server发来的指令，并且将执行结果发送给<strong>Server</strong>。</li>
+<li><strong>Ambari-Metrics</strong>：负责监控集群状态的功能组件。会搜集一下两种数据指标：<ul>
+<li>个节点“系统级”的指标</li>
+<li>Hadoop各组件的指标</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-fa754b5349e1948bba38d124854af6e0_b.jpg" alt="img"></p>
+<p><strong>心跳机制：</strong></p>
+<p>Ambari-Server与Ambari-Agent之间的交互是通过<strong>agent定期发送post请求</strong>，上报Ambari-agent所在主机的状态；Ambari-Server<strong>接收到Agent发送来的状态之后，给Ambari-Agent返回需要在此主机上执行的指令</strong>。这样一次完整的指令就像是一次心跳一样 ，通过心跳完成主从交互的机制就是心跳机制。</p>
+<p><strong>用户和数据集群中间的交互：</strong></p>
+<p>1）在server安装、配置完成并启动后；</p>
+<p>2）用户通过浏览器访问server，在地址栏输入的url是由ambari-web（以后简称web）模块响应请求，web端又调用ambari-server 的REST api获取数据显示在浏览器页面上。</p>
+<p>3）当用户想要通过浏览器操作集群（stop、start某些组件）时，由web端向ambari-server发送post或put请求，ambari-server 接收到请求后通过心跳机制，向ambari-agent(以后简称agent)发送指令，最后由agent执行shell或python脚本来完成。</p>
+<p><strong>显示在浏览器上的数据来源：</strong></p>
+<p>主要分为以下两种类型：</p>
+<ul>
+<li>集群内各服务的实时状态信息，这类数据是由AMS模块实时采集上报给Ambari-Metrics-Collector，再由Ambari-Server调用的Ambari-Metries-controller的REST API显示在页面上。这部分数据没有落地到ambari-server 的数据库中，在每次web端调用ambari-server的数据时，ambari-server都会调用ambari-metrics-collector获取数据，进行适当的加工处理后直接返回给web端 显示在浏览器页面上。</li>
+<li>由ambari-server缓存在内存，持久化到数据库的数据，这类数据<strong>比如主机列表、服务列表、服务的配置信息等</strong>。这些数据是由agent采集通过心跳发送给ambari-server后，ambari-server更新自身的数据状态。当web端调用ambari-server的rest api获取这些数据时，ambari-server将web端请求的数据直接返回给web显示在浏览器页面。</li>
+</ul>
+<h1 id="Ambari用户权限"><a href="#Ambari用户权限" class="headerlink" title="Ambari用户权限"></a>Ambari用户权限</h1><p>1.服务级别权限</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111153463.png" alt="image-20211204111153463"></p>
+<p>2.主机级权限</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111259671.png" alt="image-20211204111259671"></p>
+<p>3.集群级权限</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111333306.png" alt="image-20211204111333306"></p>
+<p>4.Ambari级权限</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111403313.png" alt="image-20211204111403313"></p>
+]]></content>
+      <tags>
+        <tag>云计算</tag>
+      </tags>
   </entry>
   <entry>
     <title>CloudBreak</title>
