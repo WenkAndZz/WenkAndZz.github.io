@@ -2882,7 +2882,12 @@
   <entry>
     <title>k8s--基础篇</title>
     <url>/2021/12/06/k8s-%E5%9F%BA%E7%A1%80%E7%AF%87/</url>
-    <content><![CDATA[<h1 id="K8s"><a href="#K8s" class="headerlink" title="K8s"></a>K8s</h1><h1 id="K8s介绍"><a href="#K8s介绍" class="headerlink" title="K8s介绍"></a>K8s介绍</h1><p>K8S是用于<strong>管理云平台中多个主机上的容器化</strong>的应用。</p>
+    <content><![CDATA[<p>K8S是用于<strong>管理云平台中多个主机上的容器化</strong>的应用。让部署容器化的应用简单并且高效（powerful）,K8S提供了应用部署，规划，更新，维护的一种机制。</p>
+<span id="more"></span>
+
+
+
+<h1 id="K8s"><a href="#K8s" class="headerlink" title="K8s"></a>K8s</h1><h1 id="K8s介绍"><a href="#K8s介绍" class="headerlink" title="K8s介绍"></a>K8s介绍</h1><p>K8S是用于<strong>管理云平台中多个主机上的容器化</strong>的应用。</p>
 <ul>
 <li>K8S的目标是让部署容器化的应用简单并且高效（powerful）,K8S提供了应用部署，规划，更新，维护的一种机制。</li>
 <li>K8S能够自主的管理容器来控制云平台中的容器按照用户的期望状态运行着。K8S会自动监控，然后控制容器重启，新建。</li>

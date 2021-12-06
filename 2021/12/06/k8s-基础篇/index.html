@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"/search.xml"};
   </script>
 
-  <meta name="description" content="K8sK8s介绍K8S是用于管理云平台中多个主机上的容器化的应用。  K8S的目标是让部署容器化的应用简单并且高效（powerful）,K8S提供了应用部署，规划，更新，维护的一种机制。 K8S能够自主的管理容器来控制云平台中的容器按照用户的期望状态运行着。K8S会自动监控，然后控制容器重启，新建。 K8S着重于不间断的服务状态和原云平台应用（NoSQL）。  Pod简介在K8S中，Pod是最小的">
+  <meta name="description" content="K8S是用于管理云平台中多个主机上的容器化的应用。让部署容器化的应用简单并且高效（powerful）,K8S提供了应用部署，规划，更新，维护的一种机制。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="k8s--基础篇">
 <meta property="og:url" content="http://example.com/2021/12/06/k8s-%E5%9F%BA%E7%A1%80%E7%AF%87/index.html">
 <meta property="og:site_name" content="JavaLearning">
-<meta property="og:description" content="K8sK8s介绍K8S是用于管理云平台中多个主机上的容器化的应用。  K8S的目标是让部署容器化的应用简单并且高效（powerful）,K8S提供了应用部署，规划，更新，维护的一种机制。 K8S能够自主的管理容器来控制云平台中的容器按照用户的期望状态运行着。K8S会自动监控，然后控制容器重启，新建。 K8S着重于不间断的服务状态和原云平台应用（NoSQL）。  Pod简介在K8S中，Pod是最小的">
+<meta property="og:description" content="K8S是用于管理云平台中多个主机上的容器化的应用。让部署容器化的应用简单并且高效（powerful）,K8S提供了应用部署，规划，更新，维护的一种机制。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/20161027205746.jpg">
 <meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/20161028141542.jpg">
 <meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/bbed100cb6b80f08150065ecdca9628a.png">
 <meta property="article:published_time" content="2021-12-06T07:28:09.000Z">
-<meta property="article:modified_time" content="2021-12-06T07:28:55.243Z">
+<meta property="article:modified_time" content="2021-12-06T07:30:53.713Z">
 <meta property="article:author" content="wenk207">
 <meta property="article:tag" content="云计算">
 <meta name="twitter:card" content="summary">
@@ -227,7 +227,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-12-06 15:28:09 / 修改时间：15:28:55" itemprop="dateCreated datePublished" datetime="2021-12-06T15:28:09+08:00">2021-12-06</time>
+              <time title="创建时间：2021-12-06 15:28:09 / 修改时间：15:30:53" itemprop="dateCreated datePublished" datetime="2021-12-06T15:28:09+08:00">2021-12-06</time>
             </span>
 
           
@@ -241,7 +241,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="K8s"><a href="#K8s" class="headerlink" title="K8s"></a>K8s</h1><h1 id="K8s介绍"><a href="#K8s介绍" class="headerlink" title="K8s介绍"></a>K8s介绍</h1><p>K8S是用于<strong>管理云平台中多个主机上的容器化</strong>的应用。</p>
+        <p>K8S是用于<strong>管理云平台中多个主机上的容器化</strong>的应用。让部署容器化的应用简单并且高效（powerful）,K8S提供了应用部署，规划，更新，维护的一种机制。</p>
+<span id="more"></span>
+
+
+
+<h1 id="K8s"><a href="#K8s" class="headerlink" title="K8s"></a>K8s</h1><h1 id="K8s介绍"><a href="#K8s介绍" class="headerlink" title="K8s介绍"></a>K8s介绍</h1><p>K8S是用于<strong>管理云平台中多个主机上的容器化</strong>的应用。</p>
 <ul>
 <li>K8S的目标是让部署容器化的应用简单并且高效（powerful）,K8S提供了应用部署，规划，更新，维护的一种机制。</li>
 <li>K8S能够自主的管理容器来控制云平台中的容器按照用户的期望状态运行着。K8S会自动监控，然后控制容器重启，新建。</li>
@@ -466,7 +471,7 @@
   </div>
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共49.3k字</span>
+  <span class="post-count">博客全站共49.4k字</span>
 </div>
 
         

@@ -220,7 +220,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-12-06 15:28:09 / 修改时间：15:28:55" itemprop="dateCreated datePublished" datetime="2021-12-06T15:28:09+08:00">2021-12-06</time>
+              <time title="创建时间：2021-12-06 15:28:09 / 修改时间：15:30:53" itemprop="dateCreated datePublished" datetime="2021-12-06T15:28:09+08:00">2021-12-06</time>
             </span>
 
           
@@ -234,69 +234,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="K8s"><a href="#K8s" class="headerlink" title="K8s"></a>K8s</h1><h1 id="K8s介绍"><a href="#K8s介绍" class="headerlink" title="K8s介绍"></a>K8s介绍</h1><p>K8S是用于<strong>管理云平台中多个主机上的容器化</strong>的应用。</p>
-<ul>
-<li>K8S的目标是让部署容器化的应用简单并且高效（powerful）,K8S提供了应用部署，规划，更新，维护的一种机制。</li>
-<li>K8S能够自主的管理容器来控制云平台中的容器按照用户的期望状态运行着。K8S会自动监控，然后控制容器重启，新建。</li>
-<li>K8S着重于不间断的服务状态和原云平台应用（NoSQL）。</li>
-</ul>
-<h2 id="Pod简介"><a href="#Pod简介" class="headerlink" title="Pod简介"></a>Pod简介</h2><p>在K8S中，Pod是最小的，管理，创建，计划的最小单元.</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/20161027205746.jpg"></p>
-<p>在K8S中，所有的容器都是在Pod中运行的，一个Pod可以承载一个或者多个相关的容器，同一个Pod中的容器部署在同一个物理主机上并且共享内存。</p>
-<p>用户可以自己创建并管理pod。K8S将这些操作简化成两个：</p>
-<ol>
-<li>基于相同的Pod配置文件部署多个Pod复制品。</li>
-<li>当一个Pod挂了或者及其挂了的时候，创建可替代的Pod。</li>
-</ol>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs perl">k8s常用操作：<br>我们经常需要选中一组Pod，例如，我们要限制一组Pod的某些操作，或者查询某组Pod的状态，作为Kubernetes的基本机制，用户可以给Kubernetes Api中的任何对象贴上一组 key:value的标签，然后，我们就可以通过标签来选择一组相关的Kubernetes Api 对象，然后去执行一些特定的操作，每个资源额外拥有一组（很多） <span class="hljs-keyword">keys</span> 和 <span class="hljs-keyword">values</span>,然后外部的工具可以使用这些<span class="hljs-keyword">keys</span>和vlues值进行对象的检索，这些Map叫做annotations（注释）。<br></code></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="K8S网络设置"><a href="#K8S网络设置" class="headerlink" title="K8S网络设置"></a>K8S网络设置</h2><p>K8S可以为每个Pod分配IP地址。K8S支持一种特殊的网络模型，创建了一个地址空间，并且不动态的分配端口，允许用户选择任何想要使用的端口。</p>
-<p>当你新建一个集群，为了保证Pod获得IP地址，你需要给Kubernetes分配一个IP地址池。最简单的做法是每当节点与节点之间的通信可以以一下两种方式实现：</p>
-<p><strong>（1）配置网络完成Pod的IP地址路由</strong></p>
-<p><strong>（2）建立一个拓扑网络</strong></p>
-<h2 id="K8S资源"><a href="#K8S资源" class="headerlink" title="K8S资源"></a>K8S资源</h2><p>K8S中的资源都是通过URI进行区分的。每个URI都有一个UID，URI的主要组成部分是：类型（比如POD）、对象的名字、对象的命名空间。</p>
-<ul>
-<li>对于特殊的对象类型，在同一个命名空间内，所有的名字都是不同的。</li>
-<li>在对象只提供名称，不提供命名空间的基础上，假定是默认的命名空间。</li>
-<li>UID是空间和时间上的唯一。</li>
-</ul>
-<h1 id="K8S架构"><a href="#K8S架构" class="headerlink" title="K8S架构"></a>K8S架构</h1><p>K8S集群包含有节点代理kubelet和Master组件(APIs, scheduler, etc)，一切都基于分布式的存储系统。</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/20161028141542.jpg"></p>
-<h1 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h1><p>configMap：存储配置信息</p>
-<p>secret：存储加密信息，秘钥等</p>
-<p>volume：提供共享存储卷</p>
-<p>PersistentVolume：持久卷。</p>
-<h2 id="卷（Volume-）"><a href="#卷（Volume-）" class="headerlink" title="卷（Volume ）"></a>卷（Volume ）</h2><p>容器和 Pod 是短暂的。其含义是它们的生命周期可能很短，会被频繁地销毁和创建。容器销毁时，保存在容器内部文件系统中的数据都会被清除。</p>
-<p><strong>为了持久化保存容器的数据，可以使用 Kubernetes Volume。</strong>Volume 的生命周期独立于容器，Pod 中的容器可能被销毁和重建，但 Volume 会被保留。</p>
-<p>本质上，Kubernetes Volume <strong>是一个目录</strong>，这一点与 Docker Volume 类似。当 Volume 被 mount 到 Pod，<strong>Pod 中的所有容器都可以访问这个 Volume</strong>。</p>
-<p>K8S Volume 也支持多种 backend 类型，包括 <strong>emptyDir、hostPath、GCE Persistent Disk、AWS Elastic Block Store、NFS、Ceph</strong> 等。</p>
-<p>Volume 提供了对各种 backend 的抽象，容器在使用 Volume 读写数据的时候不需要关心数据到底是存放在本地节点的文件系统中呢还是云硬盘上。对它来说，所有类型的 Volume 都只是一个目录。</p>
-<p><strong>卷的核心是一个目录，其中可能存有数据，Pod 中的容器可以访问该目录中的数据。</strong></p>
-<h3 id="持久卷"><a href="#持久卷" class="headerlink" title="持久卷"></a>持久卷</h3><p>持久卷（PersistentVolume，PV）是集群中的一块存储，可以由管理员事先供应，或者 使用存储类（Storage Class）来动态供应。 持久卷是集群资源，就像节点也是集群资源一样。PV 持久卷和普通的 Volume 一样，也是使用 卷插件来实现的，只是它们拥有独立于任何使用 PV 的 Pod 的生命周期。 此 API 对象中记述了存储的实现细节，无论其背后是 NFS、iSCSI 还是特定于云平台的存储系统。</p>
-<h1 id="k8s生命周期"><a href="#k8s生命周期" class="headerlink" title="k8s生命周期"></a>k8s生命周期</h1><p>创建集群，部署应用，发布应用，扩展应用，更新应用。</p>
-<p>1.创建集群。</p>
-<ul>
-<li>统一对外提供接口</li>
-<li>提供更好的可靠性，服务器宕机那么频繁，物理磁盘那么容易损坏，无须担心，集群统一进行调配</li>
-<li>提供更好的性能，组合集群中各个机器的计算存储网络资源，提供更好的TPS和PS</li>
-<li>提供横向扩容的能力，在进行横向扩容的时候，性能基本上能呈线性增长</li>
-</ul>
-<p>使用k8s创建集群的两种方式：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs Linux">//初始化集群，会创建一个master节点。<br>kubectl init<br><br><br>//创建一个node节点，加入集群<br>kubectl join xxx<br></code></pre></td></tr></table></figure>
-
-<p>k8s在物理上进行划分的时候，划分了两种类型的主机，一个master节点，主要用来调度，控制集群的资源；node节点，主要用来运行容器的节点，也就是运行服务的节点。</p>
-<ul>
-<li>master用来控制，存储各种元数据。</li>
-<li>node是一个工作节点，用来干活的。</li>
-<li>node节点定时与master进行通信，通过kubele进程来汇报信息</li>
-</ul>
-<p>查看集群信息：</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/bbed100cb6b80f08150065ecdca9628a.png" alt="img"></p>
-
+          <p>K8S是用于<strong>管理云平台中多个主机上的容器化</strong>的应用。让部署容器化的应用简单并且高效（powerful）,K8S提供了应用部署，规划，更新，维护的一种机制。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/06/k8s-%E5%9F%BA%E7%A1%80%E7%AF%87/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1012,7 +958,7 @@
   </div>
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共49.3k字</span>
+  <span class="post-count">博客全站共49.4k字</span>
 </div>
 
         
