@@ -2973,15 +2973,17 @@
     <content><![CDATA[<p>Docker是一个开元的应用<strong>容器</strong>引擎。Doker可以让开发者打包他们的应用以及依赖包导一个轻量级、可移植的容器中，然后发布到任何的Linux机器中，也可以实现虚拟化。</p>
 <span id="more"></span>
 
-<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><h1 id="1-基本概述"><a href="#1-基本概述" class="headerlink" title="1.基本概述"></a>1.基本概述</h1><p>Docker是一个开元的应用<strong>容器</strong>引擎。</p>
+
+
+<h1 id="基本概述"><a href="#基本概述" class="headerlink" title="基本概述"></a>基本概述</h1><p>Docker是一个开元的应用<strong>容器</strong>引擎。</p>
 <p>Doker可以让开发者打包他们的应用以及依赖包导一个轻量级、可移植的容器中，然后发布到任何的Linux机器中，也可以实现虚拟化。</p>
-<h2 id="1-1Docker的应用场景"><a href="#1-1Docker的应用场景" class="headerlink" title="1.1Docker的应用场景"></a>1.1Docker的应用场景</h2><ol>
+<h2 id="Docker的应用场景"><a href="#Docker的应用场景" class="headerlink" title="Docker的应用场景"></a>Docker的应用场景</h2><ol>
 <li>Web应用的<strong>自动化打包和发布。</strong></li>
 <li>自动化测试和持续继承、发布。</li>
 <li>在<strong>微服务环境中调试和部署数据库及其他后台应用</strong>。</li>
 <li>从头编译或者扩展现有的OpenShift或Cloud Foundry平台来搭建自己的PaaS环境。（没看懂）</li>
 </ol>
-<h2 id="1-2Docker的优点"><a href="#1-2Docker的优点" class="headerlink" title="1.2Docker的优点"></a>1.2Docker的优点</h2><p>Docker是一个用于开发，交付和运行应用程序的开放平台。</p>
+<h2 id="Docker的优点"><a href="#Docker的优点" class="headerlink" title="Docker的优点"></a>Docker的优点</h2><p>Docker是一个用于开发，交付和运行应用程序的开放平台。</p>
 <p>Docker可以将应用程序与基础架构分开。从而可以快速交付软件。</p>
 <p>借助 Docker，您可以与管理应用程序相同的方式来管理基础架构。</p>
 <p>通过利用 Docker 的方法来快速交付，测试和部署代码，您可以大大减少编写代码和在生产环境中运行代码之间的延迟。</p>
@@ -2990,7 +2992,7 @@
 <li>响应式部署和扩展。</li>
 <li>在同一硬件上运行更多工作负载。</li>
 </ul>
-<h1 id="2-Docker架构"><a href="#2-Docker架构" class="headerlink" title="2.Docker架构"></a>2.Docker架构</h1><h2 id="2-1镜像、容器和仓库"><a href="#2-1镜像、容器和仓库" class="headerlink" title="2.1镜像、容器和仓库"></a>2.1镜像、容器和仓库</h2><p>Docker包括三个基础概念：</p>
+<h1 id="Docker架构"><a href="#Docker架构" class="headerlink" title="Docker架构"></a>Docker架构</h1><h2 id="镜像、容器和仓库"><a href="#镜像、容器和仓库" class="headerlink" title="镜像、容器和仓库"></a>镜像、容器和仓库</h2><p>Docker包括三个基础概念：</p>
 <ul>
 <li>镜像：Docker镜像，相当于一个root文件系统。</li>
 <li>容器：镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。</li>
@@ -3001,7 +3003,7 @@
 <p>Docker容器通过Docker镜像来创建。</p>
 <p>Docker中镜像与容器的关系类比到面向对象中：</p>
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207095216035.png" alt="image-20211207095216035"></p>
-<h2 id="2-2-Docker架构图"><a href="#2-2-Docker架构图" class="headerlink" title="2.2 Docker架构图"></a>2.2 Docker架构图</h2><p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207100006642.png" alt="image-20211207100006642"></p>
+<h2 id="Docker架构图"><a href="#Docker架构图" class="headerlink" title="Docker架构图"></a>Docker架构图</h2><p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207100006642.png" alt="image-20211207100006642"></p>
 <table>
 <thead>
 <tr>
@@ -3034,7 +3036,7 @@
 <td align="left">Docker Machine是一个简化Docker安装的命令行工具，通过一个简单的命令行即可在相应的平台上安装Docker，比如VirtualBox、 Digital Ocean、Microsoft Azure。</td>
 </tr>
 </tbody></table>
-<h1 id="3-CentOS系统安装Docker"><a href="#3-CentOS系统安装Docker" class="headerlink" title="3 CentOS系统安装Docker"></a>3 CentOS系统安装Docker</h1><p>一键安装：</p>
+<h1 id="CentOS系统安装Docker"><a href="#CentOS系统安装Docker" class="headerlink" title="CentOS系统安装Docker"></a>CentOS系统安装Docker</h1><p>一键安装：</p>
 <figure class="highlight vim"><table><tr><td class="code"><pre><code class="hljs vim">curl -fsSL http<span class="hljs-variable">s:</span>//<span class="hljs-built_in">get</span>.docker.<span class="hljs-keyword">com</span> | bash -s docker --mirror Aliyun<br><br>国内网站安装<br>curl -sSL http<span class="hljs-variable">s:</span>//<span class="hljs-built_in">get</span>.daocloud.io/docker | <span class="hljs-keyword">sh</span><br></code></pre></td></tr></table></figure>
 
 <p>安装成功之后查看Docker版本号：</p>
@@ -3047,7 +3049,7 @@
 
 
 
-<h1 id="4-Docker的使用"><a href="#4-Docker的使用" class="headerlink" title="4. Docker的使用"></a>4. Docker的使用</h1><h2 id="4-1-hello-world"><a href="#4-1-hello-world" class="headerlink" title="4.1 hello world"></a>4.1 hello world</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run ubuntu:<span class="hljs-number">15</span>.<span class="hljs-number">10</span> /bin/echo <span class="hljs-string">&quot;Hello world&quot;</span><br></code></pre></td></tr></table></figure>
+<h1 id="Docker的使用"><a href="#Docker的使用" class="headerlink" title="Docker的使用"></a>Docker的使用</h1><h2 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run ubuntu:<span class="hljs-number">15</span>.<span class="hljs-number">10</span> /bin/echo <span class="hljs-string">&quot;Hello world&quot;</span><br></code></pre></td></tr></table></figure>
 
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207111735390.png" alt="image-20211207111735390"></p>
 <p>参数解析：</p>
@@ -3075,7 +3077,7 @@
 <figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk">Ubuntu拼写错误：<br>docker run ubuntu:<span class="hljs-number">15.10</span> <span class="hljs-regexp">/bin/</span>echo <span class="hljs-string">&quot;Hello world&quot;</span><br>成功下载，输出结果。<br></code></pre></td></tr></table></figure>
 
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207111441289.png" alt="image-20211207111441289"></p>
-<h2 id="4-2运行交互式的容器（进入docker的容器内部）"><a href="#4-2运行交互式的容器（进入docker的容器内部）" class="headerlink" title="4.2运行交互式的容器（进入docker的容器内部）"></a>4.2运行交互式的容器（进入docker的容器内部）</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run -i -t ubuntu:<span class="hljs-number">15</span>.<span class="hljs-number">10</span> /bin/bash<br></code></pre></td></tr></table></figure>
+<h2 id="运行交互式的容器（进入docker的容器内部）"><a href="#运行交互式的容器（进入docker的容器内部）" class="headerlink" title="运行交互式的容器（进入docker的容器内部）"></a>运行交互式的容器（进入docker的容器内部）</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run -i -t ubuntu:<span class="hljs-number">15</span>.<span class="hljs-number">10</span> /bin/bash<br></code></pre></td></tr></table></figure>
 
 <p>参数解析：</p>
 <ul>
@@ -3091,7 +3093,7 @@
 
 
 
-<h2 id="4-3-启动容器"><a href="#4-3-启动容器" class="headerlink" title="4.3 启动容器"></a>4.3 启动容器</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run -d ubuntu:<span class="hljs-number">15</span>.<span class="hljs-number">10</span> /bin/sh -c <span class="hljs-string">&quot;while true; do echo hello world; sleep 1; done&quot;</span><br></code></pre></td></tr></table></figure>
+<h2 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run -d ubuntu:<span class="hljs-number">15</span>.<span class="hljs-number">10</span> /bin/sh -c <span class="hljs-string">&quot;while true; do echo hello world; sleep 1; done&quot;</span><br></code></pre></td></tr></table></figure>
 
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207113747944.png" alt="image-20211207113747944"></p>
 <p>在这里我们没有得到“hello world 2”，而是得到了一个长的字符串。这个长字符串就是容器的ID号。对容器来说，ID号是唯一的。</p>
@@ -3123,14 +3125,14 @@
 
 
 
-<h2 id="4-4常用命令"><a href="#4-4常用命令" class="headerlink" title="4.4常用命令"></a>4.4常用命令</h2><h3 id="1-容器相关命令"><a href="#1-容器相关命令" class="headerlink" title="1.容器相关命令"></a>1.容器相关命令</h3><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#容器使用命令</span><br>docker pull ubuntu                 <span class="hljs-comment">#获取镜像</span><br>docker run -it ubuntu <span class="hljs-regexp">/bin/</span>bash    <span class="hljs-comment">#启动容器  i：交互式操作    t：终端</span><br><span class="hljs-keyword">exit</span>                               <span class="hljs-comment">#退出</span><br>docker ps -a                       <span class="hljs-comment">#查看所有的容器</span><br>docker start 容器名/ID              <span class="hljs-comment">#启动容器一个已经停止的容器</span><br>docker run -itd --name 容器名 ubuntu <span class="hljs-regexp">/bin/</span>bash     <span class="hljs-comment"># 后台运行容器，d：指定运行的模式</span><br>docker stop 容器/ID                 <span class="hljs-comment">#停止容器</span><br>docker restart 容器名/ID<br><br><span class="hljs-comment">#进入容器命令</span><br>docker attach ID                <span class="hljs-comment">#退出容器时，容器运行停止</span><br>docker exec -it ID <span class="hljs-regexp">/bin/</span>bash    <span class="hljs-comment">#退出容器时，容器不会停止</span><br><br><span class="hljs-comment">#导入导出容器：</span><br>docker export <span class="hljs-number">1</span>e560fca3906 &gt; ubuntu.tar         <span class="hljs-comment">#导出到本地 ubuntu.tar是自定义的文件名</span><br>cat docker<span class="hljs-regexp">/ubuntu.tar | docker import - test/u</span>buntu:v1        <span class="hljs-comment">#导入</span><br>docker import http:<span class="hljs-regexp">//</span>example.com<span class="hljs-regexp">/exampleimage.tgz example/im</span>agerepo      <span class="hljs-comment">#通过url导入</span><br><br><span class="hljs-comment">#删除容器</span><br>docker rm -f ID             <span class="hljs-comment">#根据ID删除一个容器</span><br>docker container prune      <span class="hljs-comment">#清理掉所有处于终止状态的容器</span><br></code></pre></td></tr></table></figure>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="容器相关命令"><a href="#容器相关命令" class="headerlink" title="容器相关命令"></a>容器相关命令</h3><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#容器使用命令</span><br>docker pull ubuntu                 <span class="hljs-comment">#获取镜像</span><br>docker run -it ubuntu <span class="hljs-regexp">/bin/</span>bash    <span class="hljs-comment">#启动容器  i：交互式操作    t：终端</span><br><span class="hljs-keyword">exit</span>                               <span class="hljs-comment">#退出</span><br>docker ps -a                       <span class="hljs-comment">#查看所有的容器</span><br>docker start 容器名/ID              <span class="hljs-comment">#启动容器一个已经停止的容器</span><br>docker run -itd --name 容器名 ubuntu <span class="hljs-regexp">/bin/</span>bash     <span class="hljs-comment"># 后台运行容器，d：指定运行的模式</span><br>docker stop 容器/ID                 <span class="hljs-comment">#停止容器</span><br>docker restart 容器名/ID<br><br><span class="hljs-comment">#进入容器命令</span><br>docker attach ID                <span class="hljs-comment">#退出容器时，容器运行停止</span><br>docker exec -it ID <span class="hljs-regexp">/bin/</span>bash    <span class="hljs-comment">#退出容器时，容器不会停止</span><br><br><span class="hljs-comment">#导入导出容器：</span><br>docker export <span class="hljs-number">1</span>e560fca3906 &gt; ubuntu.tar         <span class="hljs-comment">#导出到本地 ubuntu.tar是自定义的文件名</span><br>cat docker<span class="hljs-regexp">/ubuntu.tar | docker import - test/u</span>buntu:v1        <span class="hljs-comment">#导入</span><br>docker import http:<span class="hljs-regexp">//</span>example.com<span class="hljs-regexp">/exampleimage.tgz example/im</span>agerepo      <span class="hljs-comment">#通过url导入</span><br><br><span class="hljs-comment">#删除容器</span><br>docker rm -f ID             <span class="hljs-comment">#根据ID删除一个容器</span><br>docker container prune      <span class="hljs-comment">#清理掉所有处于终止状态的容器</span><br></code></pre></td></tr></table></figure>
 
-<h3 id="2-web-app相关应用"><a href="#2-web-app相关应用" class="headerlink" title="2.web app相关应用"></a>2.web app相关应用</h3><figure class="highlight jboss-cli"><table><tr><td class="code"><pre><code class="hljs jboss-cli">docker pull training/webapp  <span class="hljs-comment"># 载入镜像</span><br>docker run -d -P training/webapp python app.py    <span class="hljs-comment">#加载镜像， -d：后台运行，-p：将容器内部使用的网络端口映射到本主机上。</span><br>docker ps                    <span class="hljs-comment"># 查看Web应用容器</span><br>docker run -d -p 5000<span class="hljs-function">:5000</span> training/webapp python app.py        <span class="hljs-comment"># -p可以设置端口</span><br>docker post 容器名/端口名              <span class="hljs-comment">#查看容器的端口映射地址</span><br>docker logs -f 端口ID                <span class="hljs-comment">#查看日志</span><br>docker top 容器名<span class="hljs-string">/ID</span>                    <span class="hljs-comment">#查看容器中的进程</span><br>docker inspect 容器名<span class="hljs-string">/ID</span>                <span class="hljs-comment">#查看docker的底层信息</span><br>docker stop 容器名<span class="hljs-string">/ID</span>                   <span class="hljs-comment">#停止web应用</span><br>docker start 容器名<span class="hljs-string">/ID</span>                  <span class="hljs-comment">#开启web应用</span><br>docker ps -l                           <span class="hljs-comment">#查询最后一次创建的容器</span><br>docker rm 容器名<span class="hljs-string">/ID</span>                     <span class="hljs-comment">#移除容器。</span><br></code></pre></td></tr></table></figure>
+<h3 id="web-app相关应用"><a href="#web-app相关应用" class="headerlink" title="web app相关应用"></a>web app相关应用</h3><figure class="highlight jboss-cli"><table><tr><td class="code"><pre><code class="hljs jboss-cli">docker pull training/webapp  <span class="hljs-comment"># 载入镜像</span><br>docker run -d -P training/webapp python app.py    <span class="hljs-comment">#加载镜像， -d：后台运行，-p：将容器内部使用的网络端口映射到本主机上。</span><br>docker ps                    <span class="hljs-comment"># 查看Web应用容器</span><br>docker run -d -p 5000<span class="hljs-function">:5000</span> training/webapp python app.py        <span class="hljs-comment"># -p可以设置端口</span><br>docker post 容器名/端口名              <span class="hljs-comment">#查看容器的端口映射地址</span><br>docker logs -f 端口ID                <span class="hljs-comment">#查看日志</span><br>docker top 容器名<span class="hljs-string">/ID</span>                    <span class="hljs-comment">#查看容器中的进程</span><br>docker inspect 容器名<span class="hljs-string">/ID</span>                <span class="hljs-comment">#查看docker的底层信息</span><br>docker stop 容器名<span class="hljs-string">/ID</span>                   <span class="hljs-comment">#停止web应用</span><br>docker start 容器名<span class="hljs-string">/ID</span>                  <span class="hljs-comment">#开启web应用</span><br>docker ps -l                           <span class="hljs-comment">#查询最后一次创建的容器</span><br>docker rm 容器名<span class="hljs-string">/ID</span>                     <span class="hljs-comment">#移除容器。</span><br></code></pre></td></tr></table></figure>
 
-<h3 id="3-docker镜像"><a href="#3-docker镜像" class="headerlink" title="3.docker镜像"></a>3.docker镜像</h3><figure class="highlight crmsh"><table><tr><td class="code"><pre><code class="hljs crmsh">docker images                            <span class="hljs-comment">#查看本地镜像</span><br>docker run -t -i ubuntu:<span class="hljs-number">15.10</span> /bin/bash  <span class="hljs-comment">#使用Ubuntu15.10版本的镜像来运行容器，如果不指定版本的话，则默认使用最新版。</span><br>docker pull 镜像名：版本                   <span class="hljs-comment">#下载镜像</span><br>docker search 镜像名                      <span class="hljs-comment">#查找镜像</span><br>docker run 镜像名                         <span class="hljs-comment">#使用镜像</span><br>docker rmi 镜像名                         <span class="hljs-comment">#删除镜像</span><br>docker <span class="hljs-keyword">tag</span> <span class="hljs-title">ID</span> repository名:<span class="hljs-keyword">tag</span>名          <span class="hljs-comment">#给镜像添加标签</span><br></code></pre></td></tr></table></figure>
+<h3 id="docker镜像"><a href="#docker镜像" class="headerlink" title="docker镜像"></a>docker镜像</h3><figure class="highlight crmsh"><table><tr><td class="code"><pre><code class="hljs crmsh">docker images                            <span class="hljs-comment">#查看本地镜像</span><br>docker run -t -i ubuntu:<span class="hljs-number">15.10</span> /bin/bash  <span class="hljs-comment">#使用Ubuntu15.10版本的镜像来运行容器，如果不指定版本的话，则默认使用最新版。</span><br>docker pull 镜像名：版本                   <span class="hljs-comment">#下载镜像</span><br>docker search 镜像名                      <span class="hljs-comment">#查找镜像</span><br>docker run 镜像名                         <span class="hljs-comment">#使用镜像</span><br>docker rmi 镜像名                         <span class="hljs-comment">#删除镜像</span><br>docker <span class="hljs-keyword">tag</span> <span class="hljs-title">ID</span> repository名:<span class="hljs-keyword">tag</span>名          <span class="hljs-comment">#给镜像添加标签</span><br></code></pre></td></tr></table></figure>
 
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207150407705.png" alt="image-20211207150407705"></p>
-<h3 id="4-Docker容器连接"><a href="#4-Docker容器连接" class="headerlink" title="4.Docker容器连接"></a>4.Docker容器连接</h3><figure class="highlight routeros"><table><tr><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#创建一个Python应用的容器</span><br>注意： -P：随机端口号                -p:指定端口号<br>docker <span class="hljs-builtin-name">run</span> -d -P training/webapp python app.py <br>docker <span class="hljs-builtin-name">run</span> -d -p 127.0.0.1:5001:5000 training/webapp python app.py   # 默认绑定tcp端口<br>docker <span class="hljs-builtin-name">run</span> -d -p 127.0.0.1:5000:5000/udp training/webapp python app.py  #udp<br><br>docker<span class="hljs-built_in"> port </span>容器名 端口号                    #查看端口的绑定情况。<br>docker <span class="hljs-builtin-name">run</span> -d -P --name 容器名 training/webapp python app.py<br>docker<span class="hljs-built_in"> network </span>create -d<span class="hljs-built_in"> bridge </span>网络名       #创建一个新的docker网络。-d：参数指定 Docker 网络类型，有 bridge、overlay。<br><br><span class="hljs-comment">#连接容器</span><br><span class="hljs-comment">#运行一个容器并连接到 test-net 网络:</span><br>docker <span class="hljs-builtin-name">run</span> -itd --name test1 --network test-net ubuntu /bin/bash  <br><br><br></code></pre></td></tr></table></figure>
+<h3 id="Docker容器连接"><a href="#Docker容器连接" class="headerlink" title="Docker容器连接"></a>Docker容器连接</h3><figure class="highlight routeros"><table><tr><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#创建一个Python应用的容器</span><br>注意： -P：随机端口号                -p:指定端口号<br>docker <span class="hljs-builtin-name">run</span> -d -P training/webapp python app.py <br>docker <span class="hljs-builtin-name">run</span> -d -p 127.0.0.1:5001:5000 training/webapp python app.py   # 默认绑定tcp端口<br>docker <span class="hljs-builtin-name">run</span> -d -p 127.0.0.1:5000:5000/udp training/webapp python app.py  #udp<br><br>docker<span class="hljs-built_in"> port </span>容器名 端口号                    #查看端口的绑定情况。<br>docker <span class="hljs-builtin-name">run</span> -d -P --name 容器名 training/webapp python app.py<br>docker<span class="hljs-built_in"> network </span>create -d<span class="hljs-built_in"> bridge </span>网络名       #创建一个新的docker网络。-d：参数指定 Docker 网络类型，有 bridge、overlay。<br><br><span class="hljs-comment">#连接容器</span><br><span class="hljs-comment">#运行一个容器并连接到 test-net 网络:</span><br>docker <span class="hljs-builtin-name">run</span> -itd --name test1 --network test-net ubuntu /bin/bash  <br><br><br></code></pre></td></tr></table></figure>
 
 
 
@@ -3139,12 +3141,12 @@
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207161822903.png" alt="image-20211207161822903"></p>
 <p>test1 容器和 test2 容器建立了互联关系。</p>
 <p>如果你有多个容器之间需要互相连接，推荐使用 Docker Compose</p>
-<h3 id="5-Docker仓库管理"><a href="#5-Docker仓库管理" class="headerlink" title="5.Docker仓库管理"></a>5.Docker仓库管理</h3><figure class="highlight crmsh"><table><tr><td class="code"><pre><code class="hljs crmsh">docker login           <span class="hljs-comment">#登录</span><br>docker logout          <span class="hljs-comment">#退出</span><br>docker search ubuntu   <span class="hljs-comment">#查找远程仓库中的镜像</span><br>docker pull 镜像名      <span class="hljs-comment">#从远程操控中拉取，下载到本地</span><br><br>docker <span class="hljs-keyword">tag</span> <span class="hljs-title">ubuntu</span>:<span class="hljs-number">18.04</span> 用户名/ubuntu:<span class="hljs-number">18.04</span>      <span class="hljs-comment">#推送数据</span><br>docker image ls        <span class="hljs-comment">#查看镜像</span><br><br></code></pre></td></tr></table></figure>
+<h3 id="Docker仓库管理"><a href="#Docker仓库管理" class="headerlink" title="Docker仓库管理"></a>Docker仓库管理</h3><figure class="highlight crmsh"><table><tr><td class="code"><pre><code class="hljs crmsh">docker login           <span class="hljs-comment">#登录</span><br>docker logout          <span class="hljs-comment">#退出</span><br>docker search ubuntu   <span class="hljs-comment">#查找远程仓库中的镜像</span><br>docker pull 镜像名      <span class="hljs-comment">#从远程操控中拉取，下载到本地</span><br><br>docker <span class="hljs-keyword">tag</span> <span class="hljs-title">ubuntu</span>:<span class="hljs-number">18.04</span> 用户名/ubuntu:<span class="hljs-number">18.04</span>      <span class="hljs-comment">#推送数据</span><br>docker image ls        <span class="hljs-comment">#查看镜像</span><br><br></code></pre></td></tr></table></figure>
 
-<h3 id="6-Docker-Dockerfile"><a href="#6-Docker-Dockerfile" class="headerlink" title="6.Docker Dockerfile"></a>6.Docker Dockerfile</h3><p>Dockerfile 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。</p>
+<h3 id="Docker-Dockerfile"><a href="#Docker-Dockerfile" class="headerlink" title="Docker Dockerfile"></a>Docker Dockerfile</h3><p>Dockerfile 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。</p>
 <figure class="highlight"><table><tr><td class="code"><pre><code class="hljs">加载中。。。。。<br></code></pre></td></tr></table></figure>
 
-<h3 id="7-Docker-Compose"><a href="#7-Docker-Compose" class="headerlink" title="7.Docker Compose"></a>7.Docker Compose</h3><p>Compose 是用于定义和运行多容器 Docker 应用程序的工具。通过 Compose，您可以使用 YML 文件来配置应用程序需要的所有服务。然后，使用一个命令，就可以从 YML 文件配置中创建并启动所有服务。</p>
+<h3 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h3><p>Compose 是用于定义和运行多容器 Docker 应用程序的工具。通过 Compose，您可以使用 YML 文件来配置应用程序需要的所有服务。然后，使用一个命令，就可以从 YML 文件配置中创建并启动所有服务。</p>
 <p>Compose 使用的三个步骤：</p>
 <ul>
 <li>使用 Dockerfile 定义应用程序的环境。</li>
@@ -3154,13 +3156,13 @@
 <p>安装Compose</p>
 <figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#安装compose</span><br>$ sudo curl -L <span class="hljs-string">&quot;https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)&quot;</span> -o <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/</span>docker-compose<br>加载中。。。。。<br><br></code></pre></td></tr></table></figure>
 
-<h3 id="8-Docker-machine"><a href="#8-Docker-machine" class="headerlink" title="8.Docker machine"></a>8.Docker machine</h3><p>Docker Machine 是一种可以让您在虚拟主机上安装 Docker 的工具，并可以使用 docker-machine 命令来管理主机。</p>
+<h3 id="Docker-machine"><a href="#Docker-machine" class="headerlink" title="Docker machine"></a>Docker machine</h3><p>Docker Machine 是一种可以让您在虚拟主机上安装 Docker 的工具，并可以使用 docker-machine 命令来管理主机。</p>
 <p>Docker Machine 也可以集中管理所有的 docker 主机，比如快速的给 100 台服务器安装上 docker。</p>
 <figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#下载</span><br>base=https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/docker/m</span>achine<span class="hljs-regexp">/releases/</span>download/v0.<span class="hljs-number">16.0</span> &amp;&amp;<br>  curl -L <span class="hljs-variable">$base</span><span class="hljs-regexp">/docker-machine-$(uname -s)-$(uname -m) &gt;/</span>tmp/docker-machine &amp;&amp;<br>  sudo mv <span class="hljs-regexp">/tmp/</span>docker-machine <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/</span>docker-machine &amp;&amp;<br>  chmod +x <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/</span>docker-machine<br></code></pre></td></tr></table></figure>
 
 
 
-<h3 id="9-Docker-Swarm集群管理工具"><a href="#9-Docker-Swarm集群管理工具" class="headerlink" title="9.Docker Swarm集群管理工具"></a>9.Docker Swarm集群管理工具</h3><p>Docker Swarm 是 Docker 的<strong>集群管理工具</strong>。它将 Docker 主机池转变为单个虚拟 Docker 主机。 Docker Swarm 提供了标准的 Docker API，所有任何已经与 Docker 守护程序通信的工具都可以使用 Swarm 轻松地扩展到多个主机。</p>
+<h3 id="Docker-Swarm集群管理工具"><a href="#Docker-Swarm集群管理工具" class="headerlink" title="Docker Swarm集群管理工具"></a>Docker Swarm集群管理工具</h3><p>Docker Swarm 是 Docker 的<strong>集群管理工具</strong>。它将 Docker 主机池转变为单个虚拟 Docker 主机。 Docker Swarm 提供了标准的 Docker API，所有任何已经与 Docker 守护程序通信的工具都可以使用 Swarm 轻松地扩展到多个主机。</p>
 <p>支持的工具包括但不限于以下各项：</p>
 <ul>
 <li>Dokku</li>
