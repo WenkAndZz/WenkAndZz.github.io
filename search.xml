@@ -456,42 +456,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>key-value型数据库：Redis</title>
-    <url>/2021/11/15/key-value%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9ARedis/</url>
-    <content><![CDATA[<p>Redis数据库是Key-Value型NoSQL数据库。Redis将数据存储在内存中，同时也能持久化到磁盘。Redis常用于缓存，利用内存的高效提高程序的处理速度。</p>
-<span id="more"></span>
-
-<h1 id="一、Redis介绍"><a href="#一、Redis介绍" class="headerlink" title="一、Redis介绍"></a>一、Redis介绍</h1><ul>
-<li>Redis数据库是Key-Value型NoSQL数据库。</li>
-<li>Redis将数据存储在内存中，同时也能持久化到磁盘。</li>
-<li>Redis常用于缓存，利用内存的高效提高程序的处理速度。</li>
-</ul>
-<h1 id="二、Redis的特点"><a href="#二、Redis的特点" class="headerlink" title="二、Redis的特点"></a>二、Redis的特点</h1><ol>
-<li>速度快。</li>
-<li>广泛的语言支持。</li>
-<li>持久化。</li>
-<li>支持多种数据结构（数据类型）。</li>
-<li>主从复制</li>
-<li>分布式与高可用。</li>
-</ol>
-<h1 id="三、Redis通用命令"><a href="#三、Redis通用命令" class="headerlink" title="三、Redis通用命令"></a>三、Redis通用命令</h1><p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210621185657687.png" alt="image-20210621185657687"></p>
-<h1 id="四、Redis数据类型"><a href="#四、Redis数据类型" class="headerlink" title="四、Redis数据类型"></a>四、Redis数据类型</h1><p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210621191245980.png" alt="image-20210621191245980"></p>
-<h2 id="4-1字符串数据类型"><a href="#4-1字符串数据类型" class="headerlink" title="4.1字符串数据类型"></a>4.1字符串数据类型</h2><p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210621191223070.png" alt="image-20210621191223070"></p>
-<h2 id="4-2-hash键值类型"><a href="#4-2-hash键值类型" class="headerlink" title="4.2 hash键值类型"></a>4.2 hash键值类型</h2><p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210621194713316.png" alt="image-20210621194713316"></p>
-<h2 id="4-3-list列表类型"><a href="#4-3-list列表类型" class="headerlink" title="4.3 list列表类型"></a>4.3 list列表类型</h2><p>List列表就是一系列字符串的“数组”，按照插入顺序排序。</p>
-<p>List列表最大长度是2的32次方-1，可以包含大约40亿个元素。</p>
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210621195522943.png" alt="image-20210621195522943"></p>
-<h2 id="4-4-Set与Zset集合类型"><a href="#4-4-Set与Zset集合类型" class="headerlink" title="4.4 Set与Zset集合类型"></a>4.4 Set与Zset集合类型</h2><p>Set集合是字符串的无序集合，集合成员是唯一的。</p>
-<p>Zset集合是字符串的有序集合，集合成员是唯一的。</p>
-]]></content>
-      <categories>
-        <category>数据库</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>代码托管工具：Git</title>
     <url>/2021/11/15/%E4%BB%A3%E7%A0%81%E6%89%98%E7%AE%A1%E5%B7%A5%E5%85%B7%EF%BC%9AGit/</url>
     <content><![CDATA[<p><em>Git</em>（读音为/gɪt/）是一个开源的分布式版本控制系统，可以有效、高速地处理从很小到非常大的项目版本管理。在团队协作开发中起到了十分重要的作用。</p>
@@ -3183,6 +3147,33 @@
 ]]></content>
       <tags>
         <tag>云计算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>redis哨兵模式，sentinel获取master的信息</title>
+    <url>/2021/12/13/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%8Csentinel%E8%8E%B7%E5%8F%96master%E7%9A%84%E4%BF%A1%E6%81%AF/</url>
+    <content><![CDATA[<p>哨兵模式是主从的升级版，因为主从的出现故障后，不会自动恢复，需要人为干预，这就很蛋疼啊。</p>
+<p>在主从的基础上，实现哨兵模式就是为了监控主从的运行状况，对主从的健壮进行监控，就好像哨兵一样，只要有异常就发出警告，对异常状况进行处理。</p>
+<span id="more"></span>
+
+
+
+<h1 id="1-哨兵模式基本概念"><a href="#1-哨兵模式基本概念" class="headerlink" title="1.哨兵模式基本概念"></a>1.哨兵模式基本概念</h1><p>哨兵模式是主从的升级版，因为主从的出现故障后，不会自动恢复，需要人为干预，这就很蛋疼啊。</p>
+<p>在主从的基础上，实现哨兵模式就是为了监控主从的运行状况，对主从的健壮进行监控，就好像哨兵一样，只要有异常就发出警告，对异常状况进行处理。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-0c8f6c4253843790b774fd216dea58c5_720w.jpg" alt="img"></p>
+<ol>
+<li><strong>「监控」</strong>：监控master和slave是否正常运行，以及哨兵之间也会相互监控</li>
+<li><strong>「自动故障恢复」</strong>：当master出现故障的时候，会自动选举一个slave作为master顶上去。</li>
+</ol>
+<h1 id="2-根据sentinel获取master的信息"><a href="#2-根据sentinel获取master的信息" class="headerlink" title="2.根据sentinel获取master的信息"></a>2.根据sentinel获取master的信息</h1><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><br><br><span class="hljs-keyword">import</span> org.springframework.stereotype.Service;<br><span class="hljs-keyword">import</span> redis.clients.jedis.HostAndPort;<br><span class="hljs-keyword">import</span> redis.clients.jedis.Jedis;<br><span class="hljs-keyword">import</span> redis.clients.jedis.exceptions.JedisException;<br><br><span class="hljs-keyword">import</span> java.util.List;<br><span class="hljs-keyword">import</span> java.util.Set;<br><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FindMasterService</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 通过传入的哨兵集群找到主节点的信息</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> sentinels：哨兵集群</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> masterName：主节点的名字</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> HostAndPort <span class="hljs-title">findMaster</span><span class="hljs-params">(Set&lt;String&gt; sentinels,String masterName)</span></span>&#123;<br>        HostAndPort master = <span class="hljs-keyword">null</span>;<br>        String password = <span class="hljs-string">&quot;xdata@123&quot;</span>;<br><br>        <span class="hljs-comment">//遍历哨兵，根据哨兵获取主节点的信息</span><br>        <span class="hljs-keyword">for</span> (String sentinel:sentinels)&#123;<br>            <span class="hljs-comment">//当前的集群节点是String，封装成HostAndPost类</span><br>            HostAndPort hap = HostAndPort.parseString(sentinel);<br><br>            Jedis jedis = <span class="hljs-keyword">null</span>;<br>            <span class="hljs-keyword">try</span>&#123;<br>                <span class="hljs-comment">//使用Jedis连接哨兵,当前哨兵挂了，会抛出异常</span><br>                jedis = <span class="hljs-keyword">new</span> Jedis(hap.getHost(),hap.getPort());<br>                <span class="hljs-comment">//密码验证,jedis不需要密码验证，直接可以连接。</span><br>                <span class="hljs-comment">//jedis.auth(password);</span><br><br>                <span class="hljs-comment">// 向哨兵发送指令：sentinel get-master-addr-by-name masterName 可以获取主节点的host的端口</span><br>                List&lt;String&gt; masterAddress = jedis.sentinelGetMasterAddrByName(masterName);<br>                <span class="hljs-comment">//当前哨兵宕机时，masterAddress为空。</span><br>                <span class="hljs-keyword">if</span> (masterAddress.size() == <span class="hljs-number">2</span>)&#123;<br>                    <span class="hljs-comment">//获取到master的信息</span><br>                    master = <span class="hljs-keyword">new</span> HostAndPort(masterAddress.get(<span class="hljs-number">0</span>),Integer.parseInt(masterAddress.get(<span class="hljs-number">1</span>)));<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>            &#125;<span class="hljs-keyword">catch</span> (JedisException e)&#123;<br>                <span class="hljs-comment">//出现异常可能是因为当前sentinel挂了，继续遍历下一个sentinel</span><br>                e.getMessage();<br>            &#125;<span class="hljs-keyword">finally</span> &#123;<br>                <span class="hljs-keyword">if</span> (jedis != <span class="hljs-keyword">null</span>)&#123;<br>                    jedis.close();<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> master;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>测试</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.junit.jupiter.api.Test;<br><span class="hljs-keyword">import</span> redis.clients.jedis.HostAndPort;<br><br><span class="hljs-keyword">import</span> java.util.HashSet;<br><span class="hljs-keyword">import</span> java.util.Set;<br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FindMasterServiceTest</span> </span>&#123;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testFindMaster</span><span class="hljs-params">()</span></span>&#123;<br>        FindMasterService findMasterService = <span class="hljs-keyword">new</span> FindMasterService();<br>        Set&lt;String&gt; sentinels = <span class="hljs-keyword">new</span> HashSet&lt;&gt;();<br>        sentinels.add(<span class="hljs-string">&quot;host:post&quot;</span>);              <span class="hljs-comment">//host:post修改端口号</span><br>        sentinels.add(<span class="hljs-string">&quot;host:post&quot;</span>);<br>        sentinels.add(<span class="hljs-string">&quot;host:post&quot;</span>);<br><br>        String masterName = <span class="hljs-string">&quot;mymaster&quot;</span>;<br>        HostAndPort master = findMasterService.findMaster(sentinels, masterName);<br>        System.out.println(master.toString());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>redis</tag>
       </tags>
   </entry>
 </search>
