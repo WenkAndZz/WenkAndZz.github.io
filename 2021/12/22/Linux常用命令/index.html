@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"/search.xml"};
+  </script>
+
+  <meta name="description" content="记录工作学习中遇到的Linux命令。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用命令">
+<meta property="og:url" content="http://example.com/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="JavaLearning">
+<meta property="og:description" content="记录工作学习中遇到的Linux命令。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211222110156561.png">
+<meta property="article:published_time" content="2021-12-22T03:07:48.000Z">
+<meta property="article:modified_time" content="2021-12-22T03:13:37.209Z">
+<meta property="article:author" content="wenk207">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211222110156561.png">
+
+<link rel="canonical" href="http://example.com/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux常用命令 | JavaLearning</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">JavaLearning</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="download fa-fw"></i>资源</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="wenk207">
+      <meta itemprop="description" content="谦逊，努力，时刻保持学习状态">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JavaLearning">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux常用命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-22 11:07:48 / 修改时间：11:13:37" itemprop="dateCreated datePublished" datetime="2021-12-22T11:07:48+08:00">2021-12-22</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录工作学习中遇到的Linux命令。</p>
+<span id="more"></span>
+
+<h1 id="Linux命令"><a href="#Linux命令" class="headerlink" title="Linux命令"></a>Linux命令</h1><h2 id="字符串相关操作"><a href="#字符串相关操作" class="headerlink" title="字符串相关操作"></a>字符串相关操作</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-number">1</span>.<span class="hljs-keyword">grep</span>         字符串查找（过滤）              例如： glance image-<span class="hljs-keyword">list</span> | <span class="hljs-keyword">grep</span> redis<br><br><span class="hljs-number">2</span>.sed          字符串替换                          文件名 | sed <span class="hljs-string">&#x27;s/要被取代的字串/新的字串/g&#x27;</span><br><br><span class="hljs-number">3</span>.awk          字符串分割                          <br>每行按空格或TAB分割，输出文本中的<span class="hljs-number">1</span>、<span class="hljs-number">4</span>项    awk <span class="hljs-string">&#x27;&#123;print $1,$4&#125;&#x27;</span> test.txt<br><br><span class="hljs-number">4</span>.yum  提供查找、安装和删除软件<br>yum [<span class="hljs-keyword">options</span>] [<span class="hljs-keyword">command</span>] [package ...]         yum  操作  命令  安装的包名<br>http<span class="hljs-variable">s:</span>//www.runoob.<span class="hljs-keyword">com</span>/linux/linux-yum.html<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.添加新的用户<br>useradd 选项 用户名<br><br><span class="hljs-number">2</span>.删除用户   -r把当前用户下的目录一起删除<br>userdel -r sam<br><br><span class="hljs-number">3</span>.修改用户<br>usermod 选项 用户名<br><br><span class="hljs-number">4</span>.修改密码<br>passwd 选项 用户名<br><br><span class="hljs-number">5</span>.查看test所在的用户组<br>groups test<br><br><span class="hljs-number">6</span>.创建用户组<br>groupadd group_name<br>删除<br>groupdel<br>修改<br>groupmod<br><br><span class="hljs-number">7</span>.查看用户登录日志<br>last<br><br><span class="hljs-number">8</span>.查看系统中的所有用户<br>cut -d: -f1 <span class="hljs-regexp">/etc/</span>passwd<br><br><span class="hljs-number">9</span>.查看系统所有的组<br>cut -d: -f1 <span class="hljs-regexp">/etc/g</span>roup<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="系统相关操作"><a href="#系统相关操作" class="headerlink" title="系统相关操作"></a>系统相关操作</h2><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs tcl"><span class="hljs-number">1.</span>查看Linux版本信息<br>cat /<span class="hljs-keyword">proc</span>/version<br><br>2.cpu信息<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/cpuinfo<br><br>3.查看中断<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/interrupts<br><br>4.查看负载<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/loadavg<br><br>5.环境变量<span class="hljs-title"></span><br><span class="hljs-title">env</span><br><br>6.查看系统运⾏时间、⽤户数、负载<span class="hljs-title"></span><br><span class="hljs-title">uptime</span><br><br>7.查看内存容量、空闲内存量<span class="hljs-title"></span><br><span class="hljs-title">gerp</span> MenTotal /<span class="hljs-keyword">proc</span>/meninfo<span class="hljs-title"></span><br><span class="hljs-title">gerp</span> MenFree /<span class="hljs-keyword">proc</span>/meninfo<br><br>8.查看进程<span class="hljs-title"></span><br><span class="hljs-title">top</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="磁盘相关"><a href="#磁盘相关" class="headerlink" title="磁盘相关"></a>磁盘相关</h2><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs stata">1.查看磁盘使用情况<br>df -<span class="hljs-keyword">h</span><br><br>2.查看某个目录的使用情况<br>du -<span class="hljs-keyword">sh</span> /<span class="hljs-keyword">dir</span><br><br>3.查看所有的磁盘分区<br>fdisk -<span class="hljs-keyword">l</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs applescript"><span class="hljs-number">1.</span>查看所有进程<br>ps -ef<br><br><span class="hljs-number">2.</span>杀死进程<br>kill -s <span class="hljs-built_in">name</span>/<span class="hljs-built_in">id</span><br><br><span class="hljs-number">3.</span>实时查看进程状态<br>top<br></code></pre></td></tr></table></figure>
+
+<h2 id="系统服务"><a href="#系统服务" class="headerlink" title="系统服务"></a>系统服务</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-number">1.</span>列出服务列表<br>chkconfig <span class="hljs-comment">--list</span><br><br><span class="hljs-number">2.</span>服务相关操作<br>service &lt;服务名&gt; &lt;操作&gt;<br>systemctl &lt;操作&gt; &lt;服务名&gt;<br><br>操作包括：<br>status ： 状态<br><span class="hljs-keyword">start</span>  ： 开启<br>stop   ： 关闭<br><span class="hljs-keyword">restart</span>： 重启<br><span class="hljs-keyword">enable</span> ： 开启自启动<br><span class="hljs-keyword">disable</span>： 关闭自启动<br></code></pre></td></tr></table></figure>
+
+<h2 id="文件和目录操作"><a href="#文件和目录操作" class="headerlink" title="文件和目录操作"></a>文件和目录操作</h2><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.新建文件夹<br><span class="hljs-attribute">mkdir</span> fileName<br><br><span class="hljs-attribute">2</span>.删除文件名<br><span class="hljs-attribute">rm</span> -f fileName<br><br><span class="hljs-attribute">3</span>.目录操作<br><span class="hljs-attribute">mv</span>         重命名、移动文件夹<br><br><span class="hljs-attribute">cp</span>         复制文件<br><br><span class="hljs-attribute">find</span>       查找                     find / -name file<span class="hljs-number">1</span>    从根目录开始搜索文件<br><br><span class="hljs-attribute">cat</span>        文件查看<br><br><span class="hljs-attribute">vi</span>|vim     文件修改           i：插入模式      esc：退出到命令模式      ：wq   保存退出<br><br><span class="hljs-attribute">4</span>.查看文件前两行<br><span class="hljs-attribute">head</span> -<span class="hljs-number">2</span> filename       <br><br><span class="hljs-attribute">5</span>.查看文件后两行<br><span class="hljs-attribute">tail</span> -<span class="hljs-number">2</span> filename       <br><br><span class="hljs-attribute">6</span>.将hello.txt⽂件中的s<span class="hljs-number">1</span>替换成s<span class="hljs-number">2</span><br><span class="hljs-attribute">sed</span> &#x27;s/s<span class="hljs-number">1</span>/s<span class="hljs-number">2</span>/g&#x27; hello.txt<br><br><span class="hljs-attribute">7</span>.合并文件夹<br><span class="hljs-attribute">paste</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span> <br><br><span class="hljs-attribute">8</span>.比较两个文件之间的内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">1</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除文件<span class="hljs-number">1</span>中的所有内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">2</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除文件<span class="hljs-number">2</span>中的所有内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">3</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除两个文件共有的部分<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="打包和压缩"><a href="#打包和压缩" class="headerlink" title="打包和压缩"></a>打包和压缩</h2><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs stata">1.<span class="hljs-keyword">zip</span>打包，解压<br><span class="hljs-keyword">zip</span>  unzip<br><br>2.tar<br>tar -cvf xxx.tar <span class="hljs-keyword">file</span>     创建压缩文件<br>tar -xvf xxx.tar          解压<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="yum包管理"><a href="#yum包管理" class="headerlink" title="yum包管理"></a>yum包管理</h2><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211222110156561.png" style="zoom:150%;" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>wenk207
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令">http://example.com/2021/12/22/Linux常用命令/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/13/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%8Csentinel%E8%8E%B7%E5%8F%96master%E7%9A%84%E4%BF%A1%E6%81%AF/" rel="prev" title="redis哨兵模式，sentinel获取master的信息">
+      <i class="fa fa-chevron-left"></i> redis哨兵模式，sentinel获取master的信息
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/22/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/" rel="next" title="镜像制作">
+      镜像制作 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">Linux命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.</span> <span class="nav-text">字符串相关操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7"><span class="nav-number">1.2.</span> <span class="nav-text">用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C"><span class="nav-number">1.3.</span> <span class="nav-text">系统相关操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E7%9B%B8%E5%85%B3"><span class="nav-number">1.4.</span> <span class="nav-text">磁盘相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="nav-number">1.5.</span> <span class="nav-text">进程管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.6.</span> <span class="nav-text">系统服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C"><span class="nav-number">1.7.</span> <span class="nav-text">文件和目录操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E5%92%8C%E5%8E%8B%E7%BC%A9"><span class="nav-number">1.8.</span> <span class="nav-text">打包和压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yum%E5%8C%85%E7%AE%A1%E7%90%86"><span class="nav-number">1.9.</span> <span class="nav-text">yum包管理</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="wenk207"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">wenk207</p>
+  <div class="site-description" itemprop="description">谦逊，努力，时刻保持学习状态</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021-11 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wenk207</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共55.9k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

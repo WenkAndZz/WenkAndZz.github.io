@@ -3188,4 +3188,86 @@
         <tag>redis</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Linux常用命令</title>
+    <url>/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>记录工作学习中遇到的Linux命令。</p>
+<span id="more"></span>
+
+<h1 id="Linux命令"><a href="#Linux命令" class="headerlink" title="Linux命令"></a>Linux命令</h1><h2 id="字符串相关操作"><a href="#字符串相关操作" class="headerlink" title="字符串相关操作"></a>字符串相关操作</h2><figure class="highlight vim"><table><tr><td class="code"><pre><code class="hljs vim"><span class="hljs-number">1</span>.<span class="hljs-keyword">grep</span>         字符串查找（过滤）              例如： glance image-<span class="hljs-keyword">list</span> | <span class="hljs-keyword">grep</span> redis<br><br><span class="hljs-number">2</span>.sed          字符串替换                          文件名 | sed <span class="hljs-string">&#x27;s/要被取代的字串/新的字串/g&#x27;</span><br><br><span class="hljs-number">3</span>.awk          字符串分割                          <br>每行按空格或TAB分割，输出文本中的<span class="hljs-number">1</span>、<span class="hljs-number">4</span>项    awk <span class="hljs-string">&#x27;&#123;print $1,$4&#125;&#x27;</span> test.txt<br><br><span class="hljs-number">4</span>.yum  提供查找、安装和删除软件<br>yum [<span class="hljs-keyword">options</span>] [<span class="hljs-keyword">command</span>] [package ...]         yum  操作  命令  安装的包名<br>http<span class="hljs-variable">s:</span>//www.runoob.<span class="hljs-keyword">com</span>/linux/linux-yum.html<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.添加新的用户<br>useradd 选项 用户名<br><br><span class="hljs-number">2</span>.删除用户   -r把当前用户下的目录一起删除<br>userdel -r sam<br><br><span class="hljs-number">3</span>.修改用户<br>usermod 选项 用户名<br><br><span class="hljs-number">4</span>.修改密码<br>passwd 选项 用户名<br><br><span class="hljs-number">5</span>.查看test所在的用户组<br>groups test<br><br><span class="hljs-number">6</span>.创建用户组<br>groupadd group_name<br>删除<br>groupdel<br>修改<br>groupmod<br><br><span class="hljs-number">7</span>.查看用户登录日志<br>last<br><br><span class="hljs-number">8</span>.查看系统中的所有用户<br>cut -d: -f1 <span class="hljs-regexp">/etc/</span>passwd<br><br><span class="hljs-number">9</span>.查看系统所有的组<br>cut -d: -f1 <span class="hljs-regexp">/etc/g</span>roup<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="系统相关操作"><a href="#系统相关操作" class="headerlink" title="系统相关操作"></a>系统相关操作</h2><figure class="highlight tcl"><table><tr><td class="code"><pre><code class="hljs tcl"><span class="hljs-number">1.</span>查看Linux版本信息<br>cat /<span class="hljs-keyword">proc</span>/version<br><br>2.cpu信息<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/cpuinfo<br><br>3.查看中断<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/interrupts<br><br>4.查看负载<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/loadavg<br><br>5.环境变量<span class="hljs-title"></span><br><span class="hljs-title">env</span><br><br>6.查看系统运⾏时间、⽤户数、负载<span class="hljs-title"></span><br><span class="hljs-title">uptime</span><br><br>7.查看内存容量、空闲内存量<span class="hljs-title"></span><br><span class="hljs-title">gerp</span> MenTotal /<span class="hljs-keyword">proc</span>/meninfo<span class="hljs-title"></span><br><span class="hljs-title">gerp</span> MenFree /<span class="hljs-keyword">proc</span>/meninfo<br><br>8.查看进程<span class="hljs-title"></span><br><span class="hljs-title">top</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="磁盘相关"><a href="#磁盘相关" class="headerlink" title="磁盘相关"></a>磁盘相关</h2><figure class="highlight stata"><table><tr><td class="code"><pre><code class="hljs stata">1.查看磁盘使用情况<br>df -<span class="hljs-keyword">h</span><br><br>2.查看某个目录的使用情况<br>du -<span class="hljs-keyword">sh</span> /<span class="hljs-keyword">dir</span><br><br>3.查看所有的磁盘分区<br>fdisk -<span class="hljs-keyword">l</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><code class="hljs applescript"><span class="hljs-number">1.</span>查看所有进程<br>ps -ef<br><br><span class="hljs-number">2.</span>杀死进程<br>kill -s <span class="hljs-built_in">name</span>/<span class="hljs-built_in">id</span><br><br><span class="hljs-number">3.</span>实时查看进程状态<br>top<br></code></pre></td></tr></table></figure>
+
+<h2 id="系统服务"><a href="#系统服务" class="headerlink" title="系统服务"></a>系统服务</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><code class="hljs pgsql"><span class="hljs-number">1.</span>列出服务列表<br>chkconfig <span class="hljs-comment">--list</span><br><br><span class="hljs-number">2.</span>服务相关操作<br>service &lt;服务名&gt; &lt;操作&gt;<br>systemctl &lt;操作&gt; &lt;服务名&gt;<br><br>操作包括：<br>status ： 状态<br><span class="hljs-keyword">start</span>  ： 开启<br>stop   ： 关闭<br><span class="hljs-keyword">restart</span>： 重启<br><span class="hljs-keyword">enable</span> ： 开启自启动<br><span class="hljs-keyword">disable</span>： 关闭自启动<br></code></pre></td></tr></table></figure>
+
+<h2 id="文件和目录操作"><a href="#文件和目录操作" class="headerlink" title="文件和目录操作"></a>文件和目录操作</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.新建文件夹<br><span class="hljs-attribute">mkdir</span> fileName<br><br><span class="hljs-attribute">2</span>.删除文件名<br><span class="hljs-attribute">rm</span> -f fileName<br><br><span class="hljs-attribute">3</span>.目录操作<br><span class="hljs-attribute">mv</span>         重命名、移动文件夹<br><br><span class="hljs-attribute">cp</span>         复制文件<br><br><span class="hljs-attribute">find</span>       查找                     find / -name file<span class="hljs-number">1</span>    从根目录开始搜索文件<br><br><span class="hljs-attribute">cat</span>        文件查看<br><br><span class="hljs-attribute">vi</span>|vim     文件修改           i：插入模式      esc：退出到命令模式      ：wq   保存退出<br><br><span class="hljs-attribute">4</span>.查看文件前两行<br><span class="hljs-attribute">head</span> -<span class="hljs-number">2</span> filename       <br><br><span class="hljs-attribute">5</span>.查看文件后两行<br><span class="hljs-attribute">tail</span> -<span class="hljs-number">2</span> filename       <br><br><span class="hljs-attribute">6</span>.将hello.txt⽂件中的s<span class="hljs-number">1</span>替换成s<span class="hljs-number">2</span><br><span class="hljs-attribute">sed</span> &#x27;s/s<span class="hljs-number">1</span>/s<span class="hljs-number">2</span>/g&#x27; hello.txt<br><br><span class="hljs-attribute">7</span>.合并文件夹<br><span class="hljs-attribute">paste</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span> <br><br><span class="hljs-attribute">8</span>.比较两个文件之间的内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">1</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除文件<span class="hljs-number">1</span>中的所有内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">2</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除文件<span class="hljs-number">2</span>中的所有内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">3</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除两个文件共有的部分<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="打包和压缩"><a href="#打包和压缩" class="headerlink" title="打包和压缩"></a>打包和压缩</h2><figure class="highlight stata"><table><tr><td class="code"><pre><code class="hljs stata">1.<span class="hljs-keyword">zip</span>打包，解压<br><span class="hljs-keyword">zip</span>  unzip<br><br>2.tar<br>tar -cvf xxx.tar <span class="hljs-keyword">file</span>     创建压缩文件<br>tar -xvf xxx.tar          解压<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="yum包管理"><a href="#yum包管理" class="headerlink" title="yum包管理"></a>yum包管理</h2><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211222110156561.png" style="zoom:150%;" />
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>镜像制作</title>
+    <url>/2021/12/22/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/</url>
+    <content><![CDATA[<p>OpenStack+CloudBreak+Ambari</p>
+<ul>
+<li>OpenStack：镜像制作相关操作</li>
+<li>Ambari：自定义服务，提供UI界面</li>
+<li>Cloudbreak：集群管理，给Ambari提供服务</li>
+</ul>
+<span id="more"></span>
+
+
+
+<h1 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h1><p>OpenStack+CloudBreak+Ambari</p>
+<ul>
+<li>OpenStack：镜像制作相关操作</li>
+<li>Ambari：自定义服务，提供UI界面</li>
+<li>Cloudbreak：集群管理，给Ambari提供服务</li>
+</ul>
+<h1 id="账号汇总"><a href="#账号汇总" class="headerlink" title="账号汇总"></a>账号汇总</h1><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.OpenStack镜像制作公共节点：<br><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span>         <br><br><span class="hljs-number">2</span>.OpenStack网站：<br>http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span><span class="hljs-regexp">/dashboard/</span>auth<span class="hljs-regexp">/login/</span>          <br><br><span class="hljs-number">3</span>.cloudbreak网址：<br><span class="hljs-number">10.6</span>.<span class="hljs-number">6.102</span>      <br><br><br><span class="hljs-number">4</span>.catalog创建目录：<br><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>catalog<br><br><span class="hljs-number">5</span>.Ambari服务修改目录：<br><span class="hljs-regexp">/var/</span>lib<span class="hljs-regexp">/ambari-server/</span>resources<span class="hljs-regexp">/stacks/</span>HDP<span class="hljs-regexp">/3.1/</span>services<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="镜像制作流程"><a href="#镜像制作流程" class="headerlink" title="镜像制作流程"></a>镜像制作流程</h1><h2 id="1-镜像创建，并上传到OpenStack"><a href="#1-镜像创建，并上传到OpenStack" class="headerlink" title="1.镜像创建，并上传到OpenStack"></a>1.镜像创建，并上传到OpenStack</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.登录到<span class="hljs-number">10.6.8.67</span><br><span class="hljs-attribute">ssh</span> root@<span class="hljs-number">10.6.8.67</span><br><br><span class="hljs-attribute">2</span>.服务admin权限<br><span class="hljs-attribute">source</span> keystonerc-admin<br><br><span class="hljs-attribute">3</span>.查看镜像列表<br><span class="hljs-attribute">glance</span> image-list<br><br><span class="hljs-attribute">4</span>.下载镜像<br><span class="hljs-attribute">glance</span> image-download --file /tmp/cv-sugon-data-governance-<span class="hljs-number">20210604</span>.qcow<span class="hljs-number">2</span>   <span class="hljs-number">2</span>c<span class="hljs-number">44</span>d<span class="hljs-number">9</span>ef-<span class="hljs-number">9</span>da<span class="hljs-number">1</span>-<span class="hljs-number">410</span>c-<span class="hljs-number">8483</span>-<span class="hljs-number">0466</span>ca<span class="hljs-number">1</span>c<span class="hljs-number">055</span>c<br><br><span class="hljs-attribute">5</span>.压缩镜像<br><span class="hljs-attribute">virt</span>-sparsify --compress cv-sugon-hadoop-analysis-<span class="hljs-number">20210607</span>.qcow<span class="hljs-number">2</span> cv-sugon-hadoop-analysis-<span class="hljs-number">20210607</span>-alpha.qcow<span class="hljs-number">2</span><br><br><span class="hljs-attribute">6</span>.上传镜像<br><span class="hljs-attribute">openstack</span> image create <span class="hljs-string">&quot;cv-xdata-31-20210604-sugon-alpha-test&quot;</span>   --file cb-xdata-<span class="hljs-number">31</span>-<span class="hljs-number">20210428</span>-sugon-alpha.qcow<span class="hljs-number">2</span> --disk-format qcow<span class="hljs-number">2</span> --container-format bare --property hypervisor_type=kvm --public<br><br><span class="hljs-attribute">7</span>.查看镜像信息<br><span class="hljs-attribute">qemu</span>-img info ***.qcow<span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p>删除文件时，要注意删除的文件是不是还有用</p>
+<p>尽量用 rm</p>
+<h2 id="2-登录UI界面，根据镜像创建实例"><a href="#2-登录UI界面，根据镜像创建实例" class="headerlink" title="2.登录UI界面，根据镜像创建实例"></a>2.登录UI界面，根据镜像创建实例</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.登录OpenStack网站：<br>http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span><span class="hljs-regexp">/dashboard/</span>auth<span class="hljs-regexp">/login/</span>        <br><br><span class="hljs-number">2</span>.创建实例 <br>新卷（否）   ----wan     ----注意根目录与内存的大小<br><br><span class="hljs-number">3</span>.创建实例结束之后，会有一个IP地址<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-虚拟机配置文件修改"><a href="#3-虚拟机配置文件修改" class="headerlink" title="3.虚拟机配置文件修改"></a>3.虚拟机配置文件修改</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.<br><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>catalog<br>对其进行修改 镜像名，ID<br><br><span class="hljs-number">2</span>.可以登录cloudbreak上进行查看，image catalog。<br>例如：http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">6.5</span>:<span class="hljs-number">9999</span><span class="hljs-regexp">/catalog/</span>cv-sugon-redis.json<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-Ambari自定义服务"><a href="#4-Ambari自定义服务" class="headerlink" title="4.Ambari自定义服务"></a>4.Ambari自定义服务</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.通过IP地址登录虚拟机<br>ssh root@ip<br><br><span class="hljs-number">2</span>.查看主机名<br>cat <span class="hljs-regexp">/etc/</span>hostname<br>修改主机名<br>hostname localhost.localdomain<br><br><span class="hljs-number">3</span>.修改自定义服务脚本<br>替换<span class="hljs-regexp">/var/</span>lib<span class="hljs-regexp">/ambari-server/</span>resources<span class="hljs-regexp">/stacks/</span>HDP<span class="hljs-regexp">/3.1/</span>services中的脚本。<br><br></code></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>镜像制作、云计算</tag>
+      </tags>
+  </entry>
 </search>
