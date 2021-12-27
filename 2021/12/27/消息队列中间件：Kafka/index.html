@@ -30,14 +30,14 @@
 <meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144038229.png">
 <meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144055848.png">
 <meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144107611.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/WenkAndZz/blogImg/main/img/2018080718402749">
+<meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144630233.png">
 <meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-b7e72e9c5b9971e89ec174a2c2201ed9_720w.jpg">
 <meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-87d558aaa349bf920711b9c157e11f6a_r.jpg">
 <meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-72e50c12fd9c6fbf58d3b5ca14c90623_r.jpg">
 <meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-75a79cba9cfafe5c2f4d5349acb72207_r.jpg">
 <meta property="og:image" content="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-87051d884344edf9f8fd97a3dacb32d0_r.jpg">
 <meta property="article:published_time" content="2021-12-27T06:15:54.000Z">
-<meta property="article:modified_time" content="2021-12-27T06:41:53.728Z">
+<meta property="article:modified_time" content="2021-12-27T07:07:48.012Z">
 <meta property="article:author" content="wenk207">
 <meta property="article:tag" content="中间件">
 <meta name="twitter:card" content="summary">
@@ -233,7 +233,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-12-27 14:15:54 / 修改时间：14:41:53" itemprop="dateCreated datePublished" datetime="2021-12-27T14:15:54+08:00">2021-12-27</time>
+              <time title="创建时间：2021-12-27 14:15:54 / 修改时间：15:07:48" itemprop="dateCreated datePublished" datetime="2021-12-27T14:15:54+08:00">2021-12-27</time>
             </span>
 
           
@@ -276,7 +276,7 @@
 <li>消息队列主动推送消息（消费者是被动接收的）</li>
 <li>消费者主动拉取消息。</li>
 </ol>
-<h1 id="Kafka架构"><a href="#Kafka架构" class="headerlink" title="Kafka架构"></a>Kafka架构</h1><p><img src="https://raw.githubusercontent.com/WenkAndZz/blogImg/main/img/2018080718402749" alt="img"></p>
+<h1 id="Kafka架构"><a href="#Kafka架构" class="headerlink" title="Kafka架构"></a>Kafka架构</h1><p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144630233.png" alt="image-20211227144630233"></p>
 <p>1）<strong>Producer</strong> ：消息生产者，就是向Kafka broker发消息的客户端；</p>
 <p>2）<strong>Consumer</strong> ：消息消费者，向Kafka broker取消息的客户端；</p>
 <p>3） <strong>Consumer Group</strong> （CG）：消费者组</p>
@@ -305,7 +305,7 @@
 <p>默认配置是1.</p>
 <h2 id="数据保存"><a href="#数据保存" class="headerlink" title="数据保存"></a>数据保存</h2><p>kafka的数据是保存在磁盘上的。</p>
 <p>写入磁盘会耗时？kafka初始化时会单独的开辟一块磁盘空间，顺序写入数据（效率比随机写入快）。</p>
-<h3 id="Partition结构"><a href="#Partition结构" class="headerlink" title="Partition结构"></a>Partition结构</h3><p>Partition在服务器上的表现形式就是一个一个的文件夹，每个partition的文件夹下面会有多组segment文件，每组segment文件又包含**.index文件、.log文件、.timeindex文件**（早期版本中没有）三个文件， <strong>log文件就实际是存储message的地方，而index和timeindex文件为索引文件，用于检索消息</strong>。</p>
+<h3 id="Partition结构"><a href="#Partition结构" class="headerlink" title="Partition结构"></a>Partition结构</h3><p>Partition在服务器上的表现形式就是一个一个的文件夹，每个partition的文件夹下面会有多组segment文件，每组segment文件又包含.index文件、.log文件、.timeindex文件（早期版本中没有）三个文件， <strong>log文件就实际是存储message的地方，而index和timeindex文件为索引文件，用于检索消息</strong>。</p>
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-72e50c12fd9c6fbf58d3b5ca14c90623_r.jpg" alt="preview"></p>
 <p>如上图，这个partition有三组segment文件，每个log文件的大小是一样的，但是存储的message数量是不一定相等的（每条的message大小不一致）。<strong>文件的命名是以该segment最小offset来命名的</strong>，如000.index存储offset为0~368795的消息，kafka就是利用分段+索引的方式来解决查找效率的问题。</p>
 <h3 id="Message结构"><a href="#Message结构" class="headerlink" title="Message结构"></a>Message结构</h3><p>1、 offset：8byte的有序id号，它可以唯一确定每条消息在parition内的位置。</p>
@@ -314,7 +314,7 @@
 <h3 id="存储策略"><a href="#存储策略" class="headerlink" title="存储策略"></a>存储策略</h3><p>无论消息是否被消费，kafka都会保存所有的消息。那对于旧数据有什么删除策略呢？</p>
 <p>1、 基于时间，默认配置是168小时（7天）。</p>
 <p>2、 基于大小，默认配置是1073741824。</p>
-<p>需要注意的是，kafka读取特定消息的**时间复杂度是O(1)**，所以这里删除过期的文件并不会提高kafka的性能！</p>
+<p>需要注意的是，kafka读取特定消息的时间复杂度是O(1)，所以这里删除过期的文件并不会提高kafka的性能！</p>
 <h2 id="消费数据"><a href="#消费数据" class="headerlink" title="消费数据"></a>消费数据</h2><p>消息存储在log文件后，消费者就可以进行消费了。在讲消息队列通信的两种模式的时候讲到过点对点模式和发布订阅模式。<strong>Kafka采用的是发布订阅的模式</strong>，消费者主动的去kafka集群拉取消息，与producer相同的是，消费者在拉取消息的时候也是<strong>找leader</strong>去拉取。</p>
 <p>多个消费者可以组成一个消费者组（consumer group），每个消费者组都有一个组id！<strong>同一个消费组者的消费者可以消费同一topic下不同分区的数据，但是不会组内多个消费者消费同一分区的数据</strong>！！！</p>
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-75a79cba9cfafe5c2f4d5349acb72207_r.jpg" alt="preview"></p>
