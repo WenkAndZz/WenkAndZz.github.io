@@ -28,7 +28,7 @@
 <meta property="og:description" content="OpenStack+CloudBreak+Ambari  OpenStack：镜像制作相关操作 Ambari：自定义服务，提供UI界面 Cloudbreak：集群管理，给Ambari提供服务">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-12-22T03:08:31.000Z">
-<meta property="article:modified_time" content="2021-12-27T03:22:11.782Z">
+<meta property="article:modified_time" content="2021-12-28T03:34:10.636Z">
 <meta property="article:author" content="wenk207">
 <meta property="article:tag" content="镜像制作、云计算">
 <meta name="twitter:card" content="summary">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-27 11:22:11" itemprop="dateModified" datetime="2021-12-27T11:22:11+08:00">2021-12-27</time>
+                <time title="修改时间：2021-12-28 11:34:10" itemprop="dateModified" datetime="2021-12-28T11:34:10+08:00">2021-12-28</time>
               </span>
 
           
@@ -280,7 +280,7 @@
 
 <h2 id="6-修改镜像格式"><a href="#6-修改镜像格式" class="headerlink" title="6.修改镜像格式"></a>6.修改镜像格式</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-number">1</span>.转换格式：<br>qemu-<span class="hljs-selector-tag">img</span> convert -f qcow2 -O raw aa<span class="hljs-selector-class">.qcow2</span> aa<span class="hljs-selector-class">.raw</span> -<span class="hljs-selector-tag">p</span><br><br><span class="hljs-number">2</span>.查看镜像信息<br>qemu-<span class="hljs-selector-tag">img</span> info t<span class="hljs-selector-class">.raw</span><br><br><span class="hljs-number">3</span>.上传raw格式镜像：<br>openstack image create <span class="hljs-string">&quot;cv-sugon-data-governance-20210831-alpha&quot;</span> --file cv-sugon-data-governance-<span class="hljs-number">20210831</span>-alpha<span class="hljs-selector-class">.raw</span> --disk-format raw --container-format bare --property hypervisor_type=kvm --public<br></code></pre></td></tr></table></figure>
 
-
+<h2 id="7-Cloudbreak创建集群"><a href="#7-Cloudbreak创建集群" class="headerlink" title="7.Cloudbreak创建集群"></a>7.Cloudbreak创建集群</h2>
     </div>
 
     
@@ -380,7 +380,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">镜像制作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B4%A6%E5%8F%B7%E6%B1%87%E6%80%BB"><span class="nav-number">2.</span> <span class="nav-text">账号汇总</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">镜像制作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%95%9C%E5%83%8F%E5%88%9B%E5%BB%BA%EF%BC%8C%E5%B9%B6%E4%B8%8A%E4%BC%A0%E5%88%B0OpenStack"><span class="nav-number">3.1.</span> <span class="nav-text">1.镜像创建，并上传到OpenStack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%99%BB%E5%BD%95UI%E7%95%8C%E9%9D%A2%EF%BC%8C%E6%A0%B9%E6%8D%AE%E9%95%9C%E5%83%8F%E5%88%9B%E5%BB%BA%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.2.</span> <span class="nav-text">2.登录UI界面，根据镜像创建实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BF%AE%E6%94%B9"><span class="nav-number">3.3.</span> <span class="nav-text">3.虚拟机配置文件修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Ambari%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.4.</span> <span class="nav-text">4.Ambari自定义服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%9F%A5%E7%9C%8B%E9%95%9C%E5%83%8F%E3%80%81%E6%8C%82%E8%BD%BD"><span class="nav-number">3.5.</span> <span class="nav-text">5.查看镜像、挂载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E4%BF%AE%E6%94%B9%E9%95%9C%E5%83%8F%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.6.</span> <span class="nav-text">6.修改镜像格式</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">镜像制作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B4%A6%E5%8F%B7%E6%B1%87%E6%80%BB"><span class="nav-number">2.</span> <span class="nav-text">账号汇总</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">镜像制作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%95%9C%E5%83%8F%E5%88%9B%E5%BB%BA%EF%BC%8C%E5%B9%B6%E4%B8%8A%E4%BC%A0%E5%88%B0OpenStack"><span class="nav-number">3.1.</span> <span class="nav-text">1.镜像创建，并上传到OpenStack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%99%BB%E5%BD%95UI%E7%95%8C%E9%9D%A2%EF%BC%8C%E6%A0%B9%E6%8D%AE%E9%95%9C%E5%83%8F%E5%88%9B%E5%BB%BA%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.2.</span> <span class="nav-text">2.登录UI界面，根据镜像创建实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BF%AE%E6%94%B9"><span class="nav-number">3.3.</span> <span class="nav-text">3.虚拟机配置文件修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Ambari%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.4.</span> <span class="nav-text">4.Ambari自定义服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%9F%A5%E7%9C%8B%E9%95%9C%E5%83%8F%E3%80%81%E6%8C%82%E8%BD%BD"><span class="nav-number">3.5.</span> <span class="nav-text">5.查看镜像、挂载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E4%BF%AE%E6%94%B9%E9%95%9C%E5%83%8F%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.6.</span> <span class="nav-text">6.修改镜像格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Cloudbreak%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4"><span class="nav-number">3.7.</span> <span class="nav-text">7.Cloudbreak创建集群</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -396,7 +396,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -409,7 +409,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -446,7 +446,7 @@
   </div>
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共57.6k字</span>
+  <span class="post-count">博客全站共59.5k字</span>
 </div>
 
         
