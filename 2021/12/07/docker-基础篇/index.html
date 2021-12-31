@@ -1,32 +1,355 @@
-extends includes/layout.pug
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>docker:基础篇 | JavaLearning</title><meta name="keywords" content="云计算"><meta name="author" content="wenk207"><meta name="copyright" content="wenk207"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Docker是一个开元的应用容器引擎。Doker可以让开发者打包他们的应用以及依赖包导一个轻量级、可移植的容器中，然后发布到任何的Linux机器中，也可以实现虚拟化。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker:基础篇">
+<meta property="og:url" content="http://example.com/2021/12/07/docker-%E5%9F%BA%E7%A1%80%E7%AF%87/index.html">
+<meta property="og:site_name" content="JavaLearning">
+<meta property="og:description" content="Docker是一个开元的应用容器引擎。Doker可以让开发者打包他们的应用以及依赖包导一个轻量级、可移植的容器中，然后发布到任何的Linux机器中，也可以实现虚拟化。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2021-12-07T01:22:52.000Z">
+<meta property="article:modified_time" content="2021-12-07T10:01:59.364Z">
+<meta property="article:author" content="wenk207">
+<meta property="article:tag" content="云计算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/12/07/docker-%E5%9F%BA%E7%A1%80%E7%AF%87/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'docker:基础篇',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-07 18:01:59'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-block content
-  #post
-    if top_img === false
-      include includes/header/post-info.pug
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-    article#article-container.post-content!=page.content
-    include includes/post/post-copyright.pug
-    .tag_share
-      if (theme.post_meta.post.tags)
-        .post-meta__tag-list
-          each item, index in page.tags.data
-            a(href=url_for(item.path)).post-meta__tags #[=item.name]
-      include includes/third-party/share/index.pug
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-    if theme.reward.enable
-      !=partial('includes/post/reward', {}, {cache: true})
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">JavaLearning</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">docker:基础篇</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-07T01:22:52.000Z" title="发表于 2021-12-07 09:22:52">2021-12-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-07T10:01:59.364Z" title="更新于 2021-12-07 18:01:59">2021-12-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="docker:基础篇"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>Docker是一个开元的应用<strong>容器</strong>引擎。Doker可以让开发者打包他们的应用以及依赖包导一个轻量级、可移植的容器中，然后发布到任何的Linux机器中，也可以实现虚拟化。</p>
+<span id="more"></span>
 
-    //- ad
-    if theme.ad && theme.ad.post
-      .ads-wrap!=theme.ad.post
 
-    if theme.post_pagination
-      include includes/pagination.pug
-    if theme.related_post && theme.related_post.enable
-      != related_posts(page,site.posts)
 
-    if page.comments !== false && theme.comments && theme.comments.use
-      - var commentsJsLoad = true
-      !=partial('includes/third-party/comments/index', {}, {cache: true})
-      
+<h1 id="基本概述"><a href="#基本概述" class="headerlink" title="基本概述"></a>基本概述</h1><p>Docker是一个开元的应用<strong>容器</strong>引擎。</p>
+<p>Doker可以让开发者打包他们的应用以及依赖包导一个轻量级、可移植的容器中，然后发布到任何的Linux机器中，也可以实现虚拟化。</p>
+<h2 id="Docker的应用场景"><a href="#Docker的应用场景" class="headerlink" title="Docker的应用场景"></a>Docker的应用场景</h2><ol>
+<li>Web应用的<strong>自动化打包和发布。</strong></li>
+<li>自动化测试和持续继承、发布。</li>
+<li>在<strong>微服务环境中调试和部署数据库及其他后台应用</strong>。</li>
+<li>从头编译或者扩展现有的OpenShift或Cloud Foundry平台来搭建自己的PaaS环境。（没看懂）</li>
+</ol>
+<h2 id="Docker的优点"><a href="#Docker的优点" class="headerlink" title="Docker的优点"></a>Docker的优点</h2><p>Docker是一个用于开发，交付和运行应用程序的开放平台。</p>
+<p>Docker可以将应用程序与基础架构分开。从而可以快速交付软件。</p>
+<p>借助 Docker，您可以与管理应用程序相同的方式来管理基础架构。</p>
+<p>通过利用 Docker 的方法来快速交付，测试和部署代码，您可以大大减少编写代码和在生产环境中运行代码之间的延迟。</p>
+<ul>
+<li>快速，一致的交付您的应用程序。</li>
+<li>响应式部署和扩展。</li>
+<li>在同一硬件上运行更多工作负载。</li>
+</ul>
+<h1 id="Docker架构"><a href="#Docker架构" class="headerlink" title="Docker架构"></a>Docker架构</h1><h2 id="镜像、容器和仓库"><a href="#镜像、容器和仓库" class="headerlink" title="镜像、容器和仓库"></a>镜像、容器和仓库</h2><p>Docker包括三个基础概念：</p>
+<ul>
+<li>镜像：Docker镜像，相当于一个root文件系统。</li>
+<li>容器：镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。</li>
+<li>仓库：仓库一看做是一个镜像管理中心，用来保存镜像。</li>
+</ul>
+<p>注意：</p>
+<p>Docker使用客户端-服务端（c/s）架构模式，使用远程API来管理和创建爱你Docker容器。</p>
+<p>Docker容器通过Docker镜像来创建。</p>
+<p>Docker中镜像与容器的关系类比到面向对象中：</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207095216035.png" alt="image-20211207095216035"></p>
+<h2 id="Docker架构图"><a href="#Docker架构图" class="headerlink" title="Docker架构图"></a>Docker架构图</h2><p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207100006642.png" alt="image-20211207100006642"></p>
+<table>
+<thead>
+<tr>
+<th align="left">概念</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Docker 镜像(Images)</td>
+<td align="left">Docker 镜像是用于创建 Docker 容器的模板。</td>
+</tr>
+<tr>
+<td align="left">Docker 容器(Container)</td>
+<td align="left">容器是独立运行的一个或一组应用，是镜像运行时的实体。</td>
+</tr>
+<tr>
+<td align="left">Docker 客户端(Client)</td>
+<td align="left">Docker 客户端通过命令行或者其他工具使用 Docker SDK与 Docker 的守护进程（daemon）通信。</td>
+</tr>
+<tr>
+<td align="left">Docker 主机(Host)</td>
+<td align="left">一个物理或者虚拟的机器用于执行 Docker 守护进程和容器。</td>
+</tr>
+<tr>
+<td align="left">Docker Registry</td>
+<td align="left">Docker 仓库用来保存镜像，可以理解为代码控制中的代码仓库。Docker Hub提供了庞大的镜像集合供使用。一个 Docker Registry 中可以包含多个仓库（Repository）；每个仓库可以包含多个标签（Tag）；每个标签对应一个镜像。通常，一个仓库会包含同一个软件不同版本的镜像，而标签就常用于对应该软件的各个版本。                                                                           我们可以通过 <strong>&lt;仓库名&gt;:&lt;标签&gt;</strong> 的格式来指定具体是这个软件哪个版本的镜像。如果不给出标签，将以 <strong>latest</strong> 作为默认标签。</td>
+</tr>
+<tr>
+<td align="left">Docker Machine</td>
+<td align="left">Docker Machine是一个简化Docker安装的命令行工具，通过一个简单的命令行即可在相应的平台上安装Docker，比如VirtualBox、 Digital Ocean、Microsoft Azure。</td>
+</tr>
+</tbody></table>
+<h1 id="CentOS系统安装Docker"><a href="#CentOS系统安装Docker" class="headerlink" title="CentOS系统安装Docker"></a>CentOS系统安装Docker</h1><p>一键安装：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs vim">curl -fsSL http<span class="hljs-variable">s:</span>//<span class="hljs-built_in">get</span>.docker.<span class="hljs-keyword">com</span> | bash -s docker --mirror Aliyun<br><br>国内网站安装<br>curl -sSL http<span class="hljs-variable">s:</span>//<span class="hljs-built_in">get</span>.daocloud.io/docker | <span class="hljs-keyword">sh</span><br></code></pre></td></tr></table></figure>
+
+<p>安装成功之后查看Docker版本号：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile">docker -v<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207101754640.png" alt="image-20211207101754640"></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">service docker start      <span class="hljs-regexp">//</span>启动docker service<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="Docker的使用"><a href="#Docker的使用" class="headerlink" title="Docker的使用"></a>Docker的使用</h1><h2 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h2><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run ubuntu:<span class="hljs-number">15</span>.<span class="hljs-number">10</span> /bin/echo <span class="hljs-string">&quot;Hello world&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207111735390.png" alt="image-20211207111735390"></p>
+<p>参数解析：</p>
+<ul>
+<li><strong>docker:</strong> Docker 的二进制执行文件。</li>
+<li><strong>run:</strong> 与前面的 docker 组合来运行一个容器。</li>
+<li><strong>ubuntu:15.10</strong> 指定要运行的镜像，Docker 首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像。</li>
+<li><strong>/bin/echo “Hello world”:</strong> 在启动的容器里执行的命令</li>
+</ul>
+<p>以上命令完整的意思可以解释为：Docker 以 ubuntu15.10 镜像创建一个新容器，然后在容器里执行 bin/echo “Hello world”，然后输出结果。</p>
+<p><strong>错误一：</strong></p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">报错：docker：cannot connect <span class="hljs-built_in">to</span> <span class="hljs-keyword">the</span> docker daemon<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207110138856.png" alt="image-20211207110138856"></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk">解决方法：<br>sudo su                       <span class="hljs-regexp">//</span>切换到root<br><br>service docker start      <span class="hljs-regexp">//</span>启动docker service<br><br>docker images              <span class="hljs-regexp">//</span>显示所有images<br><br>docker ps <span class="hljs-regexp">//</span>重新运行docker命令<br></code></pre></td></tr></table></figure>
+
+<img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207110241902.png" alt="image-20211207110241902" style="zoom:150%;" />
+
+
+
+<p><strong>错误二：</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">docker <span class="hljs-builtin-name">run</span> ubantu:15.10 /bin/echo <span class="hljs-string">&quot;Hello world&quot;</span><br>报错：<br>docker：<span class="hljs-builtin-name">Error</span> response <span class="hljs-keyword">from</span> daemon:pull access denied <span class="hljs-keyword">for</span> ubantu<span class="hljs-built_in">..</span><span class="hljs-built_in">..</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207110354983.png" alt="image-20211207110354983"></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">Ubuntu拼写错误：<br>docker run ubuntu:<span class="hljs-number">15.10</span> <span class="hljs-regexp">/bin/</span>echo <span class="hljs-string">&quot;Hello world&quot;</span><br>成功下载，输出结果。<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207111441289.png" alt="image-20211207111441289"></p>
+<h2 id="运行交互式的容器（进入docker的容器内部）"><a href="#运行交互式的容器（进入docker的容器内部）" class="headerlink" title="运行交互式的容器（进入docker的容器内部）"></a>运行交互式的容器（进入docker的容器内部）</h2><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run -i -t ubuntu:<span class="hljs-number">15</span>.<span class="hljs-number">10</span> /bin/bash<br></code></pre></td></tr></table></figure>
+
+<p>参数解析：</p>
+<ul>
+<li><strong>-t:</strong> 在新容器内指定一个伪终端或终端。</li>
+<li><strong>-i:</strong> 允许你对容器内的标准输入 (STDIN) 进行交互。</li>
+</ul>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207112430398.png" alt="image-20211207112430398"></p>
+<p>此时已经进入到Ubuntu15.10的容器中。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">查看容器的信息：<br>ls                    <span class="hljs-comment">#目录</span><br>cat <span class="hljs-regexp">/proc/</span>version     <span class="hljs-comment">#版本信息</span><br></code></pre></td></tr></table></figure>
+
+<p>退出当前容器：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-keyword">exit</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h2><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run -d ubuntu:<span class="hljs-number">15</span>.<span class="hljs-number">10</span> /bin/sh -c <span class="hljs-string">&quot;while true; do echo hello world; sleep 1; done&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207113747944.png" alt="image-20211207113747944"></p>
+<p>在这里我们没有得到“hello world 2”，而是得到了一个长的字符串。这个长字符串就是容器的ID号。对容器来说，ID号是唯一的。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">查看正在运行的容器：<br>docker <span class="hljs-built_in">ps</span><br></code></pre></td></tr></table></figure>
+
+<p>输出详情介绍：</p>
+<p><strong>CONTAINER ID:</strong> 容器 ID。</p>
+<p><strong>IMAGE:</strong> 使用的镜像。</p>
+<p><strong>COMMAND:</strong> 启动容器时运行的命令。</p>
+<p><strong>CREATED:</strong> 容器的创建时间。</p>
+<p><strong>STATUS:</strong> 容器状态。</p>
+<p>状态有7种：</p>
+<ul>
+<li>created（已创建）</li>
+<li>restarting（重启中）</li>
+<li>running 或 Up（运行中）</li>
+<li>removing（迁移中）</li>
+<li>paused（暂停）</li>
+<li>exited（停止）</li>
+<li>dead（死亡）</li>
+</ul>
+<p><strong>PORTS:</strong> 容器的端口信息和使用的连接类型（tcp\udp）。</p>
+<p><strong>NAMES:</strong> 自动分配的容器名称。</p>
+<p>查看容器的输出：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs elixir">runoob<span class="hljs-variable">@runoob</span><span class="hljs-symbol">:~</span><span class="hljs-variable">$ </span>docker logs 容器ID<br><br>runoob<span class="hljs-variable">@runoob</span><span class="hljs-symbol">:~</span><span class="hljs-variable">$ </span>docker logs 容器名<br></code></pre></td></tr></table></figure>
+
+<p>停止容器：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">docker stop 容器名/ID<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="容器相关命令"><a href="#容器相关命令" class="headerlink" title="容器相关命令"></a>容器相关命令</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#容器使用命令</span><br>docker pull ubuntu                 <span class="hljs-comment">#获取镜像</span><br>docker run -it ubuntu <span class="hljs-regexp">/bin/</span>bash    <span class="hljs-comment">#启动容器  i：交互式操作    t：终端</span><br><span class="hljs-keyword">exit</span>                               <span class="hljs-comment">#退出</span><br>docker ps -a                       <span class="hljs-comment">#查看所有的容器</span><br>docker start 容器名/ID              <span class="hljs-comment">#启动容器一个已经停止的容器</span><br>docker run -itd --name 容器名 ubuntu <span class="hljs-regexp">/bin/</span>bash     <span class="hljs-comment"># 后台运行容器，d：指定运行的模式</span><br>docker stop 容器/ID                 <span class="hljs-comment">#停止容器</span><br>docker restart 容器名/ID<br><br><span class="hljs-comment">#进入容器命令</span><br>docker attach ID                <span class="hljs-comment">#退出容器时，容器运行停止</span><br>docker exec -it ID <span class="hljs-regexp">/bin/</span>bash    <span class="hljs-comment">#退出容器时，容器不会停止</span><br><br><span class="hljs-comment">#导入导出容器：</span><br>docker export <span class="hljs-number">1</span>e560fca3906 &gt; ubuntu.tar         <span class="hljs-comment">#导出到本地 ubuntu.tar是自定义的文件名</span><br>cat docker<span class="hljs-regexp">/ubuntu.tar | docker import - test/u</span>buntu:v1        <span class="hljs-comment">#导入</span><br>docker import http:<span class="hljs-regexp">//</span>example.com<span class="hljs-regexp">/exampleimage.tgz example/im</span>agerepo      <span class="hljs-comment">#通过url导入</span><br><br><span class="hljs-comment">#删除容器</span><br>docker rm -f ID             <span class="hljs-comment">#根据ID删除一个容器</span><br>docker container prune      <span class="hljs-comment">#清理掉所有处于终止状态的容器</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="web-app相关应用"><a href="#web-app相关应用" class="headerlink" title="web app相关应用"></a>web app相关应用</h3><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">docker pull training/webapp  <span class="hljs-comment"># 载入镜像</span><br>docker run -d -P training/webapp python app.py    <span class="hljs-comment">#加载镜像， -d：后台运行，-p：将容器内部使用的网络端口映射到本主机上。</span><br>docker ps                    <span class="hljs-comment"># 查看Web应用容器</span><br>docker run -d -p 5000<span class="hljs-function">:5000</span> training/webapp python app.py        <span class="hljs-comment"># -p可以设置端口</span><br>docker post 容器名/端口名              <span class="hljs-comment">#查看容器的端口映射地址</span><br>docker logs -f 端口ID                <span class="hljs-comment">#查看日志</span><br>docker top 容器名<span class="hljs-string">/ID</span>                    <span class="hljs-comment">#查看容器中的进程</span><br>docker inspect 容器名<span class="hljs-string">/ID</span>                <span class="hljs-comment">#查看docker的底层信息</span><br>docker stop 容器名<span class="hljs-string">/ID</span>                   <span class="hljs-comment">#停止web应用</span><br>docker start 容器名<span class="hljs-string">/ID</span>                  <span class="hljs-comment">#开启web应用</span><br>docker ps -l                           <span class="hljs-comment">#查询最后一次创建的容器</span><br>docker rm 容器名<span class="hljs-string">/ID</span>                     <span class="hljs-comment">#移除容器。</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="docker镜像"><a href="#docker镜像" class="headerlink" title="docker镜像"></a>docker镜像</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">docker images                            <span class="hljs-comment">#查看本地镜像</span><br>docker run -t -i ubuntu:<span class="hljs-number">15.10</span> /bin/bash  <span class="hljs-comment">#使用Ubuntu15.10版本的镜像来运行容器，如果不指定版本的话，则默认使用最新版。</span><br>docker pull 镜像名：版本                   <span class="hljs-comment">#下载镜像</span><br>docker search 镜像名                      <span class="hljs-comment">#查找镜像</span><br>docker run 镜像名                         <span class="hljs-comment">#使用镜像</span><br>docker rmi 镜像名                         <span class="hljs-comment">#删除镜像</span><br>docker <span class="hljs-keyword">tag</span> <span class="hljs-title">ID</span> repository名:<span class="hljs-keyword">tag</span>名          <span class="hljs-comment">#给镜像添加标签</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207150407705.png" alt="image-20211207150407705"></p>
+<h3 id="Docker容器连接"><a href="#Docker容器连接" class="headerlink" title="Docker容器连接"></a>Docker容器连接</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#创建一个Python应用的容器</span><br>注意： -P：随机端口号                -p:指定端口号<br>docker <span class="hljs-builtin-name">run</span> -d -P training/webapp python app.py <br>docker <span class="hljs-builtin-name">run</span> -d -p 127.0.0.1:5001:5000 training/webapp python app.py   # 默认绑定tcp端口<br>docker <span class="hljs-builtin-name">run</span> -d -p 127.0.0.1:5000:5000/udp training/webapp python app.py  #udp<br><br>docker<span class="hljs-built_in"> port </span>容器名 端口号                    #查看端口的绑定情况。<br>docker <span class="hljs-builtin-name">run</span> -d -P --name 容器名 training/webapp python app.py<br>docker<span class="hljs-built_in"> network </span>create -d<span class="hljs-built_in"> bridge </span>网络名       #创建一个新的docker网络。-d：参数指定 Docker 网络类型，有 bridge、overlay。<br><br><span class="hljs-comment">#连接容器</span><br><span class="hljs-comment">#运行一个容器并连接到 test-net 网络:</span><br>docker <span class="hljs-builtin-name">run</span> -itd --name test1 --network test-net ubuntu /bin/bash  <br><br><br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs applescript"><span class="hljs-comment">#在容器中安装ping指令</span><br><span class="hljs-number">1</span>。先进入容器内：<br>docker exec -<span class="hljs-keyword">it</span> <span class="hljs-built_in">id</span> bin/bash<br><span class="hljs-number">2.</span><br>apt-<span class="hljs-keyword">get</span> update<br><span class="hljs-number">3.</span><br>apt install iputils-ping<br><br><span class="hljs-number">4.</span>在test1网络中ping test2<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207161822903.png" alt="image-20211207161822903"></p>
+<p>test1 容器和 test2 容器建立了互联关系。</p>
+<p>如果你有多个容器之间需要互相连接，推荐使用 Docker Compose</p>
+<h3 id="Docker仓库管理"><a href="#Docker仓库管理" class="headerlink" title="Docker仓库管理"></a>Docker仓库管理</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">docker login           <span class="hljs-comment">#登录</span><br>docker logout          <span class="hljs-comment">#退出</span><br>docker search ubuntu   <span class="hljs-comment">#查找远程仓库中的镜像</span><br>docker pull 镜像名      <span class="hljs-comment">#从远程操控中拉取，下载到本地</span><br><br>docker <span class="hljs-keyword">tag</span> <span class="hljs-title">ubuntu</span>:<span class="hljs-number">18.04</span> 用户名/ubuntu:<span class="hljs-number">18.04</span>      <span class="hljs-comment">#推送数据</span><br>docker image ls        <span class="hljs-comment">#查看镜像</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="Docker-Dockerfile"><a href="#Docker-Dockerfile" class="headerlink" title="Docker Dockerfile"></a>Docker Dockerfile</h3><p>Dockerfile 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">加载中。。。。。<br></code></pre></td></tr></table></figure>
+
+<h3 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h3><p>Compose 是用于定义和运行多容器 Docker 应用程序的工具。通过 Compose，您可以使用 YML 文件来配置应用程序需要的所有服务。然后，使用一个命令，就可以从 YML 文件配置中创建并启动所有服务。</p>
+<p>Compose 使用的三个步骤：</p>
+<ul>
+<li>使用 Dockerfile 定义应用程序的环境。</li>
+<li>使用 docker-compose.yml 定义构成应用程序的服务，这样它们可以在隔离环境中一起运行。</li>
+<li>最后，执行 docker-compose up 命令来启动并运行整个应用程序。</li>
+</ul>
+<p>安装Compose</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#安装compose</span><br>$ sudo curl -L <span class="hljs-string">&quot;https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)&quot;</span> -o <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/</span>docker-compose<br>加载中。。。。。<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="Docker-machine"><a href="#Docker-machine" class="headerlink" title="Docker machine"></a>Docker machine</h3><p>Docker Machine 是一种可以让您在虚拟主机上安装 Docker 的工具，并可以使用 docker-machine 命令来管理主机。</p>
+<p>Docker Machine 也可以集中管理所有的 docker 主机，比如快速的给 100 台服务器安装上 docker。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#下载</span><br>base=https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/docker/m</span>achine<span class="hljs-regexp">/releases/</span>download/v0.<span class="hljs-number">16.0</span> &amp;&amp;<br>  curl -L <span class="hljs-variable">$base</span><span class="hljs-regexp">/docker-machine-$(uname -s)-$(uname -m) &gt;/</span>tmp/docker-machine &amp;&amp;<br>  sudo mv <span class="hljs-regexp">/tmp/</span>docker-machine <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/</span>docker-machine &amp;&amp;<br>  chmod +x <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/</span>docker-machine<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="Docker-Swarm集群管理工具"><a href="#Docker-Swarm集群管理工具" class="headerlink" title="Docker Swarm集群管理工具"></a>Docker Swarm集群管理工具</h3><p>Docker Swarm 是 Docker 的<strong>集群管理工具</strong>。它将 Docker 主机池转变为单个虚拟 Docker 主机。 Docker Swarm 提供了标准的 Docker API，所有任何已经与 Docker 守护程序通信的工具都可以使用 Swarm 轻松地扩展到多个主机。</p>
+<p>支持的工具包括但不限于以下各项：</p>
+<ul>
+<li>Dokku</li>
+<li>Docker Compose</li>
+<li>Docker Machine</li>
+<li>Jenkins</li>
+</ul>
+<p><strong>原理：</strong></p>
+<p>swarm 集群由管理节点（manager）和工作节点（work node）构成。</p>
+<ul>
+<li><strong>swarm mananger</strong>：负责整个集群的管理工作包括集群配置、服务管理等所有跟集群有关的工作。</li>
+<li><strong>work node</strong>：即图中的 available node，主要负责运行相应的服务来执行任务（task）。</li>
+</ul>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/services-diagram.png" alt="img"></p>
+<p>==swarm因为功能少，现在已经被k8s替代了，使用的较少==</p>
+<p>k8s架构图如下：</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211207175444273.png" alt="image-20211207175444273"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">wenk207</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/12/07/docker-%E5%9F%BA%E7%A1%80%E7%AF%87/">http://example.com/2021/12/07/docker-%E5%9F%BA%E7%A1%80%E7%AF%87/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">JavaLearning</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/12/13/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%8Csentinel%E8%8E%B7%E5%8F%96master%E7%9A%84%E4%BF%A1%E6%81%AF/"><img class="prev-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">redis哨兵模式，sentinel获取master的信息</div></div></a></div><div class="next-post pull-right"><a href="/2021/12/06/k8s-%E5%9F%BA%E7%A1%80%E7%AF%87/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">k8s--基础篇</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/12/04/Ambari/" title="Ambari"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-04</div><div class="title">Ambari</div></div></a></div><div><a href="/2021/12/03/CloudBreak/" title="CloudBreak"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-03</div><div class="title">CloudBreak</div></div></a></div><div><a href="/2021/12/03/OpenStack/" title="OpenStack"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-03</div><div class="title">OpenStack</div></div></a></div><div><a href="/2021/12/06/k8s-%E5%9F%BA%E7%A1%80%E7%AF%87/" title="k8s--基础篇"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-06</div><div class="title">k8s--基础篇</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">wenk207</div><div class="author-info__description">谦逊，努力，时刻保持学习状态</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">基本概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.1.</span> <span class="toc-text">Docker的应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">Docker的优点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">Docker架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E3%80%81%E5%AE%B9%E5%99%A8%E5%92%8C%E4%BB%93%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text">镜像、容器和仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="toc-number">2.2.</span> <span class="toc-text">Docker架构图</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CentOS%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85Docker"><span class="toc-number">3.</span> <span class="toc-text">CentOS系统安装Docker</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">Docker的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#hello-world"><span class="toc-number">4.1.</span> <span class="toc-text">hello world</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E4%BA%A4%E4%BA%92%E5%BC%8F%E7%9A%84%E5%AE%B9%E5%99%A8%EF%BC%88%E8%BF%9B%E5%85%A5docker%E7%9A%84%E5%AE%B9%E5%99%A8%E5%86%85%E9%83%A8%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">运行交互式的容器（进入docker的容器内部）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="toc-number">4.3.</span> <span class="toc-text">启动容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">4.4.</span> <span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="toc-number">4.4.1.</span> <span class="toc-text">容器相关命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web-app%E7%9B%B8%E5%85%B3%E5%BA%94%E7%94%A8"><span class="toc-number">4.4.2.</span> <span class="toc-text">web app相关应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker%E9%95%9C%E5%83%8F"><span class="toc-number">4.4.3.</span> <span class="toc-text">docker镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%B9%E5%99%A8%E8%BF%9E%E6%8E%A5"><span class="toc-number">4.4.4.</span> <span class="toc-text">Docker容器连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E4%BB%93%E5%BA%93%E7%AE%A1%E7%90%86"><span class="toc-number">4.4.5.</span> <span class="toc-text">Docker仓库管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-Dockerfile"><span class="toc-number">4.4.6.</span> <span class="toc-text">Docker Dockerfile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-Compose"><span class="toc-number">4.4.7.</span> <span class="toc-text">Docker Compose</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-machine"><span class="toc-number">4.4.8.</span> <span class="toc-text">Docker machine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-Swarm%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="toc-number">4.4.9.</span> <span class="toc-text">Docker Swarm集群管理工具</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/12/30/Ambari%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1/" title="Ambari自定义服务"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ambari自定义服务"/></a><div class="content"><a class="title" href="/2021/12/30/Ambari%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1/" title="Ambari自定义服务">Ambari自定义服务</a><time datetime="2021-12-30T01:40:39.000Z" title="发表于 2021-12-30 09:40:39">2021-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/27/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9AKafka/" title="Kafka"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kafka"/></a><div class="content"><a class="title" href="/2021/12/27/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9AKafka/" title="Kafka">Kafka</a><time datetime="2021-12-27T06:15:54.000Z" title="发表于 2021-12-27 14:15:54">2021-12-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/22/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/" title="镜像制作"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="镜像制作"/></a><div class="content"><a class="title" href="/2021/12/22/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/" title="镜像制作">镜像制作</a><time datetime="2021-12-22T03:08:31.000Z" title="发表于 2021-12-22 11:08:31">2021-12-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux常用命令"/></a><div class="content"><a class="title" href="/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令">Linux常用命令</a><time datetime="2021-12-22T03:07:48.000Z" title="发表于 2021-12-22 11:07:48">2021-12-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/13/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%8Csentinel%E8%8E%B7%E5%8F%96master%E7%9A%84%E4%BF%A1%E6%81%AF/" title="redis哨兵模式，sentinel获取master的信息"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis哨兵模式，sentinel获取master的信息"/></a><div class="content"><a class="title" href="/2021/12/13/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%8Csentinel%E8%8E%B7%E5%8F%96master%E7%9A%84%E4%BF%A1%E6%81%AF/" title="redis哨兵模式，sentinel获取master的信息">redis哨兵模式，sentinel获取master的信息</a><time datetime="2021-12-13T09:34:21.000Z" title="发表于 2021-12-13 17:34:21">2021-12-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By wenk207</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

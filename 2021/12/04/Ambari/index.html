@@ -1,32 +1,205 @@
-extends includes/layout.pug
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Ambari | JavaLearning</title><meta name="keywords" content="云计算"><meta name="author" content="wenk207"><meta name="copyright" content="wenk207"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Ambari是hadoop分布式集群配置管理工具；从Ambari 的作用来说，就是创建、管理、监视 Hadoop 的集群，但是这里的 Hadoop 是广义，指的是 Hadoop 整个生态圈(例如 Hive数据仓库，Hbase数据库，Sqoop，Zookeeper 等)，而并不仅是特指 Hadoop。用一句话来说，Ambari 就是为了让 Hadoop 以及相关的大数据软件更容易使用的一个工具。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ambari">
+<meta property="og:url" content="http://example.com/2021/12/04/Ambari/index.html">
+<meta property="og:site_name" content="JavaLearning">
+<meta property="og:description" content="Ambari是hadoop分布式集群配置管理工具；从Ambari 的作用来说，就是创建、管理、监视 Hadoop 的集群，但是这里的 Hadoop 是广义，指的是 Hadoop 整个生态圈(例如 Hive数据仓库，Hbase数据库，Sqoop，Zookeeper 等)，而并不仅是特指 Hadoop。用一句话来说，Ambari 就是为了让 Hadoop 以及相关的大数据软件更容易使用的一个工具。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2021-12-04T03:33:05.000Z">
+<meta property="article:modified_time" content="2021-12-04T03:36:30.446Z">
+<meta property="article:author" content="wenk207">
+<meta property="article:tag" content="云计算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/12/04/Ambari/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Ambari',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-04 11:36:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-block content
-  #post
-    if top_img === false
-      include includes/header/post-info.pug
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-    article#article-container.post-content!=page.content
-    include includes/post/post-copyright.pug
-    .tag_share
-      if (theme.post_meta.post.tags)
-        .post-meta__tag-list
-          each item, index in page.tags.data
-            a(href=url_for(item.path)).post-meta__tags #[=item.name]
-      include includes/third-party/share/index.pug
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-    if theme.reward.enable
-      !=partial('includes/post/reward', {}, {cache: true})
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">JavaLearning</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Ambari</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-04T03:33:05.000Z" title="发表于 2021-12-04 11:33:05">2021-12-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-04T03:36:30.446Z" title="更新于 2021-12-04 11:36:30">2021-12-04</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Ambari"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>Ambari是hadoop分布式集群配置管理工具；从Ambari 的作用来说，就是<strong>创建、管理、监视 Hadoop 的集群</strong>，但是这里的 Hadoop 是广义，指的是 Hadoop 整个生态圈(例如 Hive数据仓库，Hbase数据库，Sqoop，Zookeeper 等)，而并不仅是特指 Hadoop。用一句话来说，Ambari 就是为了让 Hadoop 以及相关的大数据软件更容易使用的一个工具。</p>
+<span id="more"></span>
 
-    //- ad
-    if theme.ad && theme.ad.post
-      .ads-wrap!=theme.ad.post
 
-    if theme.post_pagination
-      include includes/pagination.pug
-    if theme.related_post && theme.related_post.enable
-      != related_posts(page,site.posts)
 
-    if page.comments !== false && theme.comments && theme.comments.use
-      - var commentsJsLoad = true
-      !=partial('includes/third-party/comments/index', {}, {cache: true})
-      
+<h1 id="Ambari的作用"><a href="#Ambari的作用" class="headerlink" title="Ambari的作用"></a>Ambari的作用</h1><ul>
+<li><p>提供Hadoop集群</p>
+<ul>
+<li>Ambari提供了跨任意数量的主机安装Hadoop服务的分步向导</li>
+<li>Ambari处理群集的Hadoop服务配置</li>
+</ul>
+</li>
+<li><p>管理Hadoop集群</p>
+<ul>
+<li>集中管理，用于在整个集群中启动、停止和重新配置Hadoop集群</li>
+</ul>
+</li>
+<li><p>监控Hadoop集群</p>
+<ul>
+<li>收集Hadoop的运行指标</li>
+<li>提供了一个仪表盘，监控Hadoop集群的运行情况</li>
+<li>故障预警</li>
+</ul>
+</li>
+</ul>
+<p><strong>Ambari使应用程序开发人员和系统集成商能够</strong></p>
+<ul>
+<li>使用Ambari REST API轻松将Hadoop配置，管理和监控功能集成到自己的应用程序中。</li>
+</ul>
+<h1 id="Ambari的组件"><a href="#Ambari的组件" class="headerlink" title="Ambari的组件"></a>Ambari的组件</h1><p>Ambari的主要组成有三部分：</p>
+<ul>
+<li><strong>Ambari-Server</strong>：将集群的状态通过web UI 或RESTAPI的形式呈献给用户，并且通过这两种方式将用户指令下发到集群中，从而实现用户与Hadoop集群的交互。<strong>hadoop集群节点上一般没有server。</strong>（不知道为啥）</li>
+<li><strong>Ambari-Agent</strong>：负责对集群内主机状态的采集以及执行Server发来的指令，并且将执行结果发送给<strong>Server</strong>。</li>
+<li><strong>Ambari-Metrics</strong>：负责监控集群状态的功能组件。会搜集一下两种数据指标：<ul>
+<li>个节点“系统级”的指标</li>
+<li>Hadoop各组件的指标</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-fa754b5349e1948bba38d124854af6e0_b.jpg" alt="img"></p>
+<p><strong>心跳机制：</strong></p>
+<p>Ambari-Server与Ambari-Agent之间的交互是通过<strong>agent定期发送post请求</strong>，上报Ambari-agent所在主机的状态；Ambari-Server<strong>接收到Agent发送来的状态之后，给Ambari-Agent返回需要在此主机上执行的指令</strong>。这样一次完整的指令就像是一次心跳一样 ，通过心跳完成主从交互的机制就是心跳机制。</p>
+<p><strong>用户和数据集群中间的交互：</strong></p>
+<p>1）在server安装、配置完成并启动后；</p>
+<p>2）用户通过浏览器访问server，在地址栏输入的url是由ambari-web（以后简称web）模块响应请求，web端又调用ambari-server 的REST api获取数据显示在浏览器页面上。</p>
+<p>3）当用户想要通过浏览器操作集群（stop、start某些组件）时，由web端向ambari-server发送post或put请求，ambari-server 接收到请求后通过心跳机制，向ambari-agent(以后简称agent)发送指令，最后由agent执行shell或python脚本来完成。</p>
+<p><strong>显示在浏览器上的数据来源：</strong></p>
+<p>主要分为以下两种类型：</p>
+<ul>
+<li>集群内各服务的实时状态信息，这类数据是由AMS模块实时采集上报给Ambari-Metrics-Collector，再由Ambari-Server调用的Ambari-Metries-controller的REST API显示在页面上。这部分数据没有落地到ambari-server 的数据库中，在每次web端调用ambari-server的数据时，ambari-server都会调用ambari-metrics-collector获取数据，进行适当的加工处理后直接返回给web端 显示在浏览器页面上。</li>
+<li>由ambari-server缓存在内存，持久化到数据库的数据，这类数据<strong>比如主机列表、服务列表、服务的配置信息等</strong>。这些数据是由agent采集通过心跳发送给ambari-server后，ambari-server更新自身的数据状态。当web端调用ambari-server的rest api获取这些数据时，ambari-server将web端请求的数据直接返回给web显示在浏览器页面。</li>
+</ul>
+<h1 id="Ambari用户权限"><a href="#Ambari用户权限" class="headerlink" title="Ambari用户权限"></a>Ambari用户权限</h1><p>1.服务级别权限</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111153463.png" alt="image-20211204111153463"></p>
+<p>2.主机级权限</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111259671.png" alt="image-20211204111259671"></p>
+<p>3.集群级权限</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111333306.png" alt="image-20211204111333306"></p>
+<p>4.Ambari级权限</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111403313.png" alt="image-20211204111403313"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">wenk207</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/12/04/Ambari/">http://example.com/2021/12/04/Ambari/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">JavaLearning</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/12/06/k8s-%E5%9F%BA%E7%A1%80%E7%AF%87/"><img class="prev-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">k8s--基础篇</div></div></a></div><div class="next-post pull-right"><a href="/2021/12/03/CloudBreak/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CloudBreak</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/12/03/CloudBreak/" title="CloudBreak"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-03</div><div class="title">CloudBreak</div></div></a></div><div><a href="/2021/12/03/OpenStack/" title="OpenStack"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-03</div><div class="title">OpenStack</div></div></a></div><div><a href="/2021/12/07/docker-%E5%9F%BA%E7%A1%80%E7%AF%87/" title="docker:基础篇"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-07</div><div class="title">docker:基础篇</div></div></a></div><div><a href="/2021/12/06/k8s-%E5%9F%BA%E7%A1%80%E7%AF%87/" title="k8s--基础篇"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-06</div><div class="title">k8s--基础篇</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">wenk207</div><div class="author-info__description">谦逊，努力，时刻保持学习状态</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ambari%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">Ambari的作用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Ambari%E7%9A%84%E7%BB%84%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">Ambari的组件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Ambari%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90"><span class="toc-number">3.</span> <span class="toc-text">Ambari用户权限</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/12/30/Ambari%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1/" title="Ambari自定义服务"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ambari自定义服务"/></a><div class="content"><a class="title" href="/2021/12/30/Ambari%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1/" title="Ambari自定义服务">Ambari自定义服务</a><time datetime="2021-12-30T01:40:39.000Z" title="发表于 2021-12-30 09:40:39">2021-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/27/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9AKafka/" title="Kafka"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kafka"/></a><div class="content"><a class="title" href="/2021/12/27/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9AKafka/" title="Kafka">Kafka</a><time datetime="2021-12-27T06:15:54.000Z" title="发表于 2021-12-27 14:15:54">2021-12-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/22/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/" title="镜像制作"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="镜像制作"/></a><div class="content"><a class="title" href="/2021/12/22/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/" title="镜像制作">镜像制作</a><time datetime="2021-12-22T03:08:31.000Z" title="发表于 2021-12-22 11:08:31">2021-12-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux常用命令"/></a><div class="content"><a class="title" href="/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令">Linux常用命令</a><time datetime="2021-12-22T03:07:48.000Z" title="发表于 2021-12-22 11:07:48">2021-12-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/13/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%8Csentinel%E8%8E%B7%E5%8F%96master%E7%9A%84%E4%BF%A1%E6%81%AF/" title="redis哨兵模式，sentinel获取master的信息"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis哨兵模式，sentinel获取master的信息"/></a><div class="content"><a class="title" href="/2021/12/13/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%8Csentinel%E8%8E%B7%E5%8F%96master%E7%9A%84%E4%BF%A1%E6%81%AF/" title="redis哨兵模式，sentinel获取master的信息">redis哨兵模式，sentinel获取master的信息</a><time datetime="2021-12-13T09:34:21.000Z" title="发表于 2021-12-13 17:34:21">2021-12-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By wenk207</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
