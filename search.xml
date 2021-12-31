@@ -1,86 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>API接口文档管理工具：Swagger</title>
-    <url>/2021/11/15/API%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%EF%BC%9ASwagger/</url>
-    <content><![CDATA[<p>Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法，参数和模型紧密集成到服务器端的代码，允许API来始终保持同步。</p>
-<span id="more"></span>
-
-<h1 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a>Swagger</h1><p>分组开发工具，可以设置不同的组（Docket.groupname），每个组负责开发不同的功能模块。</p>
-<p>前端可视化后端API接口（实时更新），可以对controller进行测试。</p>
-<ul>
-<li>号称世界上最流行的API框架；</li>
-<li>RestFul API文档在线自动生成工具=》API文档域API自动更新。</li>
-<li>直接运行，可以在线测试API接口。</li>
-<li>支持多种语言。</li>
-</ul>
-<h2 id="一、在项目中使用Swagger"><a href="#一、在项目中使用Swagger" class="headerlink" title="一、在项目中使用Swagger"></a>一、在项目中使用Swagger</h2><p>需要springbox；</p>
-<ul>
-<li>swagger2</li>
-<li>ui</li>
-</ul>
-<h2 id="二、在SpringBoot中集成swagger"><a href="#二、在SpringBoot中集成swagger" class="headerlink" title="二、在SpringBoot中集成swagger"></a>二、在SpringBoot中集成swagger</h2><h3 id="1-新建项目"><a href="#1-新建项目" class="headerlink" title="1.新建项目"></a>1.新建项目</h3><h3 id="2-导入依赖"><a href="#2-导入依赖" class="headerlink" title="2.导入依赖"></a>2.导入依赖</h3><figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.springfox<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.9.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br><span class="hljs-comment">&lt;!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.springfox<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springfox-swagger2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.9.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br><br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="3-编写hello工程。"><a href="#3-编写hello工程。" class="headerlink" title="3.编写hello工程。"></a>3.编写hello工程。</h3><h3 id="4-集成swagger-》config"><a href="#4-集成swagger-》config" class="headerlink" title="4.集成swagger==》config"></a>4.集成swagger==》config</h3><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;<br><span class="hljs-keyword">import</span> springfox.documentation.swagger2.annotations.EnableSwagger2;<br><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableSwagger2</span>         <span class="hljs-comment">//开启swagger2</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerConfig</span> </span>&#123;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="5-访问网址："><a href="#5-访问网址：" class="headerlink" title="5.访问网址："></a>5.访问网址：</h3><p><a href="http://localhost:8080/swagger-ui.html">http://localhost:8080/swagger-ui.html</a></p>
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211018110821946.png" alt="image-20211018110821946"></p>
-<h2 id="三、配置swagger"><a href="#三、配置swagger" class="headerlink" title="三、配置swagger"></a>三、配置swagger</h2><h3 id="swagger的bean实例Docket："><a href="#swagger的bean实例Docket：" class="headerlink" title="swagger的bean实例Docket："></a>swagger的bean实例Docket：</h3><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableSwagger2</span>         <span class="hljs-comment">//开启swagger2</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerConfig</span> </span>&#123;<br>    <span class="hljs-comment">//配置swagger的Docket bean实例。</span><br><br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">docket</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo());<br>    &#125;<br>    <span class="hljs-comment">//配置swagger信息=apiInfo</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> ApiInfo <span class="hljs-title">apiInfo</span><span class="hljs-params">()</span></span>&#123;<br>        Contact contact = <span class="hljs-keyword">new</span> Contact(<span class="hljs-string">&quot;李文凯&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;li17669498364@163.com&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ApiInfo(<span class="hljs-string">&quot;李文凯的swaggerAPI文档&quot;</span>,<br>                <span class="hljs-string">&quot;加油，冲刺&quot;</span>,<br>                <span class="hljs-string">&quot;1.0&quot;</span>,<br>                <span class="hljs-string">&quot;urn:tos&quot;</span>,<br>                contact,<br>                <span class="hljs-string">&quot;Apache 2.0&quot;</span>,<br>                <span class="hljs-string">&quot;http://www.apache.org/licenses/LICENSE-2.0&quot;</span>,<br>                <span class="hljs-keyword">new</span> ArrayList());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211018112506760.png" alt="image-20211018112506760"></p>
-<h3 id="Swagger配置扫描接口"><a href="#Swagger配置扫描接口" class="headerlink" title="Swagger配置扫描接口"></a>Swagger配置扫描接口</h3><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">docket</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).<br>            apiInfo(apiInfo())<br>            .select()<br>            <span class="hljs-comment">//配置要扫描接口的方式</span><br>            <span class="hljs-comment">//basePackage：指定要扫描的包。</span><br>            <span class="hljs-comment">//any()：扫描全部</span><br>            <span class="hljs-comment">//none（）：不扫描</span><br>            <span class="hljs-comment">//withClassAnnotation：扫描雷伤的注解，参数是一个注解的反射对象。</span><br>            <span class="hljs-comment">//withMethodAnnotation：扫描方法上的注解</span><br>            .apis(RequestHandlerSelectors.basePackage(<span class="hljs-string">&quot;com.kai.controller&quot;</span>))<br>            <span class="hljs-comment">//paths（）。过滤什么路径</span><br>            .paths(PathSelectors.ant(<span class="hljs-string">&quot;/kai/**&quot;</span>))<br>            .build();<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211018151937769.png" alt="image-20211018151937769"></p>
-<h3 id="配置自动启动config"><a href="#配置自动启动config" class="headerlink" title="配置自动启动config"></a>配置自动启动config</h3><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).<br>                apiInfo(apiInfo())<br>                <span class="hljs-comment">//swagger是否启动，如果为false，则swagger不能再浏览器中访问。</span><br>                .enable(<span class="hljs-keyword">false</span>)<br></code></pre></td></tr></table></figure>
-
-<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20211018152317499.png" alt="image-20211018152317499"></p>
-<h3 id="需求：在生产环境有使用swagger自动启动，在运行环境中不使用。"><a href="#需求：在生产环境有使用swagger自动启动，在运行环境中不使用。" class="headerlink" title="需求：在生产环境有使用swagger自动启动，在运行环境中不使用。"></a>需求：在生产环境有使用swagger自动启动，在运行环境中不使用。</h3><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableSwagger2</span>         <span class="hljs-comment">//开启swagger2</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerConfig</span> </span>&#123;<br>    <span class="hljs-comment">//配置swagger的Docket bean实例。</span><br><br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">docket</span><span class="hljs-params">(Environment environment)</span></span>&#123;<br><br>        <span class="hljs-comment">//设置要显示的swagger环境。</span><br>        Profiles profiles = Profiles.of(<span class="hljs-string">&quot;dev&quot;</span>,<span class="hljs-string">&quot;test&quot;</span>);<br>        <span class="hljs-comment">//通过environment.acceptsProfiles判断是否处在自己设定的环境中。</span><br>        <span class="hljs-keyword">boolean</span> flag = environment.acceptsProfiles(profiles);<br>        System.out.println(flag);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).<br>                apiInfo(apiInfo())<br>                <span class="hljs-comment">//swagger是否启动，如果为false，则swagger不能再浏览器中访问。</span><br>                .enable(flag)<br>                .select()<br>                <span class="hljs-comment">//配置要扫描接口的方式</span><br>                <span class="hljs-comment">//basePackage：指定要扫描的包。</span><br>                <span class="hljs-comment">//any()：扫描全部</span><br>                <span class="hljs-comment">//none（）：不扫描</span><br>                <span class="hljs-comment">//withClassAnnotation：扫描雷伤的注解，参数是一个注解的反射对象。</span><br>                <span class="hljs-comment">//withMethodAnnotation：扫描方法上的注解</span><br>                .apis(RequestHandlerSelectors.basePackage(<span class="hljs-string">&quot;com.kai.controller&quot;</span>))<br>                <span class="hljs-comment">//paths（）。过滤什么路径</span><br><span class="hljs-comment">//                .paths(PathSelectors.ant(&quot;/kai/**&quot;))</span><br>                .build();<br>    &#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="配置API文档分组"><a href="#配置API文档分组" class="headerlink" title="配置API文档分组"></a>配置API文档分组</h3><p>配置一个组。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).<br>        apiInfo(apiInfo())<br>        .groupName(<span class="hljs-string">&quot;Liwenkai&quot;</span>)<br></code></pre></td></tr></table></figure>
-
-
-
-<p>配置多个组</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//多个docket分组</span><br><span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">docket1</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).groupName(<span class="hljs-string">&quot;A&quot;</span>);<br>&#125;<br><span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">docket2</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).groupName(<span class="hljs-string">&quot;B&quot;</span>);<br>&#125;<br><span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">docket3</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).groupName(<span class="hljs-string">&quot;C&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>实体类配置。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ApiModel(&quot;用户实体类&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br>    <span class="hljs-meta">@ApiModelProperty(&quot;姓名&quot;)</span><br>    <span class="hljs-keyword">public</span> String name;<br>    <span class="hljs-meta">@ApiModelProperty(&quot;年龄&quot;)</span><br>    <span class="hljs-keyword">public</span> Integer age;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloController</span> </span>&#123;<br>    <span class="hljs-meta">@ApiOperation(&quot;用户控制类&quot;)</span>     <span class="hljs-comment">//API 接口注释，放在方法上</span><br>    <span class="hljs-meta">@RequestMapping(path = &quot;/hello&quot;,method = RequestMethod.GET)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello&quot;</span>;<br>    &#125;<br>    <span class="hljs-comment">//只要调用的controller中存在user对象，他就会被扫描扫swagger中。</span><br>    <span class="hljs-meta">@PostMapping(&quot;/user&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">user</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> User();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211018161610774.png" alt="image-20211018161610774"></p>
-<h2 id="四、swagger的作用"><a href="#四、swagger的作用" class="headerlink" title="四、swagger的作用"></a>四、swagger的作用</h2><p>模拟前端往后端传递数据的过程。可以从前端中测试后端中的API。</p>
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211018170441331.png" alt="image-20211018170441331"></p>
-<p>当出现错误时，可以在这个swagger UI界面中显示出来。</p>
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211018170629978.png" alt="image-20211018170629978"></p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
-<li>通过swagger给一些比较难理解的属性和接口，增加注释信息。</li>
-<li>接口文档可以实时更新。</li>
-<li>可以在线测试。</li>
-</ol>
-<p>==<strong>注意点，在正式发布时，需要关闭swagger，处于安全考虑，并且节省内存。</strong>==</p>
-]]></content>
-      <categories>
-        <category>前后端交互</category>
-      </categories>
-      <tags>
-        <tag>微服务</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Ambari</title>
     <url>/2021/12/04/Ambari/</url>
     <content><![CDATA[<p>Ambari是hadoop分布式集群配置管理工具；从Ambari 的作用来说，就是<strong>创建、管理、监视 Hadoop 的集群</strong>，但是这里的 Hadoop 是广义，指的是 Hadoop 整个生态圈(例如 Hive数据仓库，Hbase数据库，Sqoop，Zookeeper 等)，而并不仅是特指 Hadoop。用一句话来说，Ambari 就是为了让 Hadoop 以及相关的大数据软件更容易使用的一个工具。</p>
@@ -246,61 +166,83 @@
       </tags>
   </entry>
   <entry>
-    <title>Java数据库连接：JDBC</title>
-    <url>/2021/11/15/Java%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%EF%BC%9AJDBC/</url>
-    <content><![CDATA[<p>Java数据库连接，（Java Database Connectivity，简称JDBC）是<a href="https://baike.baidu.com/item/Java%E8%AF%AD%E8%A8%80">Java语言</a>中用来规范客户端程序如何来访问数据库的<a href="https://baike.baidu.com/item/%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%8E%A5%E5%8F%A3/10418844">应用程序接口</a>，提供了诸如查询和更新数据库中数据的方法。JDBC也是Sun Microsystems的商标。我们通常说的JDBC是面向关系型数据库的。</p>
+    <title>API接口文档管理工具：Swagger</title>
+    <url>/2021/11/15/API%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%EF%BC%9ASwagger/</url>
+    <content><![CDATA[<p>Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法，参数和模型紧密集成到服务器端的代码，允许API来始终保持同步。</p>
 <span id="more"></span>
 
-<h1 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h1><p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602153446084.png" alt="image-20210602153446084"></p>
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602153529380.png" alt="image-20210602153529380"></p>
-<h1 id="1-JDBC入门"><a href="#1-JDBC入门" class="headerlink" title="1.JDBC入门"></a>1.JDBC入门</h1><p>什么是JDBC:</p>
+<h1 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a>Swagger</h1><p>分组开发工具，可以设置不同的组（Docket.groupname），每个组负责开发不同的功能模块。</p>
+<p>前端可视化后端API接口（实时更新），可以对controller进行测试。</p>
 <ul>
-<li>java数据库连接，</li>
-<li>让java通过程序连接关系型数据库，</li>
-<li>JDBC基于驱动程序实现与数据库的连接和操作</li>
+<li>号称世界上最流行的API框架；</li>
+<li>RestFul API文档在线自动生成工具=》API文档域API自动更新。</li>
+<li>直接运行，可以在线测试API接口。</li>
+<li>支持多种语言。</li>
 </ul>
-<p>JDBC驱动程序</p>
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602155933307.png" alt="image-20210602155933307"></p>
-<p>JDBC提出了一个标准，相应的数据库程序提供实现。</p>
-<p>优点：</p>
+<h2 id="一、在项目中使用Swagger"><a href="#一、在项目中使用Swagger" class="headerlink" title="一、在项目中使用Swagger"></a>一、在项目中使用Swagger</h2><p>需要springbox；</p>
 <ul>
-<li>统一的API，提供一致的开发过程。</li>
-<li>易于上手，容易上手，代码结构稳定</li>
-<li>功能强大，执行效率高，可以处理海量数据。</li>
+<li>swagger2</li>
+<li>ui</li>
 </ul>
-<h1 id="2-JDBC开发流程"><a href="#2-JDBC开发流程" class="headerlink" title="2.JDBC开发流程"></a>2.JDBC开发流程</h1><p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602160414913.png" alt="image-20210602160414913"></p>
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602173544564.png" alt="image-20210602173544564"></p>
-<h1 id="3-JDBC代码实现"><a href="#3-JDBC代码实现" class="headerlink" title="3.JDBC代码实现"></a>3.JDBC代码实现</h1><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">()</span> </span>&#123;<br>    <br>        Connection conn = <span class="hljs-keyword">null</span>;<br>        Statement stmt = <span class="hljs-keyword">null</span>;<br>        ResultSet rs = <span class="hljs-keyword">null</span>;<br><br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">// 1.加载注册驱动</span><br>            Class.forName(<span class="hljs-string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);<br>            <span class="hljs-comment">// 2.创建数据库连接</span><br>            String url = <span class="hljs-string">&quot;jdbc:mysql://localhost:3307/db_cy?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimerzone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true&quot;</span>;<br>            conn = DriverManager.getConnection(url,<span class="hljs-string">&quot;root&quot;</span>,<span class="hljs-string">&quot;123456&quot;</span>);<br>            <span class="hljs-comment">// 3.创建Statement对象</span><br>            stmt = conn.createStatement();<br>            <span class="hljs-comment">// 结果集</span><br>            rs = stmt.executeQuery(<span class="hljs-string">&quot;select * from counterdetail&quot;</span>);<br>            <span class="hljs-comment">// 4.遍历查询结果</span><br>            <span class="hljs-keyword">while</span> (rs.next())&#123;<br>                Integer id = rs.getInt(<span class="hljs-number">1</span>);         <span class="hljs-comment">// JDBC中字段的索引是从1开始的，不是0</span><br>                Integer ccounterid = rs.getInt(<span class="hljs-number">2</span>);<br>                String cfoodname = rs.getString(<span class="hljs-number">3</span>);<br>                String cnumber = rs.getString(<span class="hljs-number">4</span>);<br>                Integer cprive = rs.getInt(<span class="hljs-number">5</span>);<br>                System.out.println(id+<span class="hljs-string">&quot;-&quot;</span>+ccounterid+<span class="hljs-string">&quot;-&quot;</span>+cfoodname+<span class="hljs-string">&quot;-&quot;</span>+cnumber+<span class="hljs-string">&quot;-&quot;</span>+cprive);<br>            &#125;<br><br>        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;<br>            e.printStackTrace();<br>        &#125; <span class="hljs-keyword">catch</span> (SQLException throwables) &#123;<br>            throwables.printStackTrace();<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            <span class="hljs-comment">// 5.关闭连接，释放资源</span><br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">if</span> (rs!=<span class="hljs-keyword">null</span>)&#123;<br>                    rs.close();<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (SQLException throwables) &#123;<br>                throwables.printStackTrace();<br>            &#125;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">if</span> (conn!=<span class="hljs-keyword">null</span>)&#123;<br>                    conn.close();<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (SQLException throwables) &#123;<br>                throwables.printStackTrace();<br>            &#125;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">if</span>(stmt!=<span class="hljs-keyword">null</span>&amp;&amp;!conn.isClosed())&#123;<br>                    stmt.close();<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (SQLException throwables) &#123;<br>                throwables.printStackTrace();<br>            &#125;<br><br><br>        &#125;<br></code></pre></td></tr></table></figure>
+<h2 id="二、在SpringBoot中集成swagger"><a href="#二、在SpringBoot中集成swagger" class="headerlink" title="二、在SpringBoot中集成swagger"></a>二、在SpringBoot中集成swagger</h2><h3 id="1-新建项目"><a href="#1-新建项目" class="headerlink" title="1.新建项目"></a>1.新建项目</h3><h3 id="2-导入依赖"><a href="#2-导入依赖" class="headerlink" title="2.导入依赖"></a>2.导入依赖</h3><figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.springfox<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.9.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br><span class="hljs-comment">&lt;!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.springfox<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springfox-swagger2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.9.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><br><br></code></pre></td></tr></table></figure>
 
-<h1 id="4-JDBC的两种事务模型"><a href="#4-JDBC的两种事务模型" class="headerlink" title="4.JDBC的两种事务模型"></a>4.JDBC的两种事务模型</h1><ul>
-<li><p>自动提交事务模式：默认模式，没执行一次写操作SQL，自动提交事务。</p>
-<p>conn.setAutoCommit(true)。无法保证数据一致性。</p>
-</li>
-</ul>
-<ul>
-<li>手动提交事务模式：</li>
-</ul>
-<p>显示调用commit()he rollback()</p>
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210607210239674.png" alt="image-20210607210239674"></p>
-<h1 id="5-Date日期对象处理"><a href="#5-Date日期对象处理" class="headerlink" title="5.Date日期对象处理"></a>5.Date日期对象处理</h1><p>JDBC 中获取到的日期使用java.sql.Date，其继承自java.util.Date。所以二者可以兼容</p>
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210608105317030.png" alt="image-20210608105317030"></p>
-<h1 id="6-连接池和JDBC"><a href="#6-连接池和JDBC" class="headerlink" title="6.连接池和JDBC"></a>6.连接池和JDBC</h1><p>什么是连接池？</p>
-<p>数据库连接是一种关键的有限的昂贵的资源,这一点在多用户的网页应用程序中体现的尤为突出.对数据库连接的管理能显著影响到整个应用程序的伸缩性和健壮性,影响到程序的性能指标.数据库连接池正式针对这个问题提出来的.数据库连接池负责分配,管理和释放数据库连接,它允许应用程序重复使用一个现有的数据库连接,而不是重新建立一个</p>
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/20190214093729228.png" alt="img"></p>
-<p>连接池产品：</p>
-<p>阿里巴巴Druid连接池</p>
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210608111547280.png" alt="image-20210608111547280"></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">driverClassName = com.mysql.cj.jdbc.Driver<br>url = jdbc:mysql:<span class="hljs-comment">//localhost:3307/db_cy?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT&amp;allowPublicKeyRetrieval=true</span><br>username = root<br>password = <span class="hljs-number">123456</span><br>initialSize = <span class="hljs-number">20</span><br>maxActive = <span class="hljs-number">20</span><br></code></pre></td></tr></table></figure>
 
-<p>把initialSize和maxActive设置为相等，目的就是一开始就给系统分配好资源，避免出现重新分配资源的情况。</p>
-<p>c3p0连接池：</p>
-<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210608151633616.png" alt="image-20210608151633616"></p>
+
+<h3 id="3-编写hello工程。"><a href="#3-编写hello工程。" class="headerlink" title="3.编写hello工程。"></a>3.编写hello工程。</h3><h3 id="4-集成swagger-》config"><a href="#4-集成swagger-》config" class="headerlink" title="4.集成swagger==》config"></a>4.集成swagger==》config</h3><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;<br><span class="hljs-keyword">import</span> springfox.documentation.swagger2.annotations.EnableSwagger2;<br><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableSwagger2</span>         <span class="hljs-comment">//开启swagger2</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerConfig</span> </span>&#123;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="5-访问网址："><a href="#5-访问网址：" class="headerlink" title="5.访问网址："></a>5.访问网址：</h3><p><a href="http://localhost:8080/swagger-ui.html">http://localhost:8080/swagger-ui.html</a></p>
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211018110821946.png" alt="image-20211018110821946"></p>
+<h2 id="三、配置swagger"><a href="#三、配置swagger" class="headerlink" title="三、配置swagger"></a>三、配置swagger</h2><h3 id="swagger的bean实例Docket："><a href="#swagger的bean实例Docket：" class="headerlink" title="swagger的bean实例Docket："></a>swagger的bean实例Docket：</h3><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableSwagger2</span>         <span class="hljs-comment">//开启swagger2</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerConfig</span> </span>&#123;<br>    <span class="hljs-comment">//配置swagger的Docket bean实例。</span><br><br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">docket</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo());<br>    &#125;<br>    <span class="hljs-comment">//配置swagger信息=apiInfo</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> ApiInfo <span class="hljs-title">apiInfo</span><span class="hljs-params">()</span></span>&#123;<br>        Contact contact = <span class="hljs-keyword">new</span> Contact(<span class="hljs-string">&quot;李文凯&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;li17669498364@163.com&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ApiInfo(<span class="hljs-string">&quot;李文凯的swaggerAPI文档&quot;</span>,<br>                <span class="hljs-string">&quot;加油，冲刺&quot;</span>,<br>                <span class="hljs-string">&quot;1.0&quot;</span>,<br>                <span class="hljs-string">&quot;urn:tos&quot;</span>,<br>                contact,<br>                <span class="hljs-string">&quot;Apache 2.0&quot;</span>,<br>                <span class="hljs-string">&quot;http://www.apache.org/licenses/LICENSE-2.0&quot;</span>,<br>                <span class="hljs-keyword">new</span> ArrayList());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211018112506760.png" alt="image-20211018112506760"></p>
+<h3 id="Swagger配置扫描接口"><a href="#Swagger配置扫描接口" class="headerlink" title="Swagger配置扫描接口"></a>Swagger配置扫描接口</h3><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">docket</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).<br>            apiInfo(apiInfo())<br>            .select()<br>            <span class="hljs-comment">//配置要扫描接口的方式</span><br>            <span class="hljs-comment">//basePackage：指定要扫描的包。</span><br>            <span class="hljs-comment">//any()：扫描全部</span><br>            <span class="hljs-comment">//none（）：不扫描</span><br>            <span class="hljs-comment">//withClassAnnotation：扫描雷伤的注解，参数是一个注解的反射对象。</span><br>            <span class="hljs-comment">//withMethodAnnotation：扫描方法上的注解</span><br>            .apis(RequestHandlerSelectors.basePackage(<span class="hljs-string">&quot;com.kai.controller&quot;</span>))<br>            <span class="hljs-comment">//paths（）。过滤什么路径</span><br>            .paths(PathSelectors.ant(<span class="hljs-string">&quot;/kai/**&quot;</span>))<br>            .build();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211018151937769.png" alt="image-20211018151937769"></p>
+<h3 id="配置自动启动config"><a href="#配置自动启动config" class="headerlink" title="配置自动启动config"></a>配置自动启动config</h3><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).<br>                apiInfo(apiInfo())<br>                <span class="hljs-comment">//swagger是否启动，如果为false，则swagger不能再浏览器中访问。</span><br>                .enable(<span class="hljs-keyword">false</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20211018152317499.png" alt="image-20211018152317499"></p>
+<h3 id="需求：在生产环境有使用swagger自动启动，在运行环境中不使用。"><a href="#需求：在生产环境有使用swagger自动启动，在运行环境中不使用。" class="headerlink" title="需求：在生产环境有使用swagger自动启动，在运行环境中不使用。"></a>需求：在生产环境有使用swagger自动启动，在运行环境中不使用。</h3><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableSwagger2</span>         <span class="hljs-comment">//开启swagger2</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerConfig</span> </span>&#123;<br>    <span class="hljs-comment">//配置swagger的Docket bean实例。</span><br><br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">docket</span><span class="hljs-params">(Environment environment)</span></span>&#123;<br><br>        <span class="hljs-comment">//设置要显示的swagger环境。</span><br>        Profiles profiles = Profiles.of(<span class="hljs-string">&quot;dev&quot;</span>,<span class="hljs-string">&quot;test&quot;</span>);<br>        <span class="hljs-comment">//通过environment.acceptsProfiles判断是否处在自己设定的环境中。</span><br>        <span class="hljs-keyword">boolean</span> flag = environment.acceptsProfiles(profiles);<br>        System.out.println(flag);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).<br>                apiInfo(apiInfo())<br>                <span class="hljs-comment">//swagger是否启动，如果为false，则swagger不能再浏览器中访问。</span><br>                .enable(flag)<br>                .select()<br>                <span class="hljs-comment">//配置要扫描接口的方式</span><br>                <span class="hljs-comment">//basePackage：指定要扫描的包。</span><br>                <span class="hljs-comment">//any()：扫描全部</span><br>                <span class="hljs-comment">//none（）：不扫描</span><br>                <span class="hljs-comment">//withClassAnnotation：扫描雷伤的注解，参数是一个注解的反射对象。</span><br>                <span class="hljs-comment">//withMethodAnnotation：扫描方法上的注解</span><br>                .apis(RequestHandlerSelectors.basePackage(<span class="hljs-string">&quot;com.kai.controller&quot;</span>))<br>                <span class="hljs-comment">//paths（）。过滤什么路径</span><br><span class="hljs-comment">//                .paths(PathSelectors.ant(&quot;/kai/**&quot;))</span><br>                .build();<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="配置API文档分组"><a href="#配置API文档分组" class="headerlink" title="配置API文档分组"></a>配置API文档分组</h3><p>配置一个组。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).<br>        apiInfo(apiInfo())<br>        .groupName(<span class="hljs-string">&quot;Liwenkai&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<p>配置多个组</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//多个docket分组</span><br><span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">docket1</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).groupName(<span class="hljs-string">&quot;A&quot;</span>);<br>&#125;<br><span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">docket2</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).groupName(<span class="hljs-string">&quot;B&quot;</span>);<br>&#125;<br><span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">docket3</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2).groupName(<span class="hljs-string">&quot;C&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>实体类配置。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ApiModel(&quot;用户实体类&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br>    <span class="hljs-meta">@ApiModelProperty(&quot;姓名&quot;)</span><br>    <span class="hljs-keyword">public</span> String name;<br>    <span class="hljs-meta">@ApiModelProperty(&quot;年龄&quot;)</span><br>    <span class="hljs-keyword">public</span> Integer age;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloController</span> </span>&#123;<br>    <span class="hljs-meta">@ApiOperation(&quot;用户控制类&quot;)</span>     <span class="hljs-comment">//API 接口注释，放在方法上</span><br>    <span class="hljs-meta">@RequestMapping(path = &quot;/hello&quot;,method = RequestMethod.GET)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello&quot;</span>;<br>    &#125;<br>    <span class="hljs-comment">//只要调用的controller中存在user对象，他就会被扫描扫swagger中。</span><br>    <span class="hljs-meta">@PostMapping(&quot;/user&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">user</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> User();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211018161610774.png" alt="image-20211018161610774"></p>
+<h2 id="四、swagger的作用"><a href="#四、swagger的作用" class="headerlink" title="四、swagger的作用"></a>四、swagger的作用</h2><p>模拟前端往后端传递数据的过程。可以从前端中测试后端中的API。</p>
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211018170441331.png" alt="image-20211018170441331"></p>
+<p>当出现错误时，可以在这个swagger UI界面中显示出来。</p>
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211018170629978.png" alt="image-20211018170629978"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>通过swagger给一些比较难理解的属性和接口，增加注释信息。</li>
+<li>接口文档可以实时更新。</li>
+<li>可以在线测试。</li>
+</ol>
+<p>==<strong>注意点，在正式发布时，需要关闭swagger，处于安全考虑，并且节省内存。</strong>==</p>
 ]]></content>
       <categories>
-        <category>数据库</category>
+        <category>前后端交互</category>
       </categories>
       <tags>
-        <tag>JDBC</tag>
+        <tag>微服务</tag>
       </tags>
   </entry>
   <entry>
@@ -391,6 +333,109 @@
 ]]></content>
       <tags>
         <tag>云计算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java数据库连接：JDBC</title>
+    <url>/2021/11/15/Java%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%EF%BC%9AJDBC/</url>
+    <content><![CDATA[<p>Java数据库连接，（Java Database Connectivity，简称JDBC）是<a href="https://baike.baidu.com/item/Java%E8%AF%AD%E8%A8%80">Java语言</a>中用来规范客户端程序如何来访问数据库的<a href="https://baike.baidu.com/item/%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%8E%A5%E5%8F%A3/10418844">应用程序接口</a>，提供了诸如查询和更新数据库中数据的方法。JDBC也是Sun Microsystems的商标。我们通常说的JDBC是面向关系型数据库的。</p>
+<span id="more"></span>
+
+<h1 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h1><p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602153446084.png" alt="image-20210602153446084"></p>
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602153529380.png" alt="image-20210602153529380"></p>
+<h1 id="1-JDBC入门"><a href="#1-JDBC入门" class="headerlink" title="1.JDBC入门"></a>1.JDBC入门</h1><p>什么是JDBC:</p>
+<ul>
+<li>java数据库连接，</li>
+<li>让java通过程序连接关系型数据库，</li>
+<li>JDBC基于驱动程序实现与数据库的连接和操作</li>
+</ul>
+<p>JDBC驱动程序</p>
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602155933307.png" alt="image-20210602155933307"></p>
+<p>JDBC提出了一个标准，相应的数据库程序提供实现。</p>
+<p>优点：</p>
+<ul>
+<li>统一的API，提供一致的开发过程。</li>
+<li>易于上手，容易上手，代码结构稳定</li>
+<li>功能强大，执行效率高，可以处理海量数据。</li>
+</ul>
+<h1 id="2-JDBC开发流程"><a href="#2-JDBC开发流程" class="headerlink" title="2.JDBC开发流程"></a>2.JDBC开发流程</h1><p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602160414913.png" alt="image-20210602160414913"></p>
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602173544564.png" alt="image-20210602173544564"></p>
+<h1 id="3-JDBC代码实现"><a href="#3-JDBC代码实现" class="headerlink" title="3.JDBC代码实现"></a>3.JDBC代码实现</h1><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">()</span> </span>&#123;<br>    <br>        Connection conn = <span class="hljs-keyword">null</span>;<br>        Statement stmt = <span class="hljs-keyword">null</span>;<br>        ResultSet rs = <span class="hljs-keyword">null</span>;<br><br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">// 1.加载注册驱动</span><br>            Class.forName(<span class="hljs-string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);<br>            <span class="hljs-comment">// 2.创建数据库连接</span><br>            String url = <span class="hljs-string">&quot;jdbc:mysql://localhost:3307/db_cy?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimerzone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true&quot;</span>;<br>            conn = DriverManager.getConnection(url,<span class="hljs-string">&quot;root&quot;</span>,<span class="hljs-string">&quot;123456&quot;</span>);<br>            <span class="hljs-comment">// 3.创建Statement对象</span><br>            stmt = conn.createStatement();<br>            <span class="hljs-comment">// 结果集</span><br>            rs = stmt.executeQuery(<span class="hljs-string">&quot;select * from counterdetail&quot;</span>);<br>            <span class="hljs-comment">// 4.遍历查询结果</span><br>            <span class="hljs-keyword">while</span> (rs.next())&#123;<br>                Integer id = rs.getInt(<span class="hljs-number">1</span>);         <span class="hljs-comment">// JDBC中字段的索引是从1开始的，不是0</span><br>                Integer ccounterid = rs.getInt(<span class="hljs-number">2</span>);<br>                String cfoodname = rs.getString(<span class="hljs-number">3</span>);<br>                String cnumber = rs.getString(<span class="hljs-number">4</span>);<br>                Integer cprive = rs.getInt(<span class="hljs-number">5</span>);<br>                System.out.println(id+<span class="hljs-string">&quot;-&quot;</span>+ccounterid+<span class="hljs-string">&quot;-&quot;</span>+cfoodname+<span class="hljs-string">&quot;-&quot;</span>+cnumber+<span class="hljs-string">&quot;-&quot;</span>+cprive);<br>            &#125;<br><br>        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;<br>            e.printStackTrace();<br>        &#125; <span class="hljs-keyword">catch</span> (SQLException throwables) &#123;<br>            throwables.printStackTrace();<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            <span class="hljs-comment">// 5.关闭连接，释放资源</span><br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">if</span> (rs!=<span class="hljs-keyword">null</span>)&#123;<br>                    rs.close();<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (SQLException throwables) &#123;<br>                throwables.printStackTrace();<br>            &#125;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">if</span> (conn!=<span class="hljs-keyword">null</span>)&#123;<br>                    conn.close();<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (SQLException throwables) &#123;<br>                throwables.printStackTrace();<br>            &#125;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">if</span>(stmt!=<span class="hljs-keyword">null</span>&amp;&amp;!conn.isClosed())&#123;<br>                    stmt.close();<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (SQLException throwables) &#123;<br>                throwables.printStackTrace();<br>            &#125;<br><br><br>        &#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="4-JDBC的两种事务模型"><a href="#4-JDBC的两种事务模型" class="headerlink" title="4.JDBC的两种事务模型"></a>4.JDBC的两种事务模型</h1><ul>
+<li><p>自动提交事务模式：默认模式，没执行一次写操作SQL，自动提交事务。</p>
+<p>conn.setAutoCommit(true)。无法保证数据一致性。</p>
+</li>
+</ul>
+<ul>
+<li>手动提交事务模式：</li>
+</ul>
+<p>显示调用commit()he rollback()</p>
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210607210239674.png" alt="image-20210607210239674"></p>
+<h1 id="5-Date日期对象处理"><a href="#5-Date日期对象处理" class="headerlink" title="5.Date日期对象处理"></a>5.Date日期对象处理</h1><p>JDBC 中获取到的日期使用java.sql.Date，其继承自java.util.Date。所以二者可以兼容</p>
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210608105317030.png" alt="image-20210608105317030"></p>
+<h1 id="6-连接池和JDBC"><a href="#6-连接池和JDBC" class="headerlink" title="6.连接池和JDBC"></a>6.连接池和JDBC</h1><p>什么是连接池？</p>
+<p>数据库连接是一种关键的有限的昂贵的资源,这一点在多用户的网页应用程序中体现的尤为突出.对数据库连接的管理能显著影响到整个应用程序的伸缩性和健壮性,影响到程序的性能指标.数据库连接池正式针对这个问题提出来的.数据库连接池负责分配,管理和释放数据库连接,它允许应用程序重复使用一个现有的数据库连接,而不是重新建立一个</p>
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/20190214093729228.png" alt="img"></p>
+<p>连接池产品：</p>
+<p>阿里巴巴Druid连接池</p>
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210608111547280.png" alt="image-20210608111547280"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">driverClassName = com.mysql.cj.jdbc.Driver<br>url = jdbc:mysql:<span class="hljs-comment">//localhost:3307/db_cy?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=GMT&amp;allowPublicKeyRetrieval=true</span><br>username = root<br>password = <span class="hljs-number">123456</span><br>initialSize = <span class="hljs-number">20</span><br>maxActive = <span class="hljs-number">20</span><br></code></pre></td></tr></table></figure>
+
+<p>把initialSize和maxActive设置为相等，目的就是一开始就给系统分配好资源，避免出现重新分配资源的情况。</p>
+<p>c3p0连接池：</p>
+<p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210608151633616.png" alt="image-20210608151633616"></p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>JDBC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux常用命令</title>
+    <url>/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>记录工作学习中遇到的Linux命令。</p>
+<span id="more"></span>
+
+<h1 id="Linux命令"><a href="#Linux命令" class="headerlink" title="Linux命令"></a>Linux命令</h1><h2 id="字符串相关操作"><a href="#字符串相关操作" class="headerlink" title="字符串相关操作"></a>字符串相关操作</h2><figure class="highlight vim"><table><tr><td class="code"><pre><code class="hljs vim"><span class="hljs-number">1</span>.<span class="hljs-keyword">grep</span>         字符串查找（过滤）              例如： glance image-<span class="hljs-keyword">list</span> | <span class="hljs-keyword">grep</span> redis<br><br><span class="hljs-number">2</span>.sed          字符串替换                          文件名 | sed <span class="hljs-string">&#x27;s/要被取代的字串/新的字串/g&#x27;</span><br><br><span class="hljs-number">3</span>.awk          字符串分割                          <br>每行按空格或TAB分割，输出文本中的<span class="hljs-number">1</span>、<span class="hljs-number">4</span>项    awk <span class="hljs-string">&#x27;&#123;print $1,$4&#125;&#x27;</span> test.txt<br><br><span class="hljs-number">4</span>.yum  提供查找、安装和删除软件<br>yum [<span class="hljs-keyword">options</span>] [<span class="hljs-keyword">command</span>] [package ...]         yum  操作  命令  安装的包名<br>http<span class="hljs-variable">s:</span>//www.runoob.<span class="hljs-keyword">com</span>/linux/linux-yum.html<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.添加新的用户<br>useradd 选项 用户名<br><br><span class="hljs-number">2</span>.删除用户   -r把当前用户下的目录一起删除<br>userdel -r sam<br><br><span class="hljs-number">3</span>.修改用户<br>usermod 选项 用户名<br><br><span class="hljs-number">4</span>.修改密码<br>passwd 选项 用户名<br><br><span class="hljs-number">5</span>.查看test所在的用户组<br>groups test<br><br><span class="hljs-number">6</span>.创建用户组<br>groupadd group_name<br>删除<br>groupdel<br>修改<br>groupmod<br><br><span class="hljs-number">7</span>.查看用户登录日志<br>last<br><br><span class="hljs-number">8</span>.查看系统中的所有用户<br>cut -d: -f1 <span class="hljs-regexp">/etc/</span>passwd<br><br><span class="hljs-number">9</span>.查看系统所有的组<br>cut -d: -f1 <span class="hljs-regexp">/etc/g</span>roup<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="系统相关操作"><a href="#系统相关操作" class="headerlink" title="系统相关操作"></a>系统相关操作</h2><figure class="highlight tcl"><table><tr><td class="code"><pre><code class="hljs tcl"><span class="hljs-number">1.</span>查看Linux版本信息<br>cat /<span class="hljs-keyword">proc</span>/version<br><br>2.cpu信息<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/cpuinfo<br><br>3.查看中断<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/interrupts<br><br>4.查看负载<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/loadavg<br><br>5.环境变量<span class="hljs-title"></span><br><span class="hljs-title">env</span><br><br>6.查看系统运⾏时间、⽤户数、负载<span class="hljs-title"></span><br><span class="hljs-title">uptime</span><br><br>7.查看内存容量、空闲内存量<span class="hljs-title"></span><br><span class="hljs-title">gerp</span> MenTotal /<span class="hljs-keyword">proc</span>/meninfo<span class="hljs-title"></span><br><span class="hljs-title">gerp</span> MenFree /<span class="hljs-keyword">proc</span>/meninfo<br><br>8.查看进程<span class="hljs-title"></span><br><span class="hljs-title">top</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="磁盘相关"><a href="#磁盘相关" class="headerlink" title="磁盘相关"></a>磁盘相关</h2><figure class="highlight stata"><table><tr><td class="code"><pre><code class="hljs stata">1.查看磁盘使用情况<br>df -<span class="hljs-keyword">h</span><br><br>2.查看某个目录的使用情况<br>du -<span class="hljs-keyword">sh</span> /<span class="hljs-keyword">dir</span><br><br>3.查看所有的磁盘分区<br>fdisk -<span class="hljs-keyword">l</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><code class="hljs applescript"><span class="hljs-number">1.</span>查看所有进程<br>ps -ef<br><br><span class="hljs-number">2.</span>杀死进程<br>kill -s <span class="hljs-built_in">name</span>/<span class="hljs-built_in">id</span><br><br><span class="hljs-number">3.</span>实时查看进程状态<br>top<br></code></pre></td></tr></table></figure>
+
+<h2 id="系统服务"><a href="#系统服务" class="headerlink" title="系统服务"></a>系统服务</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><code class="hljs pgsql"><span class="hljs-number">1.</span>列出服务列表<br>chkconfig <span class="hljs-comment">--list</span><br><br><span class="hljs-number">2.</span>服务相关操作<br>service &lt;服务名&gt; &lt;操作&gt;<br>systemctl &lt;操作&gt; &lt;服务名&gt;<br><br>操作包括：<br>status ： 状态<br><span class="hljs-keyword">start</span>  ： 开启<br>stop   ： 关闭<br><span class="hljs-keyword">restart</span>： 重启<br><span class="hljs-keyword">enable</span> ： 开启自启动<br><span class="hljs-keyword">disable</span>： 关闭自启动<br></code></pre></td></tr></table></figure>
+
+<h2 id="文件和目录操作"><a href="#文件和目录操作" class="headerlink" title="文件和目录操作"></a>文件和目录操作</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.新建文件夹<br><span class="hljs-attribute">mkdir</span> fileName<br><br><span class="hljs-attribute">2</span>.删除文件名<br><span class="hljs-attribute">rm</span> -f fileName<br><br><span class="hljs-attribute">3</span>.目录操作<br><span class="hljs-attribute">mv</span>         重命名、移动文件夹<br><br><span class="hljs-attribute">cp</span>         复制文件<br><br><span class="hljs-attribute">find</span>       查找                     find / -name file<span class="hljs-number">1</span>    从根目录开始搜索文件<br><br><span class="hljs-attribute">cat</span>        文件查看<br><br><span class="hljs-attribute">vi</span>|vim     文件修改           i：插入模式      esc：退出到命令模式      ：wq   保存退出<br><br><span class="hljs-attribute">4</span>.查看文件前两行<br><span class="hljs-attribute">head</span> -<span class="hljs-number">2</span> filename       <br><br><span class="hljs-attribute">5</span>.查看文件后两行<br><span class="hljs-attribute">tail</span> -<span class="hljs-number">2</span> filename       <br><br><span class="hljs-attribute">6</span>.将hello.txt⽂件中的s<span class="hljs-number">1</span>替换成s<span class="hljs-number">2</span><br><span class="hljs-attribute">sed</span> &#x27;s/s<span class="hljs-number">1</span>/s<span class="hljs-number">2</span>/g&#x27; hello.txt<br><br><span class="hljs-attribute">7</span>.合并文件夹<br><span class="hljs-attribute">paste</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span> <br><br><span class="hljs-attribute">8</span>.比较两个文件之间的内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">1</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除文件<span class="hljs-number">1</span>中的所有内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">2</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除文件<span class="hljs-number">2</span>中的所有内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">3</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除两个文件共有的部分<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="打包和压缩"><a href="#打包和压缩" class="headerlink" title="打包和压缩"></a>打包和压缩</h2><figure class="highlight stata"><table><tr><td class="code"><pre><code class="hljs stata">1.<span class="hljs-keyword">zip</span>打包，解压<br><span class="hljs-keyword">zip</span>  unzip<br><br>2.tar<br>tar -cvf xxx.tar <span class="hljs-keyword">file</span>     创建压缩文件<br>tar -xvf xxx.tar          解压<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="yum包管理"><a href="#yum包管理" class="headerlink" title="yum包管理"></a>yum包管理</h2><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211222110156561.png" style="zoom:150%;" />
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -531,71 +576,6 @@
       <tags>
         <tag>云计算</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Linux常用命令</title>
-    <url>/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>记录工作学习中遇到的Linux命令。</p>
-<span id="more"></span>
-
-<h1 id="Linux命令"><a href="#Linux命令" class="headerlink" title="Linux命令"></a>Linux命令</h1><h2 id="字符串相关操作"><a href="#字符串相关操作" class="headerlink" title="字符串相关操作"></a>字符串相关操作</h2><figure class="highlight vim"><table><tr><td class="code"><pre><code class="hljs vim"><span class="hljs-number">1</span>.<span class="hljs-keyword">grep</span>         字符串查找（过滤）              例如： glance image-<span class="hljs-keyword">list</span> | <span class="hljs-keyword">grep</span> redis<br><br><span class="hljs-number">2</span>.sed          字符串替换                          文件名 | sed <span class="hljs-string">&#x27;s/要被取代的字串/新的字串/g&#x27;</span><br><br><span class="hljs-number">3</span>.awk          字符串分割                          <br>每行按空格或TAB分割，输出文本中的<span class="hljs-number">1</span>、<span class="hljs-number">4</span>项    awk <span class="hljs-string">&#x27;&#123;print $1,$4&#125;&#x27;</span> test.txt<br><br><span class="hljs-number">4</span>.yum  提供查找、安装和删除软件<br>yum [<span class="hljs-keyword">options</span>] [<span class="hljs-keyword">command</span>] [package ...]         yum  操作  命令  安装的包名<br>http<span class="hljs-variable">s:</span>//www.runoob.<span class="hljs-keyword">com</span>/linux/linux-yum.html<br><br></code></pre></td></tr></table></figure>
-
-<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.添加新的用户<br>useradd 选项 用户名<br><br><span class="hljs-number">2</span>.删除用户   -r把当前用户下的目录一起删除<br>userdel -r sam<br><br><span class="hljs-number">3</span>.修改用户<br>usermod 选项 用户名<br><br><span class="hljs-number">4</span>.修改密码<br>passwd 选项 用户名<br><br><span class="hljs-number">5</span>.查看test所在的用户组<br>groups test<br><br><span class="hljs-number">6</span>.创建用户组<br>groupadd group_name<br>删除<br>groupdel<br>修改<br>groupmod<br><br><span class="hljs-number">7</span>.查看用户登录日志<br>last<br><br><span class="hljs-number">8</span>.查看系统中的所有用户<br>cut -d: -f1 <span class="hljs-regexp">/etc/</span>passwd<br><br><span class="hljs-number">9</span>.查看系统所有的组<br>cut -d: -f1 <span class="hljs-regexp">/etc/g</span>roup<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="系统相关操作"><a href="#系统相关操作" class="headerlink" title="系统相关操作"></a>系统相关操作</h2><figure class="highlight tcl"><table><tr><td class="code"><pre><code class="hljs tcl"><span class="hljs-number">1.</span>查看Linux版本信息<br>cat /<span class="hljs-keyword">proc</span>/version<br><br>2.cpu信息<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/cpuinfo<br><br>3.查看中断<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/interrupts<br><br>4.查看负载<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/loadavg<br><br>5.环境变量<span class="hljs-title"></span><br><span class="hljs-title">env</span><br><br>6.查看系统运⾏时间、⽤户数、负载<span class="hljs-title"></span><br><span class="hljs-title">uptime</span><br><br>7.查看内存容量、空闲内存量<span class="hljs-title"></span><br><span class="hljs-title">gerp</span> MenTotal /<span class="hljs-keyword">proc</span>/meninfo<span class="hljs-title"></span><br><span class="hljs-title">gerp</span> MenFree /<span class="hljs-keyword">proc</span>/meninfo<br><br>8.查看进程<span class="hljs-title"></span><br><span class="hljs-title">top</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="磁盘相关"><a href="#磁盘相关" class="headerlink" title="磁盘相关"></a>磁盘相关</h2><figure class="highlight stata"><table><tr><td class="code"><pre><code class="hljs stata">1.查看磁盘使用情况<br>df -<span class="hljs-keyword">h</span><br><br>2.查看某个目录的使用情况<br>du -<span class="hljs-keyword">sh</span> /<span class="hljs-keyword">dir</span><br><br>3.查看所有的磁盘分区<br>fdisk -<span class="hljs-keyword">l</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><code class="hljs applescript"><span class="hljs-number">1.</span>查看所有进程<br>ps -ef<br><br><span class="hljs-number">2.</span>杀死进程<br>kill -s <span class="hljs-built_in">name</span>/<span class="hljs-built_in">id</span><br><br><span class="hljs-number">3.</span>实时查看进程状态<br>top<br></code></pre></td></tr></table></figure>
-
-<h2 id="系统服务"><a href="#系统服务" class="headerlink" title="系统服务"></a>系统服务</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><code class="hljs pgsql"><span class="hljs-number">1.</span>列出服务列表<br>chkconfig <span class="hljs-comment">--list</span><br><br><span class="hljs-number">2.</span>服务相关操作<br>service &lt;服务名&gt; &lt;操作&gt;<br>systemctl &lt;操作&gt; &lt;服务名&gt;<br><br>操作包括：<br>status ： 状态<br><span class="hljs-keyword">start</span>  ： 开启<br>stop   ： 关闭<br><span class="hljs-keyword">restart</span>： 重启<br><span class="hljs-keyword">enable</span> ： 开启自启动<br><span class="hljs-keyword">disable</span>： 关闭自启动<br></code></pre></td></tr></table></figure>
-
-<h2 id="文件和目录操作"><a href="#文件和目录操作" class="headerlink" title="文件和目录操作"></a>文件和目录操作</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.新建文件夹<br><span class="hljs-attribute">mkdir</span> fileName<br><br><span class="hljs-attribute">2</span>.删除文件名<br><span class="hljs-attribute">rm</span> -f fileName<br><br><span class="hljs-attribute">3</span>.目录操作<br><span class="hljs-attribute">mv</span>         重命名、移动文件夹<br><br><span class="hljs-attribute">cp</span>         复制文件<br><br><span class="hljs-attribute">find</span>       查找                     find / -name file<span class="hljs-number">1</span>    从根目录开始搜索文件<br><br><span class="hljs-attribute">cat</span>        文件查看<br><br><span class="hljs-attribute">vi</span>|vim     文件修改           i：插入模式      esc：退出到命令模式      ：wq   保存退出<br><br><span class="hljs-attribute">4</span>.查看文件前两行<br><span class="hljs-attribute">head</span> -<span class="hljs-number">2</span> filename       <br><br><span class="hljs-attribute">5</span>.查看文件后两行<br><span class="hljs-attribute">tail</span> -<span class="hljs-number">2</span> filename       <br><br><span class="hljs-attribute">6</span>.将hello.txt⽂件中的s<span class="hljs-number">1</span>替换成s<span class="hljs-number">2</span><br><span class="hljs-attribute">sed</span> &#x27;s/s<span class="hljs-number">1</span>/s<span class="hljs-number">2</span>/g&#x27; hello.txt<br><br><span class="hljs-attribute">7</span>.合并文件夹<br><span class="hljs-attribute">paste</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span> <br><br><span class="hljs-attribute">8</span>.比较两个文件之间的内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">1</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除文件<span class="hljs-number">1</span>中的所有内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">2</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除文件<span class="hljs-number">2</span>中的所有内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">3</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除两个文件共有的部分<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="打包和压缩"><a href="#打包和压缩" class="headerlink" title="打包和压缩"></a>打包和压缩</h2><figure class="highlight stata"><table><tr><td class="code"><pre><code class="hljs stata">1.<span class="hljs-keyword">zip</span>打包，解压<br><span class="hljs-keyword">zip</span>  unzip<br><br>2.tar<br>tar -cvf xxx.tar <span class="hljs-keyword">file</span>     创建压缩文件<br>tar -xvf xxx.tar          解压<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="yum包管理"><a href="#yum包管理" class="headerlink" title="yum包管理"></a>yum包管理</h2><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211222110156561.png" style="zoom:150%;" />
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2021/11/14/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<span id="more"></span>
-
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
   <entry>
     <title>docker:基础篇</title>
@@ -904,6 +884,26 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2021/11/14/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>redis哨兵模式，sentinel获取master的信息</title>
     <url>/2021/12/13/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%8Csentinel%E8%8E%B7%E5%8F%96master%E7%9A%84%E4%BF%A1%E6%81%AF/</url>
     <content><![CDATA[<p>哨兵模式是主从的升级版，因为主从的出现故障后，不会自动恢复，需要人为干预，这就很蛋疼啊。</p>
@@ -988,7 +988,7 @@
 <h4 id="2-5-2-设置签名"><a href="#2-5-2-设置签名" class="headerlink" title="2.5.2.设置签名"></a>2.5.2.设置签名</h4><ul>
 <li><p>形式：</p>
 <p>用户名：liwenkai</p>
-<p>email地址：<a href="mailto:&#108;&#x69;&#x31;&#55;&#x36;&#x36;&#x39;&#x34;&#x39;&#56;&#x33;&#x36;&#52;&#64;&#49;&#x36;&#x33;&#x2e;&#99;&#x6f;&#109;">&#108;&#x69;&#x31;&#55;&#x36;&#x36;&#x39;&#x34;&#x39;&#56;&#x33;&#x36;&#52;&#64;&#49;&#x36;&#x33;&#x2e;&#99;&#x6f;&#109;</a></p>
+<p>email地址：<a href="mailto:&#108;&#x69;&#x31;&#55;&#x36;&#x36;&#57;&#52;&#x39;&#56;&#51;&#54;&#52;&#64;&#x31;&#x36;&#x33;&#46;&#99;&#111;&#x6d;">&#108;&#x69;&#x31;&#55;&#x36;&#x36;&#57;&#52;&#x39;&#56;&#51;&#54;&#52;&#64;&#x31;&#x36;&#x33;&#46;&#99;&#111;&#x6d;</a></p>
 </li>
 <li><p>作用：区分不同的开发人员的身份。</p>
 </li>
@@ -999,14 +999,14 @@
 <ul>
 <li>项目级别：仅在当前本地库范围内有效。<ul>
 <li> git config user.name liwenkai       </li>
-<li> git config user.email   <a href="mailto:&#108;&#105;&#49;&#x37;&#x36;&#54;&#x39;&#x34;&#57;&#56;&#x33;&#54;&#52;&#64;&#49;&#54;&#51;&#x2e;&#x63;&#111;&#x6d;">&#108;&#105;&#49;&#x37;&#x36;&#54;&#x39;&#x34;&#57;&#56;&#x33;&#54;&#52;&#64;&#49;&#54;&#51;&#x2e;&#x63;&#111;&#x6d;</a></li>
+<li> git config user.email   <a href="mailto:&#108;&#x69;&#x31;&#x37;&#54;&#54;&#x39;&#52;&#x39;&#x38;&#x33;&#54;&#52;&#x40;&#x31;&#54;&#51;&#x2e;&#99;&#111;&#x6d;">&#108;&#x69;&#x31;&#x37;&#54;&#54;&#x39;&#52;&#x39;&#x38;&#x33;&#54;&#52;&#x40;&#x31;&#54;&#51;&#x2e;&#99;&#111;&#x6d;</a></li>
 <li> 项目保存的位置：./.git/config</li>
 <li> <img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111150801163.png" alt="image-20211111150801163"></li>
 </ul>
 </li>
 <li>系统用户级别：登录等钱操作系统的用户范围。git config –global<ul>
 <li> git config <strong>–global</strong> user.name liwenkai       </li>
-<li> git config <strong>–global</strong> user.email   <a href="mailto:&#108;&#x69;&#x31;&#x37;&#x36;&#x36;&#x39;&#52;&#57;&#56;&#51;&#x36;&#x34;&#64;&#x31;&#54;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#108;&#x69;&#x31;&#x37;&#x36;&#x36;&#x39;&#52;&#57;&#56;&#51;&#x36;&#x34;&#64;&#x31;&#54;&#x33;&#x2e;&#x63;&#x6f;&#109;</a></li>
+<li> git config <strong>–global</strong> user.email   <a href="mailto:&#108;&#105;&#x31;&#x37;&#x36;&#x36;&#57;&#52;&#x39;&#x38;&#51;&#x36;&#52;&#64;&#49;&#x36;&#51;&#46;&#x63;&#111;&#109;">&#108;&#105;&#x31;&#x37;&#x36;&#x36;&#57;&#52;&#x39;&#x38;&#51;&#x36;&#52;&#64;&#49;&#x36;&#51;&#46;&#x63;&#111;&#109;</a></li>
 <li> 信息保存的位置：~/.gitconfig文件下</li>
 </ul>
 </li>
@@ -1198,7 +1198,7 @@
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112113310025.png" alt="image-20211112113310025"></p>
 <h2 id="4-GitHub相关"><a href="#4-GitHub相关" class="headerlink" title="4.GitHub相关"></a>4.GitHub相关</h2><p>账号注册：</p>
 <ul>
-<li>email：<a href="mailto:&#x33;&#x32;&#x39;&#49;&#50;&#57;&#x38;&#54;&#54;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;">&#x33;&#x32;&#x39;&#49;&#50;&#57;&#x38;&#54;&#54;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;</a></li>
+<li>email：<a href="mailto:&#x33;&#x32;&#x39;&#x31;&#x32;&#x39;&#x38;&#54;&#x36;&#64;&#113;&#x71;&#x2e;&#x63;&#111;&#109;">&#x33;&#x32;&#x39;&#x31;&#x32;&#x39;&#x38;&#54;&#x36;&#64;&#113;&#x71;&#x2e;&#x63;&#111;&#109;</a></li>
 <li>用户名：WenkAndZz</li>
 </ul>
 <h3 id="4-1创建本地库与远程库"><a href="#4-1创建本地库与远程库" class="headerlink" title="4.1创建本地库与远程库"></a>4.1创建本地库与远程库</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs git">创建本地库文件夹<br>mkdir [文件名]<br><br>进入本地库<br>cd [文件名]<br><br>初始化<br>git init<br><br>创建一个txt文件<br>vim [txt文件名].txt<br></code></pre></td></tr></table></figure>
@@ -1287,6 +1287,111 @@
       </categories>
       <tags>
         <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kafka</title>
+    <url>/2021/12/27/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9AKafka/</url>
+    <content><![CDATA[<p>Kafka是一个分布式的基于发布、订阅模式的消息队列（Message Queue），主要应用于大数据实时处理领域。</p>
+<span id="more"></span>
+
+<h1 id="Kafka概述"><a href="#Kafka概述" class="headerlink" title="Kafka概述"></a>Kafka概述</h1><p>Kafka是一个分布式的基于发布、订阅模式的消息队列（Message Queue），主要应用于大数据实时处理领域。</p>
+<p>中间件。常用于做消息队列，处理实时问题。例如：</p>
+<ul>
+<li>实时支付和金融交易。</li>
+<li>实时跟踪和监控汽车。</li>
+<li>监测住院病人并预测病情变化。</li>
+<li>收集客户互动信息和订单信息并作出反应。</li>
+</ul>
+<p>关键字：中间件，解耦，实时。</p>
+<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144038229.png" alt="image-20211227144038229"></p>
+<h3 id="使用消息队列的好处："><a href="#使用消息队列的好处：" class="headerlink" title="使用消息队列的好处："></a>使用消息队列的好处：</h3><p>（1）解耦</p>
+<p>（2）可恢复性：系统中的一部分失效，不会影响到整个系统。</p>
+<p>（3）缓冲：有助于控制和延缓数据流经过系统的速度，解决生产消息和消费消息处理速度不一致的情况。</p>
+<p>（4）灵活性 &amp; 峰值处理能力。</p>
+<p>（5）异步通信。</p>
+<h3 id="消息队列的两种模式："><a href="#消息队列的两种模式：" class="headerlink" title="消息队列的两种模式："></a>消息队列的两种模式：</h3><p>（1）点对点模式（<strong>一对一</strong>，消费者主动拉取数据，消息收到后消息清除）</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144055848.png" alt="image-20211227144055848"></p>
+<p>缺点：不可复用。</p>
+<p>（2）发布订阅模式（<strong>一对多</strong>，消费者消费数据之后不会清除消息）</p>
+<p>消息发布者将消息发布到topic（主题）中，同时多个消费者（订阅）消费该消息。但是topic中的消息是有一个过期时间的。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144107611.png" alt="image-20211227144107611"></p>
+<p>有两种方式：</p>
+<ol>
+<li>消息队列主动推送消息（消费者是被动接收的）</li>
+<li>消费者主动拉取消息。</li>
+</ol>
+<h1 id="Kafka架构"><a href="#Kafka架构" class="headerlink" title="Kafka架构"></a>Kafka架构</h1><p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144630233.png" alt="image-20211227144630233"></p>
+<p>1）<strong>Producer</strong> ：消息生产者，就是向Kafka broker发消息的客户端；</p>
+<p>2）<strong>Consumer</strong> ：消息消费者，向Kafka broker取消息的客户端；</p>
+<p>3） <strong>Consumer Group</strong> （CG）：消费者组</p>
+<p>4）<strong>Broker</strong> ：kafka实例，每台服务器上可以有一个或者多个实例。一个集群由多个broker组成。一个broker可以容纳多个topic；</p>
+<p>5）<strong>Topic</strong> ：消息的主题。kafka中的所有数据都保存在topic中</p>
+<p>6）<strong>Partition</strong>：Topic的分区，每个Topic有多个分区，分区的目的是负载，提高kafka的吞吐量。（同一个分区中的数据是有序的）</p>
+<p>7）<strong>Replication</strong>：备份，每一个Partition都有多个备份。当一个Leader崩溃了之后，会从follower中选举出来一个新的Leader。写入生产数据、消费数据都是对Leader进行操作。</p>
+<p>8）<strong>Message</strong>：消息主体。</p>
+<p>9）<strong>Offset</strong>：kafka的存储文件都是按照offset.kafka来命名，用offset做名字的好处是方便查找。例如你想找位于2049的位置，只要找到2048.kafka的文件即可。当然the first offset就是00000000000.kafka。</p>
+<p>10）<strong>Zookeeper</strong>：kafka集群依赖zookeeper来保存集群的元信息，保证系统的可用性。</p>
+<h1 id="Kafka工作流程"><a href="#Kafka工作流程" class="headerlink" title="Kafka工作流程"></a>Kafka工作流程</h1><h2 id="写入数据"><a href="#写入数据" class="headerlink" title="写入数据"></a>写入数据</h2><p>producer就是生产者，是数据的入口。Producer在写入数据的时候<strong>永远的找leader</strong>，不会直接将数据写入follower！</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-b7e72e9c5b9971e89ec174a2c2201ed9_720w.jpg" alt="img"></p>
+<p>消息写入leader后，follower主动拉取leader中的信息进行同步！producer采用push模式将数据发布到broker，每条消息追加到分区中，顺序写入磁盘，所以保证<strong>同一分区</strong>内的数据是有序的！写入示意图如下：</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-87d558aaa349bf920711b9c157e11f6a_r.jpg" alt="preview"></p>
+<h3 id="问题1：kafka为什么要做分区？"><a href="#问题1：kafka为什么要做分区？" class="headerlink" title="问题1：kafka为什么要做分区？"></a>问题1：kafka为什么要做分区？</h3><p><strong>1、 方便扩展</strong>。因为一个topic可以有多个partition，所以我们可以通过扩展机器去轻松的应对日益增长的数据量。</p>
+<p><strong>2、 提高并发</strong>。以partition为读写单位，可以多个消费者同时消费数据，提高了消息的处理效率。</p>
+<h3 id="问题2：怎么确定消息要写入哪一个分区？"><a href="#问题2：怎么确定消息要写入哪一个分区？" class="headerlink" title="问题2：怎么确定消息要写入哪一个分区？"></a>问题2：怎么确定消息要写入哪一个分区？</h3><p>1、 partition在写入的时候可以指定需要写入的partition，如果有指定，则写入对应的partition。</p>
+<p>2、 如果没有指定partition，但是设置了数据的key，则会根据key的值hash出一个partition。</p>
+<p>3、 如果既没指定partition，又没有设置key，则会轮询选出一个partition</p>
+<h3 id="问题3：kafka怎么确保信息不丢失"><a href="#问题3：kafka怎么确保信息不丢失" class="headerlink" title="问题3：kafka怎么确保信息不丢失"></a>问题3：kafka怎么确保信息不丢失</h3><p>通过ACK应答机制！在生产者向队列写入数据的时候可以设置参数来确定是否确认kafka接收到数据，这个参数可设置的值为<strong>0</strong>、<strong>1</strong>、<strong>all</strong>。</p>
+<ul>
+<li><strong>0</strong>代表producer往集群发送数据不需要等到集群的返回，不确保消息发送成功。安全性最低但是效率最高。</li>
+<li><strong>1</strong>代表producer往集群发送数据只要leader应答就可以发送下一条，只确保leader发送成功。</li>
+<li><strong>all</strong>代表producer往集群发送数据需要所有的follower都完成从leader的同步才会发送下一条，确保leader发送成功和所有的副本都完成备份。安全性最高，但是效率最低。</li>
+</ul>
+<p>默认配置是1.</p>
+<h2 id="数据保存"><a href="#数据保存" class="headerlink" title="数据保存"></a>数据保存</h2><p>kafka的数据是保存在磁盘上的。</p>
+<p>写入磁盘会耗时？kafka初始化时会单独的开辟一块磁盘空间，顺序写入数据（效率比随机写入快）。</p>
+<h3 id="Partition结构"><a href="#Partition结构" class="headerlink" title="Partition结构"></a>Partition结构</h3><p>Partition在服务器上的表现形式就是一个一个的文件夹，每个partition的文件夹下面会有多组segment文件，每组segment文件又包含.index文件、.log文件、.timeindex文件（早期版本中没有）三个文件， <strong>log文件就实际是存储message的地方，而index和timeindex文件为索引文件，用于检索消息</strong>。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-72e50c12fd9c6fbf58d3b5ca14c90623_r.jpg" alt="preview"></p>
+<p>如上图，这个partition有三组segment文件，每个log文件的大小是一样的，但是存储的message数量是不一定相等的（每条的message大小不一致）。<strong>文件的命名是以该segment最小offset来命名的</strong>，如000.index存储offset为0~368795的消息，kafka就是利用分段+索引的方式来解决查找效率的问题。</p>
+<h3 id="Message结构"><a href="#Message结构" class="headerlink" title="Message结构"></a>Message结构</h3><p>1、 offset：8byte的有序id号，它可以唯一确定每条消息在parition内的位置。</p>
+<p>2、 消息大小：4byte，用于描述消息的大小。</p>
+<p>3、 消息体：消息体存放的是实际的消息数据（被压缩过），占用的空间根据具体的消息而不一样。</p>
+<h3 id="存储策略"><a href="#存储策略" class="headerlink" title="存储策略"></a>存储策略</h3><p>无论消息是否被消费，kafka都会保存所有的消息。那对于旧数据有什么删除策略呢？</p>
+<p>1、 基于时间，默认配置是168小时（7天）。</p>
+<p>2、 基于大小，默认配置是1073741824。</p>
+<p>需要注意的是，kafka读取特定消息的时间复杂度是O(1)，所以这里删除过期的文件并不会提高kafka的性能！</p>
+<h2 id="消费数据"><a href="#消费数据" class="headerlink" title="消费数据"></a>消费数据</h2><p>消息存储在log文件后，消费者就可以进行消费了。在讲消息队列通信的两种模式的时候讲到过点对点模式和发布订阅模式。<strong>Kafka采用的是发布订阅的模式</strong>，消费者主动的去kafka集群拉取消息，与producer相同的是，消费者在拉取消息的时候也是<strong>找leader</strong>去拉取。</p>
+<p>多个消费者可以组成一个消费者组（consumer group），每个消费者组都有一个组id！<strong>同一个消费组者的消费者可以消费同一topic下不同分区的数据，但是不会组内多个消费者消费同一分区的数据</strong>！！！</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-75a79cba9cfafe5c2f4d5349acb72207_r.jpg" alt="preview"></p>
+<p>建议<strong>消费者组的consumer的数量与partition的数量一致</strong>！</p>
+<h3 id="查找消息"><a href="#查找消息" class="headerlink" title="查找消息"></a>查找消息</h3><p>在保存数据的小节里面，我们聊到了partition划分为多组segment，每个segment又含.log、.index、.timeindex文件，存放的每条message包含offset、消息大小、消息体……我们多次提到segment和offset，查找消息的时候是怎么利用segment+offset配合查找的呢？假如现在需要查找一个offset为368801的message是什么样的过程呢？我们先看看下面的图：</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-87051d884344edf9f8fd97a3dacb32d0_r.jpg" alt="preview"></p>
+<p>1、 先找到offset的368801message所在的segment文件（利用<strong>二分法查找</strong>），这里找到的就是在第二个segment文件。</p>
+<p>2、 打开找到的segment中的.index文件（也就是368796.index文件，该文件起始偏移量为368796+1，我们要查找的offset为368801的message在该index内的偏移量为368796+5=368801，所以这里要查找的<strong>相对offset</strong>为5）。由于该文件采用的是稀疏索引的方式存储着相对offset及对应message物理偏移量的关系，所以直接找相对offset为5的索引找不到，这里同样<strong>利用二分法查找相对offset小于或者等于指定的相对offset的索引条目中最大的那个相对offset，所以找到的是相对offset为4的这个索引。</strong></p>
+<p>3、 根据找到的相对offset为4的索引确定message存储的物理偏移位置为256。打开数据文件，从位置为256的那个地方开始顺序扫描直到找到offset为368801的那条Message。</p>
+<p>这套机制是建立在offset为有序的基础上，利用<strong>segment</strong>+<strong>有序offset</strong>+<strong>稀疏索引</strong>+<strong>二分查找</strong>+<strong>顺序查找</strong>等多种手段来高效的查找数据！</p>
+<p>消费者记录消费的数据：</p>
+<ul>
+<li>旧版本：将消费到的offset维护zookeeper中，consumer每间隔一段时间上报一次，这里容易导致重复消费，且性能不好。</li>
+<li>消费者消费到的offset已经直接维护在kafk集群的__consumer_offsets这个topic中！不需要借助Zookeeper。</li>
+</ul>
+<h1 id="Java连接Kafka做消息队列"><a href="#Java连接Kafka做消息队列" class="headerlink" title="Java连接Kafka做消息队列"></a>Java连接Kafka做消息队列</h1><p>导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--kafka--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.kafka<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-kafka<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.8.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>配置信息</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#kafka</span><br><span class="hljs-comment">###########【Kafka集群】###########</span><br><span class="hljs-meta">spring.kafka.bootstrap-servers</span>=<span class="hljs-string">127.0.0.1:9092</span><br><span class="hljs-comment">###########【初始化生产者配置】###########</span><br><span class="hljs-comment"># 重试次数</span><br><span class="hljs-meta">spring.kafka.producer.retries</span>=<span class="hljs-string">0</span><br><span class="hljs-comment"># 应答级别:多少个分区副本备份完成时向生产者发送ack确认(可选0、1、all/-1)</span><br><span class="hljs-meta">spring.kafka.producer.acks</span>=<span class="hljs-string">1</span><br><span class="hljs-comment"># 批量大小</span><br><span class="hljs-meta">spring.kafka.producer.batch-size</span>=<span class="hljs-string">16384</span><br><span class="hljs-comment"># 提交延时</span><br><span class="hljs-meta">spring.kafka.producer.properties.linger.ms</span>=<span class="hljs-string">0</span><br><span class="hljs-comment"># 当生产端积累的消息达到batch-size或接收到消息linger.ms后,生产者就会将消息提交给kafka</span><br><span class="hljs-comment"># linger.ms为0表示每接收到一条消息就提交给kafka,这时候batch-size其实就没用了</span><br><span class="hljs-comment"># 生产端缓冲区大小</span><br><span class="hljs-meta">spring.kafka.producer.buffer-memory</span> = <span class="hljs-string">33554432</span><br><span class="hljs-comment"># Kafka提供的序列化和反序列化类</span><br><span class="hljs-meta">spring.kafka.producer.key-serializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringSerializer</span><br><span class="hljs-meta">spring.kafka.producer.value-serializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringSerializer</span><br><span class="hljs-comment"># 自定义分区器</span><br><span class="hljs-comment"># spring.kafka.producer.properties.partitioner.class=com.felix.kafka.producer.CustomizePartitioner</span><br><span class="hljs-comment">###########【初始化消费者配置】###########</span><br><span class="hljs-comment"># 默认的消费组ID</span><br><span class="hljs-meta">spring.kafka.consumer.properties.group.id</span>=<span class="hljs-string">defaultConsumerGroup</span><br><span class="hljs-comment"># 是否自动提交offset</span><br><span class="hljs-meta">spring.kafka.consumer.enable-auto-commit</span>=<span class="hljs-string">true</span><br><span class="hljs-comment"># 提交offset延时(接收到消息后多久提交offset)</span><br><span class="hljs-meta">spring.kafka.consumer.auto.commit.interval.ms</span>=<span class="hljs-string">1000</span><br><span class="hljs-comment"># 当kafka中没有初始offset或offset超出范围时将自动重置offset</span><br><span class="hljs-comment"># earliest:重置为分区中最小的offset;</span><br><span class="hljs-comment"># latest:重置为分区中最新的offset(消费分区中新产生的数据);</span><br><span class="hljs-comment"># none:只要有一个分区不存在已提交的offset,就抛出异常;</span><br><span class="hljs-meta">spring.kafka.consumer.auto-offset-reset</span>=<span class="hljs-string">latest</span><br><span class="hljs-comment"># 消费会话超时时间(超过这个时间consumer没有发送心跳,就会触发rebalance操作)</span><br><span class="hljs-meta">spring.kafka.consumer.properties.session.timeout.ms</span>=<span class="hljs-string">120000</span><br><span class="hljs-comment"># 消费请求超时时间</span><br><span class="hljs-meta">spring.kafka.consumer.properties.request.timeout.ms</span>=<span class="hljs-string">180000</span><br><span class="hljs-comment"># Kafka提供的序列化和反序列化类</span><br><span class="hljs-meta">spring.kafka.consumer.key-deserializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringDeserializer</span><br><span class="hljs-meta">spring.kafka.consumer.value-deserializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringDeserializer</span><br><span class="hljs-comment"># 消费端监听的topic不存在时，项目启动会报错(关掉)</span><br><span class="hljs-meta">spring.kafka.listener.missing-topics-fatal</span>=<span class="hljs-string">false</span><br><span class="hljs-comment"># 设置批量消费</span><br><span class="hljs-comment"># spring.kafka.listener.type=batch</span><br><span class="hljs-comment"># 批量消费每次最多消费多少条消息</span><br><span class="hljs-comment"># spring.kafka.consumer.max-poll-records=50</span><br></code></pre></td></tr></table></figure>
+
+<p>生产者，发送消息</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProducerController</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> KafkaTemplate&lt;Object, Object&gt; kafkaTemplate;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 生产者</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> message：消息</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@RequestMapping(&quot;/kafka/&#123;message&#125;&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendMessage</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;message&quot;)</span> String message)</span> </span>&#123;<br>        kafkaTemplate.send(<span class="hljs-string">&quot;topic1&quot;</span>,<span class="hljs-string">&quot;key&quot;</span>, message);    <span class="hljs-comment">//发送数据</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>消费者监控指定主题，当生产者发送消息之后，消费者进行消费。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerController</span> </span>&#123;<br><br>    <span class="hljs-comment">//监听当前的topic。当前topic中有数据的话，就进行消费</span><br>    <span class="hljs-meta">@KafkaListener(topics = &#123;&quot;topic1&quot;&#125;)</span><br>    <span class="hljs-comment">//创建一条记录，以从指定的主题和分区接收</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMessage1</span><span class="hljs-params">(ConsumerRecord&lt;?, ?&gt; record)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;消费简单模拟主题：&quot;</span> + record.topic());<br>        System.out.println(<span class="hljs-string">&quot;offset:&quot;</span> + record.offset());<br>        System.out.println(<span class="hljs-string">&quot;timestamp&quot;</span> + record.timestamp());<br>        System.out.println(record.key());<br>        System.out.println(record.value());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
@@ -2850,111 +2955,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Kafka</title>
-    <url>/2021/12/27/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9AKafka/</url>
-    <content><![CDATA[<p>Kafka是一个分布式的基于发布、订阅模式的消息队列（Message Queue），主要应用于大数据实时处理领域。</p>
-<span id="more"></span>
-
-<h1 id="Kafka概述"><a href="#Kafka概述" class="headerlink" title="Kafka概述"></a>Kafka概述</h1><p>Kafka是一个分布式的基于发布、订阅模式的消息队列（Message Queue），主要应用于大数据实时处理领域。</p>
-<p>中间件。常用于做消息队列，处理实时问题。例如：</p>
-<ul>
-<li>实时支付和金融交易。</li>
-<li>实时跟踪和监控汽车。</li>
-<li>监测住院病人并预测病情变化。</li>
-<li>收集客户互动信息和订单信息并作出反应。</li>
-</ul>
-<p>关键字：中间件，解耦，实时。</p>
-<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144038229.png" alt="image-20211227144038229"></p>
-<h3 id="使用消息队列的好处："><a href="#使用消息队列的好处：" class="headerlink" title="使用消息队列的好处："></a>使用消息队列的好处：</h3><p>（1）解耦</p>
-<p>（2）可恢复性：系统中的一部分失效，不会影响到整个系统。</p>
-<p>（3）缓冲：有助于控制和延缓数据流经过系统的速度，解决生产消息和消费消息处理速度不一致的情况。</p>
-<p>（4）灵活性 &amp; 峰值处理能力。</p>
-<p>（5）异步通信。</p>
-<h3 id="消息队列的两种模式："><a href="#消息队列的两种模式：" class="headerlink" title="消息队列的两种模式："></a>消息队列的两种模式：</h3><p>（1）点对点模式（<strong>一对一</strong>，消费者主动拉取数据，消息收到后消息清除）</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144055848.png" alt="image-20211227144055848"></p>
-<p>缺点：不可复用。</p>
-<p>（2）发布订阅模式（<strong>一对多</strong>，消费者消费数据之后不会清除消息）</p>
-<p>消息发布者将消息发布到topic（主题）中，同时多个消费者（订阅）消费该消息。但是topic中的消息是有一个过期时间的。</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144107611.png" alt="image-20211227144107611"></p>
-<p>有两种方式：</p>
-<ol>
-<li>消息队列主动推送消息（消费者是被动接收的）</li>
-<li>消费者主动拉取消息。</li>
-</ol>
-<h1 id="Kafka架构"><a href="#Kafka架构" class="headerlink" title="Kafka架构"></a>Kafka架构</h1><p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144630233.png" alt="image-20211227144630233"></p>
-<p>1）<strong>Producer</strong> ：消息生产者，就是向Kafka broker发消息的客户端；</p>
-<p>2）<strong>Consumer</strong> ：消息消费者，向Kafka broker取消息的客户端；</p>
-<p>3） <strong>Consumer Group</strong> （CG）：消费者组</p>
-<p>4）<strong>Broker</strong> ：kafka实例，每台服务器上可以有一个或者多个实例。一个集群由多个broker组成。一个broker可以容纳多个topic；</p>
-<p>5）<strong>Topic</strong> ：消息的主题。kafka中的所有数据都保存在topic中</p>
-<p>6）<strong>Partition</strong>：Topic的分区，每个Topic有多个分区，分区的目的是负载，提高kafka的吞吐量。（同一个分区中的数据是有序的）</p>
-<p>7）<strong>Replication</strong>：备份，每一个Partition都有多个备份。当一个Leader崩溃了之后，会从follower中选举出来一个新的Leader。写入生产数据、消费数据都是对Leader进行操作。</p>
-<p>8）<strong>Message</strong>：消息主体。</p>
-<p>9）<strong>Offset</strong>：kafka的存储文件都是按照offset.kafka来命名，用offset做名字的好处是方便查找。例如你想找位于2049的位置，只要找到2048.kafka的文件即可。当然the first offset就是00000000000.kafka。</p>
-<p>10）<strong>Zookeeper</strong>：kafka集群依赖zookeeper来保存集群的元信息，保证系统的可用性。</p>
-<h1 id="Kafka工作流程"><a href="#Kafka工作流程" class="headerlink" title="Kafka工作流程"></a>Kafka工作流程</h1><h2 id="写入数据"><a href="#写入数据" class="headerlink" title="写入数据"></a>写入数据</h2><p>producer就是生产者，是数据的入口。Producer在写入数据的时候<strong>永远的找leader</strong>，不会直接将数据写入follower！</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-b7e72e9c5b9971e89ec174a2c2201ed9_720w.jpg" alt="img"></p>
-<p>消息写入leader后，follower主动拉取leader中的信息进行同步！producer采用push模式将数据发布到broker，每条消息追加到分区中，顺序写入磁盘，所以保证<strong>同一分区</strong>内的数据是有序的！写入示意图如下：</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-87d558aaa349bf920711b9c157e11f6a_r.jpg" alt="preview"></p>
-<h3 id="问题1：kafka为什么要做分区？"><a href="#问题1：kafka为什么要做分区？" class="headerlink" title="问题1：kafka为什么要做分区？"></a>问题1：kafka为什么要做分区？</h3><p><strong>1、 方便扩展</strong>。因为一个topic可以有多个partition，所以我们可以通过扩展机器去轻松的应对日益增长的数据量。</p>
-<p><strong>2、 提高并发</strong>。以partition为读写单位，可以多个消费者同时消费数据，提高了消息的处理效率。</p>
-<h3 id="问题2：怎么确定消息要写入哪一个分区？"><a href="#问题2：怎么确定消息要写入哪一个分区？" class="headerlink" title="问题2：怎么确定消息要写入哪一个分区？"></a>问题2：怎么确定消息要写入哪一个分区？</h3><p>1、 partition在写入的时候可以指定需要写入的partition，如果有指定，则写入对应的partition。</p>
-<p>2、 如果没有指定partition，但是设置了数据的key，则会根据key的值hash出一个partition。</p>
-<p>3、 如果既没指定partition，又没有设置key，则会轮询选出一个partition</p>
-<h3 id="问题3：kafka怎么确保信息不丢失"><a href="#问题3：kafka怎么确保信息不丢失" class="headerlink" title="问题3：kafka怎么确保信息不丢失"></a>问题3：kafka怎么确保信息不丢失</h3><p>通过ACK应答机制！在生产者向队列写入数据的时候可以设置参数来确定是否确认kafka接收到数据，这个参数可设置的值为<strong>0</strong>、<strong>1</strong>、<strong>all</strong>。</p>
-<ul>
-<li><strong>0</strong>代表producer往集群发送数据不需要等到集群的返回，不确保消息发送成功。安全性最低但是效率最高。</li>
-<li><strong>1</strong>代表producer往集群发送数据只要leader应答就可以发送下一条，只确保leader发送成功。</li>
-<li><strong>all</strong>代表producer往集群发送数据需要所有的follower都完成从leader的同步才会发送下一条，确保leader发送成功和所有的副本都完成备份。安全性最高，但是效率最低。</li>
-</ul>
-<p>默认配置是1.</p>
-<h2 id="数据保存"><a href="#数据保存" class="headerlink" title="数据保存"></a>数据保存</h2><p>kafka的数据是保存在磁盘上的。</p>
-<p>写入磁盘会耗时？kafka初始化时会单独的开辟一块磁盘空间，顺序写入数据（效率比随机写入快）。</p>
-<h3 id="Partition结构"><a href="#Partition结构" class="headerlink" title="Partition结构"></a>Partition结构</h3><p>Partition在服务器上的表现形式就是一个一个的文件夹，每个partition的文件夹下面会有多组segment文件，每组segment文件又包含.index文件、.log文件、.timeindex文件（早期版本中没有）三个文件， <strong>log文件就实际是存储message的地方，而index和timeindex文件为索引文件，用于检索消息</strong>。</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-72e50c12fd9c6fbf58d3b5ca14c90623_r.jpg" alt="preview"></p>
-<p>如上图，这个partition有三组segment文件，每个log文件的大小是一样的，但是存储的message数量是不一定相等的（每条的message大小不一致）。<strong>文件的命名是以该segment最小offset来命名的</strong>，如000.index存储offset为0~368795的消息，kafka就是利用分段+索引的方式来解决查找效率的问题。</p>
-<h3 id="Message结构"><a href="#Message结构" class="headerlink" title="Message结构"></a>Message结构</h3><p>1、 offset：8byte的有序id号，它可以唯一确定每条消息在parition内的位置。</p>
-<p>2、 消息大小：4byte，用于描述消息的大小。</p>
-<p>3、 消息体：消息体存放的是实际的消息数据（被压缩过），占用的空间根据具体的消息而不一样。</p>
-<h3 id="存储策略"><a href="#存储策略" class="headerlink" title="存储策略"></a>存储策略</h3><p>无论消息是否被消费，kafka都会保存所有的消息。那对于旧数据有什么删除策略呢？</p>
-<p>1、 基于时间，默认配置是168小时（7天）。</p>
-<p>2、 基于大小，默认配置是1073741824。</p>
-<p>需要注意的是，kafka读取特定消息的时间复杂度是O(1)，所以这里删除过期的文件并不会提高kafka的性能！</p>
-<h2 id="消费数据"><a href="#消费数据" class="headerlink" title="消费数据"></a>消费数据</h2><p>消息存储在log文件后，消费者就可以进行消费了。在讲消息队列通信的两种模式的时候讲到过点对点模式和发布订阅模式。<strong>Kafka采用的是发布订阅的模式</strong>，消费者主动的去kafka集群拉取消息，与producer相同的是，消费者在拉取消息的时候也是<strong>找leader</strong>去拉取。</p>
-<p>多个消费者可以组成一个消费者组（consumer group），每个消费者组都有一个组id！<strong>同一个消费组者的消费者可以消费同一topic下不同分区的数据，但是不会组内多个消费者消费同一分区的数据</strong>！！！</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-75a79cba9cfafe5c2f4d5349acb72207_r.jpg" alt="preview"></p>
-<p>建议<strong>消费者组的consumer的数量与partition的数量一致</strong>！</p>
-<h3 id="查找消息"><a href="#查找消息" class="headerlink" title="查找消息"></a>查找消息</h3><p>在保存数据的小节里面，我们聊到了partition划分为多组segment，每个segment又含.log、.index、.timeindex文件，存放的每条message包含offset、消息大小、消息体……我们多次提到segment和offset，查找消息的时候是怎么利用segment+offset配合查找的呢？假如现在需要查找一个offset为368801的message是什么样的过程呢？我们先看看下面的图：</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-87051d884344edf9f8fd97a3dacb32d0_r.jpg" alt="preview"></p>
-<p>1、 先找到offset的368801message所在的segment文件（利用<strong>二分法查找</strong>），这里找到的就是在第二个segment文件。</p>
-<p>2、 打开找到的segment中的.index文件（也就是368796.index文件，该文件起始偏移量为368796+1，我们要查找的offset为368801的message在该index内的偏移量为368796+5=368801，所以这里要查找的<strong>相对offset</strong>为5）。由于该文件采用的是稀疏索引的方式存储着相对offset及对应message物理偏移量的关系，所以直接找相对offset为5的索引找不到，这里同样<strong>利用二分法查找相对offset小于或者等于指定的相对offset的索引条目中最大的那个相对offset，所以找到的是相对offset为4的这个索引。</strong></p>
-<p>3、 根据找到的相对offset为4的索引确定message存储的物理偏移位置为256。打开数据文件，从位置为256的那个地方开始顺序扫描直到找到offset为368801的那条Message。</p>
-<p>这套机制是建立在offset为有序的基础上，利用<strong>segment</strong>+<strong>有序offset</strong>+<strong>稀疏索引</strong>+<strong>二分查找</strong>+<strong>顺序查找</strong>等多种手段来高效的查找数据！</p>
-<p>消费者记录消费的数据：</p>
-<ul>
-<li>旧版本：将消费到的offset维护zookeeper中，consumer每间隔一段时间上报一次，这里容易导致重复消费，且性能不好。</li>
-<li>消费者消费到的offset已经直接维护在kafk集群的__consumer_offsets这个topic中！不需要借助Zookeeper。</li>
-</ul>
-<h1 id="Java连接Kafka做消息队列"><a href="#Java连接Kafka做消息队列" class="headerlink" title="Java连接Kafka做消息队列"></a>Java连接Kafka做消息队列</h1><p>导入依赖</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--kafka--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.kafka<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-kafka<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.8.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-
-
-<p>配置信息</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#kafka</span><br><span class="hljs-comment">###########【Kafka集群】###########</span><br><span class="hljs-meta">spring.kafka.bootstrap-servers</span>=<span class="hljs-string">127.0.0.1:9092</span><br><span class="hljs-comment">###########【初始化生产者配置】###########</span><br><span class="hljs-comment"># 重试次数</span><br><span class="hljs-meta">spring.kafka.producer.retries</span>=<span class="hljs-string">0</span><br><span class="hljs-comment"># 应答级别:多少个分区副本备份完成时向生产者发送ack确认(可选0、1、all/-1)</span><br><span class="hljs-meta">spring.kafka.producer.acks</span>=<span class="hljs-string">1</span><br><span class="hljs-comment"># 批量大小</span><br><span class="hljs-meta">spring.kafka.producer.batch-size</span>=<span class="hljs-string">16384</span><br><span class="hljs-comment"># 提交延时</span><br><span class="hljs-meta">spring.kafka.producer.properties.linger.ms</span>=<span class="hljs-string">0</span><br><span class="hljs-comment"># 当生产端积累的消息达到batch-size或接收到消息linger.ms后,生产者就会将消息提交给kafka</span><br><span class="hljs-comment"># linger.ms为0表示每接收到一条消息就提交给kafka,这时候batch-size其实就没用了</span><br><span class="hljs-comment"># 生产端缓冲区大小</span><br><span class="hljs-meta">spring.kafka.producer.buffer-memory</span> = <span class="hljs-string">33554432</span><br><span class="hljs-comment"># Kafka提供的序列化和反序列化类</span><br><span class="hljs-meta">spring.kafka.producer.key-serializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringSerializer</span><br><span class="hljs-meta">spring.kafka.producer.value-serializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringSerializer</span><br><span class="hljs-comment"># 自定义分区器</span><br><span class="hljs-comment"># spring.kafka.producer.properties.partitioner.class=com.felix.kafka.producer.CustomizePartitioner</span><br><span class="hljs-comment">###########【初始化消费者配置】###########</span><br><span class="hljs-comment"># 默认的消费组ID</span><br><span class="hljs-meta">spring.kafka.consumer.properties.group.id</span>=<span class="hljs-string">defaultConsumerGroup</span><br><span class="hljs-comment"># 是否自动提交offset</span><br><span class="hljs-meta">spring.kafka.consumer.enable-auto-commit</span>=<span class="hljs-string">true</span><br><span class="hljs-comment"># 提交offset延时(接收到消息后多久提交offset)</span><br><span class="hljs-meta">spring.kafka.consumer.auto.commit.interval.ms</span>=<span class="hljs-string">1000</span><br><span class="hljs-comment"># 当kafka中没有初始offset或offset超出范围时将自动重置offset</span><br><span class="hljs-comment"># earliest:重置为分区中最小的offset;</span><br><span class="hljs-comment"># latest:重置为分区中最新的offset(消费分区中新产生的数据);</span><br><span class="hljs-comment"># none:只要有一个分区不存在已提交的offset,就抛出异常;</span><br><span class="hljs-meta">spring.kafka.consumer.auto-offset-reset</span>=<span class="hljs-string">latest</span><br><span class="hljs-comment"># 消费会话超时时间(超过这个时间consumer没有发送心跳,就会触发rebalance操作)</span><br><span class="hljs-meta">spring.kafka.consumer.properties.session.timeout.ms</span>=<span class="hljs-string">120000</span><br><span class="hljs-comment"># 消费请求超时时间</span><br><span class="hljs-meta">spring.kafka.consumer.properties.request.timeout.ms</span>=<span class="hljs-string">180000</span><br><span class="hljs-comment"># Kafka提供的序列化和反序列化类</span><br><span class="hljs-meta">spring.kafka.consumer.key-deserializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringDeserializer</span><br><span class="hljs-meta">spring.kafka.consumer.value-deserializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringDeserializer</span><br><span class="hljs-comment"># 消费端监听的topic不存在时，项目启动会报错(关掉)</span><br><span class="hljs-meta">spring.kafka.listener.missing-topics-fatal</span>=<span class="hljs-string">false</span><br><span class="hljs-comment"># 设置批量消费</span><br><span class="hljs-comment"># spring.kafka.listener.type=batch</span><br><span class="hljs-comment"># 批量消费每次最多消费多少条消息</span><br><span class="hljs-comment"># spring.kafka.consumer.max-poll-records=50</span><br></code></pre></td></tr></table></figure>
-
-<p>生产者，发送消息</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProducerController</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> KafkaTemplate&lt;Object, Object&gt; kafkaTemplate;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 生产者</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> message：消息</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@RequestMapping(&quot;/kafka/&#123;message&#125;&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendMessage</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;message&quot;)</span> String message)</span> </span>&#123;<br>        kafkaTemplate.send(<span class="hljs-string">&quot;topic1&quot;</span>,<span class="hljs-string">&quot;key&quot;</span>, message);    <span class="hljs-comment">//发送数据</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>消费者监控指定主题，当生产者发送消息之后，消费者进行消费。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerController</span> </span>&#123;<br><br>    <span class="hljs-comment">//监听当前的topic。当前topic中有数据的话，就进行消费</span><br>    <span class="hljs-meta">@KafkaListener(topics = &#123;&quot;topic1&quot;&#125;)</span><br>    <span class="hljs-comment">//创建一条记录，以从指定的主题和分区接收</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMessage1</span><span class="hljs-params">(ConsumerRecord&lt;?, ?&gt; record)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;消费简单模拟主题：&quot;</span> + record.topic());<br>        System.out.println(<span class="hljs-string">&quot;offset:&quot;</span> + record.offset());<br>        System.out.println(<span class="hljs-string">&quot;timestamp&quot;</span> + record.timestamp());<br>        System.out.println(record.key());<br>        System.out.println(record.value());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>中间件</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>消息队列中间件：RabbitMQ</title>
     <url>/2021/11/15/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9ARabbitMQ/</url>
     <content><![CDATA[<p>消息队列（MQ，Message Queue）本质是一个队列，队列中存放的内容是message，是一种跨进程的通信机制，用于上下游传递消息。RabbitMQ是一个消息中间件，它接受、存储、转发消息数据。</p>
@@ -3321,6 +3321,51 @@
       </tags>
   </entry>
   <entry>
+    <title>镜像制作</title>
+    <url>/2021/12/22/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/</url>
+    <content><![CDATA[<p>OpenStack+CloudBreak+Ambari</p>
+<ul>
+<li>OpenStack：镜像制作相关操作</li>
+<li>Ambari：自定义服务，提供UI界面</li>
+<li>Cloudbreak：集群管理，给Ambari提供服务</li>
+</ul>
+<span id="more"></span>
+
+
+
+<h1 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h1><p>OpenStack+CloudBreak+Ambari</p>
+<ul>
+<li>OpenStack：镜像制作相关操作</li>
+<li>Ambari：自定义服务，提供UI界面</li>
+<li>Cloudbreak：集群管理，给Ambari提供服务</li>
+</ul>
+<h1 id="账号汇总"><a href="#账号汇总" class="headerlink" title="账号汇总"></a>账号汇总</h1><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.OpenStack镜像制作公共节点：<br><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span>         <br><br><span class="hljs-number">2</span>.OpenStack网站：<br>http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span><span class="hljs-regexp">/dashboard/</span>auth<span class="hljs-regexp">/login/</span>          <br><br><span class="hljs-number">3</span>.cloudbreak网址：<br><span class="hljs-number">10.6</span>.<span class="hljs-number">6.102</span>      <br><br><br><span class="hljs-number">4</span>.catalog创建目录：<br><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>catalog<br><br><span class="hljs-number">5</span>.Ambari服务修改目录：<br><span class="hljs-regexp">/var/</span>lib<span class="hljs-regexp">/ambari-server/</span>resources<span class="hljs-regexp">/stacks/</span>HDP<span class="hljs-regexp">/3.1/</span>services<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="镜像制作流程"><a href="#镜像制作流程" class="headerlink" title="镜像制作流程"></a>镜像制作流程</h1><h2 id="1-镜像创建，并上传到OpenStack"><a href="#1-镜像创建，并上传到OpenStack" class="headerlink" title="1.镜像创建，并上传到OpenStack"></a>1.镜像创建，并上传到OpenStack</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.登录到<span class="hljs-number">10.6.8.67</span><br><span class="hljs-attribute">ssh</span> root@<span class="hljs-number">10.6.8.67</span><br><br><span class="hljs-attribute">2</span>.服务admin权限<br><span class="hljs-attribute">source</span> keystonerc-admin<br><br><span class="hljs-attribute">3</span>.查看镜像列表<br><span class="hljs-attribute">glance</span> image-list<br><br><span class="hljs-attribute">4</span>.下载镜像<br><span class="hljs-attribute">glance</span> image-download --file /tmp/cv-sugon-data-governance-<span class="hljs-number">20210604</span>.qcow<span class="hljs-number">2</span>   <span class="hljs-number">2</span>c<span class="hljs-number">44</span>d<span class="hljs-number">9</span>ef-<span class="hljs-number">9</span>da<span class="hljs-number">1</span>-<span class="hljs-number">410</span>c-<span class="hljs-number">8483</span>-<span class="hljs-number">0466</span>ca<span class="hljs-number">1</span>c<span class="hljs-number">055</span>c<br><br><span class="hljs-attribute">5</span>.压缩镜像<br><span class="hljs-attribute">virt</span>-sparsify --compress cv-sugon-hadoop-analysis-<span class="hljs-number">20210607</span>.qcow<span class="hljs-number">2</span> cv-sugon-hadoop-analysis-<span class="hljs-number">20210607</span>-alpha.qcow<span class="hljs-number">2</span><br><br><span class="hljs-attribute">6</span>.上传镜像<br><span class="hljs-attribute">openstack</span> image create <span class="hljs-string">&quot;cv-xdata-31-20210604-sugon-alpha-test&quot;</span>   --file cb-xdata-<span class="hljs-number">31</span>-<span class="hljs-number">20210428</span>-sugon-alpha.qcow<span class="hljs-number">2</span> --disk-format qcow<span class="hljs-number">2</span> --container-format bare --property hypervisor_type=kvm --public<br><br><span class="hljs-attribute">7</span>.查看镜像信息<br><span class="hljs-attribute">qemu</span>-img info ***.qcow<span class="hljs-number">2</span><br><br><span class="hljs-attribute">8</span>.删除镜像<br><span class="hljs-attribute">openstack</span> image delete &#123;id&#125;<br><br><span class="hljs-attribute">9</span>.转换格式：<br><span class="hljs-attribute">qemu</span>-img convert -f qcow<span class="hljs-number">2</span> -O raw aa.qcow<span class="hljs-number">2</span> aa.raw -p<br></code></pre></td></tr></table></figure>
+
+<p>删除文件时，要注意删除的文件是不是还有用</p>
+<p>尽量用 rm</p>
+<h2 id="2-登录UI界面，根据镜像创建实例"><a href="#2-登录UI界面，根据镜像创建实例" class="headerlink" title="2.登录UI界面，根据镜像创建实例"></a>2.登录UI界面，根据镜像创建实例</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.登录OpenStack网站：<br>http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span><span class="hljs-regexp">/dashboard/</span>auth<span class="hljs-regexp">/login/</span>        <br><br><span class="hljs-number">2</span>.创建实例 <br>新卷（否）   ----wan     ----注意根目录与内存的大小<br><br><span class="hljs-number">3</span>.创建实例结束之后，会有一个IP地址<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-虚拟机配置文件修改"><a href="#3-虚拟机配置文件修改" class="headerlink" title="3.虚拟机配置文件修改"></a>3.虚拟机配置文件修改</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.<br><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>catalog<br>对其进行修改 镜像名，ID<br><br><span class="hljs-number">2</span>.可以登录cloudbreak上进行查看，image catalog。<br>例如：http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">6.5</span>:<span class="hljs-number">9999</span><span class="hljs-regexp">/catalog/</span>cv-sugon-redis.json<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-Ambari自定义服务"><a href="#4-Ambari自定义服务" class="headerlink" title="4.Ambari自定义服务"></a>4.Ambari自定义服务</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.通过IP地址登录虚拟机<br>ssh root@ip<br><br><span class="hljs-number">2</span>.查看主机名<br>cat <span class="hljs-regexp">/etc/</span>hostname<br>修改主机名<br>hostname localhost.localdomain<br><br><span class="hljs-number">3</span>.修改自定义服务脚本<br>替换<span class="hljs-regexp">/var/</span>lib<span class="hljs-regexp">/ambari-server/</span>resources<span class="hljs-regexp">/stacks/</span>HDP<span class="hljs-regexp">/3.1/</span>services中的脚本。<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-查看镜像、挂载"><a href="#5-查看镜像、挂载" class="headerlink" title="5.查看镜像、挂载"></a>5.查看镜像、挂载</h2><p>直接在当前虚拟机上对镜像进行修改，不需要创建实例再修改。</p>
+<figure class="highlight dsconfig"><table><tr><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">1</span>.查看镜像分区表信息<br><span class="hljs-string">virt-df</span> <span class="hljs-string">your</span>.<span class="hljs-string">qcow2</span><br><span class="hljs-string">qemu-img</span> <span class="hljs-string">info</span> <span class="hljs-string">your</span>.<span class="hljs-string">qcow2</span><br><br><span class="hljs-string">2</span>.挂载镜像，修改镜像中的文件<br><span class="hljs-string">guestfish</span> -<span class="hljs-string">a</span> <span class="hljs-string">your</span>.<span class="hljs-string">qcow2</span><br>&gt;&lt;<span class="hljs-string">fs</span>&gt; <span class="hljs-string">launch</span>                            //启动<br>&gt;&lt;<span class="hljs-string">fs</span>&gt; <span class="hljs-built_in">list-partitions</span>                   //查看分区列表<br>/<span class="hljs-string">dev</span>/<span class="hljs-string">sda1</span><br>&gt;&lt;<span class="hljs-string">fs</span>&gt; <span class="hljs-built_in">list-filesystems</span><br>/<span class="hljs-string">dev</span>/<span class="hljs-string">sda1</span>: <span class="hljs-string">xfs</span><br>&gt;&lt;<span class="hljs-string">fs</span>&gt;<span class="hljs-string">mount</span>  /<span class="hljs-string">dev</span>/<span class="hljs-string">sda1</span>  /               //修改当前目录成根目录<br>&gt; <span class="hljs-string">exit</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="6-修改镜像格式"><a href="#6-修改镜像格式" class="headerlink" title="6.修改镜像格式"></a>6.修改镜像格式</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><code class="hljs stylus"><span class="hljs-number">1</span>.转换格式：<br>qemu-<span class="hljs-selector-tag">img</span> convert -f qcow2 -O raw aa<span class="hljs-selector-class">.qcow2</span> aa<span class="hljs-selector-class">.raw</span> -<span class="hljs-selector-tag">p</span><br><br><span class="hljs-number">2</span>.查看镜像信息<br>qemu-<span class="hljs-selector-tag">img</span> info t<span class="hljs-selector-class">.raw</span><br><br><span class="hljs-number">3</span>.上传raw格式镜像：<br>openstack image create <span class="hljs-string">&quot;cv-sugon-data-governance-20210831-alpha&quot;</span> --file cv-sugon-data-governance-<span class="hljs-number">20210831</span>-alpha<span class="hljs-selector-class">.raw</span> --disk-format raw --container-format bare --property hypervisor_type=kvm --public<br></code></pre></td></tr></table></figure>
+
+<h2 id="7-Cloudbreak创建集群"><a href="#7-Cloudbreak创建集群" class="headerlink" title="7.Cloudbreak创建集群"></a>7.Cloudbreak创建集群</h2>]]></content>
+      <tags>
+        <tag>镜像制作、云计算</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>项目总结</title>
     <url>/2021/12/01/%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p>总结项目经验，介绍项目的亮点</p>
@@ -3387,51 +3432,6 @@
 ]]></content>
       <tags>
         <tag>项目</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>镜像制作</title>
-    <url>/2021/12/22/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/</url>
-    <content><![CDATA[<p>OpenStack+CloudBreak+Ambari</p>
-<ul>
-<li>OpenStack：镜像制作相关操作</li>
-<li>Ambari：自定义服务，提供UI界面</li>
-<li>Cloudbreak：集群管理，给Ambari提供服务</li>
-</ul>
-<span id="more"></span>
-
-
-
-<h1 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h1><p>OpenStack+CloudBreak+Ambari</p>
-<ul>
-<li>OpenStack：镜像制作相关操作</li>
-<li>Ambari：自定义服务，提供UI界面</li>
-<li>Cloudbreak：集群管理，给Ambari提供服务</li>
-</ul>
-<h1 id="账号汇总"><a href="#账号汇总" class="headerlink" title="账号汇总"></a>账号汇总</h1><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.OpenStack镜像制作公共节点：<br><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span>         <br><br><span class="hljs-number">2</span>.OpenStack网站：<br>http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span><span class="hljs-regexp">/dashboard/</span>auth<span class="hljs-regexp">/login/</span>          <br><br><span class="hljs-number">3</span>.cloudbreak网址：<br><span class="hljs-number">10.6</span>.<span class="hljs-number">6.102</span>      <br><br><br><span class="hljs-number">4</span>.catalog创建目录：<br><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>catalog<br><br><span class="hljs-number">5</span>.Ambari服务修改目录：<br><span class="hljs-regexp">/var/</span>lib<span class="hljs-regexp">/ambari-server/</span>resources<span class="hljs-regexp">/stacks/</span>HDP<span class="hljs-regexp">/3.1/</span>services<br><br></code></pre></td></tr></table></figure>
-
-<h1 id="镜像制作流程"><a href="#镜像制作流程" class="headerlink" title="镜像制作流程"></a>镜像制作流程</h1><h2 id="1-镜像创建，并上传到OpenStack"><a href="#1-镜像创建，并上传到OpenStack" class="headerlink" title="1.镜像创建，并上传到OpenStack"></a>1.镜像创建，并上传到OpenStack</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.登录到<span class="hljs-number">10.6.8.67</span><br><span class="hljs-attribute">ssh</span> root@<span class="hljs-number">10.6.8.67</span><br><br><span class="hljs-attribute">2</span>.服务admin权限<br><span class="hljs-attribute">source</span> keystonerc-admin<br><br><span class="hljs-attribute">3</span>.查看镜像列表<br><span class="hljs-attribute">glance</span> image-list<br><br><span class="hljs-attribute">4</span>.下载镜像<br><span class="hljs-attribute">glance</span> image-download --file /tmp/cv-sugon-data-governance-<span class="hljs-number">20210604</span>.qcow<span class="hljs-number">2</span>   <span class="hljs-number">2</span>c<span class="hljs-number">44</span>d<span class="hljs-number">9</span>ef-<span class="hljs-number">9</span>da<span class="hljs-number">1</span>-<span class="hljs-number">410</span>c-<span class="hljs-number">8483</span>-<span class="hljs-number">0466</span>ca<span class="hljs-number">1</span>c<span class="hljs-number">055</span>c<br><br><span class="hljs-attribute">5</span>.压缩镜像<br><span class="hljs-attribute">virt</span>-sparsify --compress cv-sugon-hadoop-analysis-<span class="hljs-number">20210607</span>.qcow<span class="hljs-number">2</span> cv-sugon-hadoop-analysis-<span class="hljs-number">20210607</span>-alpha.qcow<span class="hljs-number">2</span><br><br><span class="hljs-attribute">6</span>.上传镜像<br><span class="hljs-attribute">openstack</span> image create <span class="hljs-string">&quot;cv-xdata-31-20210604-sugon-alpha-test&quot;</span>   --file cb-xdata-<span class="hljs-number">31</span>-<span class="hljs-number">20210428</span>-sugon-alpha.qcow<span class="hljs-number">2</span> --disk-format qcow<span class="hljs-number">2</span> --container-format bare --property hypervisor_type=kvm --public<br><br><span class="hljs-attribute">7</span>.查看镜像信息<br><span class="hljs-attribute">qemu</span>-img info ***.qcow<span class="hljs-number">2</span><br><br><span class="hljs-attribute">8</span>.删除镜像<br><span class="hljs-attribute">openstack</span> image delete &#123;id&#125;<br><br><span class="hljs-attribute">9</span>.转换格式：<br><span class="hljs-attribute">qemu</span>-img convert -f qcow<span class="hljs-number">2</span> -O raw aa.qcow<span class="hljs-number">2</span> aa.raw -p<br></code></pre></td></tr></table></figure>
-
-<p>删除文件时，要注意删除的文件是不是还有用</p>
-<p>尽量用 rm</p>
-<h2 id="2-登录UI界面，根据镜像创建实例"><a href="#2-登录UI界面，根据镜像创建实例" class="headerlink" title="2.登录UI界面，根据镜像创建实例"></a>2.登录UI界面，根据镜像创建实例</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.登录OpenStack网站：<br>http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span><span class="hljs-regexp">/dashboard/</span>auth<span class="hljs-regexp">/login/</span>        <br><br><span class="hljs-number">2</span>.创建实例 <br>新卷（否）   ----wan     ----注意根目录与内存的大小<br><br><span class="hljs-number">3</span>.创建实例结束之后，会有一个IP地址<br></code></pre></td></tr></table></figure>
-
-<h2 id="3-虚拟机配置文件修改"><a href="#3-虚拟机配置文件修改" class="headerlink" title="3.虚拟机配置文件修改"></a>3.虚拟机配置文件修改</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.<br><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>catalog<br>对其进行修改 镜像名，ID<br><br><span class="hljs-number">2</span>.可以登录cloudbreak上进行查看，image catalog。<br>例如：http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">6.5</span>:<span class="hljs-number">9999</span><span class="hljs-regexp">/catalog/</span>cv-sugon-redis.json<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="4-Ambari自定义服务"><a href="#4-Ambari自定义服务" class="headerlink" title="4.Ambari自定义服务"></a>4.Ambari自定义服务</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.通过IP地址登录虚拟机<br>ssh root@ip<br><br><span class="hljs-number">2</span>.查看主机名<br>cat <span class="hljs-regexp">/etc/</span>hostname<br>修改主机名<br>hostname localhost.localdomain<br><br><span class="hljs-number">3</span>.修改自定义服务脚本<br>替换<span class="hljs-regexp">/var/</span>lib<span class="hljs-regexp">/ambari-server/</span>resources<span class="hljs-regexp">/stacks/</span>HDP<span class="hljs-regexp">/3.1/</span>services中的脚本。<br><br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="5-查看镜像、挂载"><a href="#5-查看镜像、挂载" class="headerlink" title="5.查看镜像、挂载"></a>5.查看镜像、挂载</h2><p>直接在当前虚拟机上对镜像进行修改，不需要创建实例再修改。</p>
-<figure class="highlight dsconfig"><table><tr><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">1</span>.查看镜像分区表信息<br><span class="hljs-string">virt-df</span> <span class="hljs-string">your</span>.<span class="hljs-string">qcow2</span><br><span class="hljs-string">qemu-img</span> <span class="hljs-string">info</span> <span class="hljs-string">your</span>.<span class="hljs-string">qcow2</span><br><br><span class="hljs-string">2</span>.挂载镜像，修改镜像中的文件<br><span class="hljs-string">guestfish</span> -<span class="hljs-string">a</span> <span class="hljs-string">your</span>.<span class="hljs-string">qcow2</span><br>&gt;&lt;<span class="hljs-string">fs</span>&gt; <span class="hljs-string">launch</span>                            //启动<br>&gt;&lt;<span class="hljs-string">fs</span>&gt; <span class="hljs-built_in">list-partitions</span>                   //查看分区列表<br>/<span class="hljs-string">dev</span>/<span class="hljs-string">sda1</span><br>&gt;&lt;<span class="hljs-string">fs</span>&gt; <span class="hljs-built_in">list-filesystems</span><br>/<span class="hljs-string">dev</span>/<span class="hljs-string">sda1</span>: <span class="hljs-string">xfs</span><br>&gt;&lt;<span class="hljs-string">fs</span>&gt;<span class="hljs-string">mount</span>  /<span class="hljs-string">dev</span>/<span class="hljs-string">sda1</span>  /               //修改当前目录成根目录<br>&gt; <span class="hljs-string">exit</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="6-修改镜像格式"><a href="#6-修改镜像格式" class="headerlink" title="6.修改镜像格式"></a>6.修改镜像格式</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><code class="hljs stylus"><span class="hljs-number">1</span>.转换格式：<br>qemu-<span class="hljs-selector-tag">img</span> convert -f qcow2 -O raw aa<span class="hljs-selector-class">.qcow2</span> aa<span class="hljs-selector-class">.raw</span> -<span class="hljs-selector-tag">p</span><br><br><span class="hljs-number">2</span>.查看镜像信息<br>qemu-<span class="hljs-selector-tag">img</span> info t<span class="hljs-selector-class">.raw</span><br><br><span class="hljs-number">3</span>.上传raw格式镜像：<br>openstack image create <span class="hljs-string">&quot;cv-sugon-data-governance-20210831-alpha&quot;</span> --file cv-sugon-data-governance-<span class="hljs-number">20210831</span>-alpha<span class="hljs-selector-class">.raw</span> --disk-format raw --container-format bare --property hypervisor_type=kvm --public<br></code></pre></td></tr></table></figure>
-
-<h2 id="7-Cloudbreak创建集群"><a href="#7-Cloudbreak创建集群" class="headerlink" title="7.Cloudbreak创建集群"></a>7.Cloudbreak创建集群</h2>]]></content>
-      <tags>
-        <tag>镜像制作、云计算</tag>
       </tags>
   </entry>
 </search>

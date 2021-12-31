@@ -1,0 +1,500 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>消息队列中间件：RabbitMQ | JavaLearning</title><meta name="keywords" content="中间件"><meta name="author" content="wenk207"><meta name="copyright" content="wenk207"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="消息队列（MQ，Message Queue）本质是一个队列，队列中存放的内容是message，是一种跨进程的通信机制，用于上下游传递消息。RabbitMQ是一个消息中间件，它接受、存储、转发消息数据。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="消息队列中间件：RabbitMQ">
+<meta property="og:url" content="http://example.com/2021/11/15/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9ARabbitMQ/index.html">
+<meta property="og:site_name" content="JavaLearning">
+<meta property="og:description" content="消息队列（MQ，Message Queue）本质是一个队列，队列中存放的内容是message，是一种跨进程的通信机制，用于上下游传递消息。RabbitMQ是一个消息中间件，它接受、存储、转发消息数据。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2021-11-15T03:11:27.000Z">
+<meta property="article:modified_time" content="2021-11-15T03:47:41.966Z">
+<meta property="article:author" content="wenk207">
+<meta property="article:tag" content="中间件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/11/15/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9ARabbitMQ/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '消息队列中间件：RabbitMQ',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-11-15 11:47:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">JavaLearning</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">消息队列中间件：RabbitMQ</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-15T03:11:27.000Z" title="发表于 2021-11-15 11:11:27">2021-11-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-11-15T03:47:41.966Z" title="更新于 2021-11-15 11:47:41">2021-11-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="消息队列中间件：RabbitMQ"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>消息队列（MQ，Message Queue）本质是一个队列，队列中存放的内容是message，是一种跨进程的通信机制，用于上下游传递消息。RabbitMQ是一个消息中间件，它接受、存储、转发消息数据。</p>
+<span id="more"></span> 
+
+<h1 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="==RabbitMQ=="></a>==RabbitMQ==</h1><h1 id="一、消息队列"><a href="#一、消息队列" class="headerlink" title="一、消息队列"></a>一、消息队列</h1><h2 id="1-1-MQ相关概念"><a href="#1-1-MQ相关概念" class="headerlink" title="1.1 MQ相关概念"></a>1.1 MQ相关概念</h2><h3 id="1-1-1-什么是MQ"><a href="#1-1-1-什么是MQ" class="headerlink" title="1.1.1 什么是MQ"></a>1.1.1 什么是MQ</h3><p>消息队列（MQ，Message Queue）本质是一个队列，队列中存放的内容是message，是一种跨进程的通信机制，用于上下游传递消息。</p>
+<p>使用MQ以后，消息发送上游只需要依赖MQ，不用依赖其他服务。</p>
+<h3 id="1-1-2-MQ的作用"><a href="#1-1-2-MQ的作用" class="headerlink" title="1.1.2 MQ的作用"></a>1.1.2 MQ的作用</h3><ul>
+<li><p>流量削峰</p>
+</li>
+<li><p>应用解耦</p>
+</li>
+<li><p>异步处理</p>
+</li>
+</ul>
+<h3 id="1-1-3-MQ分类"><a href="#1-1-3-MQ分类" class="headerlink" title="1.1.3 MQ分类"></a>1.1.3 MQ分类</h3><p>常见的MQ有以下几种：</p>
+<ul>
+<li>ActiveMQ：高吞吐量场景较少使用。</li>
+<li>Kafka：为大数据而生，百万级TPS，吞吐量高，在日志领域比较成熟。适合有日志采集需求的大型企业。</li>
+<li>RocketMQ：出自阿里巴巴，单机吞吐量十万级，消息0丢失，支持10亿级别的消息堆积。适合金融互联网。</li>
+<li>RabbitMQ：由Erlang语言开发，在AMQP（高级消息队列协议）基础上完成，当前最流行的MQ。吞吐量万级，支持多种语言。适合数据量不是特别大的中小型公司。</li>
+</ul>
+<h2 id="1-2-RabbitMQ"><a href="#1-2-RabbitMQ" class="headerlink" title="1.2 RabbitMQ"></a>1.2 RabbitMQ</h2><h3 id="1-2-1-核心概念"><a href="#1-2-1-核心概念" class="headerlink" title="1.2.1 核心概念"></a>1.2.1 核心概念</h3><p><strong>RabbitMQ</strong></p>
+<p>RabbitMQ是一个消息中间件，它接受、存储、转发消息数据。</p>
+<p><strong>生产者（Producer）</strong></p>
+<p>产生数据、发送消息的程序是生产者。</p>
+<p><strong>交换机（Exchange）</strong></p>
+<p>交换机是RabbitMQ的一个重要组件。它一方面接收来自生产者的消息，另一方面将消息推送到队列中。交换机决定了将消息推送到特定队列还是推送到多个队列。</p>
+<p><strong>队列（Queue）</strong></p>
+<p>队列是RabbitMQ内部使用的一种数据结构。消息只能存储在队列中，队列仅受主机的内存和磁盘限制的约束，本质上是一个大的消息缓冲区。许多生产者可以将消息发送到一个队列，许多消费者也可以尝试从一个队列接收数据。</p>
+<p><strong>消费者（Consumer）</strong></p>
+<p>消费者指的是等待接受消息的程序。同一个应用程序既可以是生产者也可以是消费者。</p>
+<h3 id="1-2-2-安装"><a href="#1-2-2-安装" class="headerlink" title="1.2.2 安装"></a>1.2.2 安装</h3><p>RabbitMQ官方文档：<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/documentation.html">Docs</a></p>
+<p>RabbitMQ基于Erlang环境，因此需要先安装Erlang。</p>
+<p>安装之前需要确保RabbitMQ和Erlang的版本要对应：<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/which-erlang.html">RabbitMQ Erlang Version Requirements</a></p>
+<p>本机环境：</p>
+<ul>
+<li>CentOS-7.9</li>
+<li>Erlang-23.2.3</li>
+<li>RabbitMQ-3.8.15</li>
+</ul>
+<p>使用<code>rpm</code>方式，在packagecloud网站下载安装包。</p>
+<p><strong>1、安装Erlang</strong></p>
+<p>下载对应版本的安装包，<a target="_blank" rel="noopener" href="https://packagecloud.io/rabbitmq/erlang?page=1">packagecloud</a>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget --content-disposition https://packagecloud.io/rabbitmq/erlang/packages/el/7/erlang-23.2.3-1.el7.x86_64.rpm/download.rpm<br></code></pre></td></tr></table></figure>
+
+<p>安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">rpm -ivh erlang-23.2.3-1.el7.x86_64.rpm<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>2、安装socat</strong></p>
+<p>除了Erlang环境，还需要安装socat：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">yum install socat logrotate -y<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>3、安装RabbitMQ</strong></p>
+<p>下载对应版本的安装包，<a target="_blank" rel="noopener" href="https://packagecloud.io/rabbitmq/rabbitmq-server?page=1">packagecloud</a>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget --content-disposition https://packagecloud.io/rabbitmq/rabbitmq-server/packages/el/8/rabbitmq-server-3.8.15-1.el8.noarch.rpm/download.rpm<br></code></pre></td></tr></table></figure>
+
+<p>安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">rpm -ivh rabbitmq-server-3.8.15-1.el8.noarch.rpm<br></code></pre></td></tr></table></figure>
+
+<p>安装完成后，启动rabbit服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">systemctl start rabbitmq-server.service<br></code></pre></td></tr></table></figure>
+
+<p><strong>4、安装插件</strong></p>
+<p>可以通过以下命令开启web管理插件，需要先停止rabbitmq服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">rabbitmq-plugins <span class="hljs-built_in">enable</span> rabbitmq_management<br></code></pre></td></tr></table></figure>
+
+<p>插件开启成功后就可以在浏览器中访问，默认端口号为<code>15672</code>（记得关闭防火墙或者开放端口）。</p>
+<p>管理界面需要账号密码登陆，默认的账号和密码都是<code>guest</code>。</p>
+<p>查看当前所有用户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">rabbitmqctl list_users<br></code></pre></td></tr></table></figure>
+
+
+
+<p>添加新用户<code>admin</code>，密码也为<code>admin</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">rabbitmqctl add_user admin admin<br></code></pre></td></tr></table></figure>
+
+
+
+<p>设置用户角色（标签），将<code>admin</code>设置为<code>administrator</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">rabbitmqctl set_user_tags admin administrator<br></code></pre></td></tr></table></figure>
+
+
+
+<p>设置用户权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">rabbitmqctl set_permissions -p <span class="hljs-string">&quot;/&quot;</span> admin <span class="hljs-string">&quot;.*&quot;</span> <span class="hljs-string">&quot;.*&quot;</span> <span class="hljs-string">&quot;.*&quot;</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="1-2-3-原理和工作模式"><a href="#1-2-3-原理和工作模式" class="headerlink" title="1.2.3 原理和工作模式"></a>1.2.3 原理和工作模式</h3><p><strong>工作原理</strong></p>
+<p>RabbitMQ的工作原理如图所示：</p>
+<p><img src="C:\Users\Kangshitao\AppData\Roaming\Typora\typora-user-images\image-20211015214425680.png" alt="image-20211015214425680"></p>
+<p>生产者将消息通过Channel发送到Exchange，Exchange决定将消息分发到哪个队列，然后由消费者从队列中接收消息。</p>
+<p>其中的核心概念：</p>
+<ul>
+<li><strong>Broker</strong>：接收和分发消息的应用，RabbitMQ Server就是Message Broker</li>
+<li><strong>Virtual host</strong>：虚拟的分组，当多个不同的用户使用同一个RabbitMQ server提供的服务时，可以划分出多个vhost，每个用户在自己的vhost创建exchange/queue等。</li>
+<li><strong>Connection</strong>：publisher/consumer和broker之间的TCP连接。</li>
+<li><strong>Channel</strong>：Channel是在connection内部建立的逻辑连接，多线程情况下通常每个线程创建单独的channel进行通讯。AMQP method包含了channel id帮助客户端和broker识别channel，<strong>channel是完全隔离的</strong>。<strong>Channel作为轻量级的Connection极大减少了操作系统建立TCP connection的开销。</strong></li>
+<li><strong>Exchange</strong>：交换机。消息到达broker中会首先到达Exchange，Exchange根据分发规则，匹配查询表中的routing key，分发消息到queue中去。常用的类型有：direct（point-to-point）、topic（publish-subscribe）、fanout（multicast）。</li>
+<li><strong>Queue</strong>：消息被送到Queue中，然后被消费者取走。</li>
+<li><strong>Binding</strong>：<strong>exchange</strong>和<strong>queue</strong>之间的虚拟连接。binding中可以包含Routing key，binding信息被保存到exchange中的查询表中，用于message的分发依据。声明binding关系的时候，可以声明RoutingKey参数</li>
+</ul>
+<p><strong>工作模式</strong></p>
+<p>RabbitMQ一共有7种工作模式，参考<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/getstarted.html">Get Started</a>：</p>
+<p><img src="C:\Users\Kangshitao\AppData\Roaming\Typora\typora-user-images\image-20211015222337420.png" alt="image-20211015222337420"></p>
+<h1 id="二、Hello-World"><a href="#二、Hello-World" class="headerlink" title="二、Hello World"></a>二、Hello World</h1><h2 id="2-1-介绍"><a href="#2-1-介绍" class="headerlink" title="2.1 介绍"></a>2.1 介绍</h2><p><a target="_blank" rel="noopener" href="https://www.rabbitmq.com/tutorials/tutorial-one-java.html">Hello World</a>模式是RabbitMQ最简单的一个模式。下图中的P表示生产者，C是消费者，中间框是一个队列，是RabbitMQ代表消费者保存的消息缓冲区。</p>
+<p><img src="C:\Users\Kangshitao\AppData\Roaming\Typora\typora-user-images\image-20211015222548402.png" alt="Hello World模式"></p>
+<h2 id="2-2-实现"><a href="#2-2-实现" class="headerlink" title="2.2 实现"></a>2.2 实现</h2><p><strong>1、在IDEA中创建Maven项目，然后引入依赖：</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.rabbitmq<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>amqp-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.8.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-io<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-io<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.6<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>2、编写生产者的代码</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Producer</span> </span>&#123;    <span class="hljs-comment">// 队列名称    public static final String QUEUE_NAME = &quot;hello&quot;;    //发消息    public static void main(String[] args) throws IOException, TimeoutException &#123;        //创建一个连接工厂        ConnectionFactory factory = new ConnectionFactory();        //设置工厂的ip，连接队列        factory.setHost(&quot;192.168.198.198&quot;); //RabbitMQ服务主机的ip        //设置用户名和密码        factory.setUsername(&quot;admin&quot;);        factory.setPassword(&quot;admin&quot;);        //创建连接，每个连接有多个channel，channel是用来发消息的。        Connection connection = factory.newConnection();        //获取channel        Channel channel = connection.createChannel();        //生成一个队列用于通信，简单起见，使用默认的交换机        channel.queueDeclare(QUEUE_NAME, false, false, false, null);        //发消息        String message = &quot;hello, world&quot;;        channel.basicPublish(&quot;&quot;, QUEUE_NAME, null, message.getBytes());        System.out.println(&quot;消息发送完毕！&quot;);    &#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>其中关键方法的说明：</p>
+<ul>
+<li><code>queueDeclare()</code>，用于声明一个队列，其中的各个参数依次解释如下：<ul>
+<li>队列名。</li>
+<li>队列的消息是否持久化，默认情况下消息存储在内存中(不持久化）。</li>
+<li>该队列是否进行消费共享，true表示允许多个消费者消费。</li>
+<li>是否自动删除 最后一个消费者端开连接以后，该队列是否自动删除。</li>
+<li>其他参数。</li>
+</ul>
+</li>
+<li><code>basicPublish()</code>，用于发布消息：<ul>
+<li>交换机名称，用于指定发送到哪个交换机。</li>
+<li>routingKey，路由的key值。这里使用的是channel名字作为routingKey</li>
+<li>其他参数信息。</li>
+<li>发送消息的消息体。</li>
+</ul>
+</li>
+</ul>
+<p><strong>3、编写消费者的代码</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Consumer</span> </span>&#123;    <span class="hljs-comment">// 队列名称    public static final String QUEUE_NAME = &quot;hello&quot;;        //接收消息    public static void main(String[] args) throws IOException, TimeoutException &#123;        //创建连接工厂        ConnectionFactory factory = new ConnectionFactory();        //设置ip        factory.setHost(&quot;192.168.198.198&quot;);        //设置用户名和密码        factory.setUsername(&quot;admin&quot;);        factory.setPassword(&quot;admin&quot;);        //创建连接        Connection connection = factory.newConnection();        //创建信道        Channel channel = connection.createChannel();        //消费者接收消息（消费消息）        //接收消息的回调函数        DeliverCallback deliverCallback = (consumerTag,message)-&gt;&#123;            System.out.println(new String(message.getBody()));        &#125;;        CancelCallback cancelCallback = (consumerTag)-&gt;&#123;            System.out.println(&quot;消息消费被中断&quot;);        &#125;;        channel.basicConsume(QUEUE_NAME,true, deliverCallback,cancelCallback);    &#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p><code>basicConsume()</code>的参数说明：</p>
+<ul>
+<li>指定消费的队列名，即从哪个队列中取消息。</li>
+<li>消费成功之后是否自动应答。</li>
+<li>消费者接收的回调函数。</li>
+<li>消费者取消消费的回调函数。</li>
+</ul>
+<blockquote>
+<p>如果需要修改现有的exchange和queue，需要删除现有的队列，重新创建。</p>
+</blockquote>
+<p><strong>4、运行</strong></p>
+<p>启动生产者程序，会创建Channel并发送消息，然后启动消费者程序，会收到来自生产者的消息。</p>
+<h1 id="三、Work-Queues"><a href="#三、Work-Queues" class="headerlink" title="三、Work Queues"></a>三、Work Queues</h1><p><a target="_blank" rel="noopener" href="https://www.rabbitmq.com/tutorials/tutorial-two-java.html">Work Queues</a>模式的主要思想是避免因立即执行资源密集型任务而不得不等待它完成。在这个模式中，我们将任务封装为消息，并将其发送到队列。当有多个工作线程时，这些工作线程将一起处理这些任务。</p>
+<p><img src="C:\Users\Kangshitao\AppData\Roaming\Typora\typora-user-images\image-20211016200456597.png" alt="Work Queues"></p>
+<h2 id="3-1-轮询分发消息"><a href="#3-1-轮询分发消息" class="headerlink" title="3.1 轮询分发消息"></a>3.1 轮询分发消息</h2><p>Work Queues模式下使用的轮询分发的机制，对于多个消费者线程，会轮流分发任务。</p>
+<p>下面我们以一个生产者，两个消费者线程来模拟。</p>
+<p><strong>抽取工具类</strong></p>
+<p>创建channel之前的代码是相同的，因此可以单独抽取出来，作为工具类：</p>
+<p><code>RabbitMqUtils.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RabbitMqUtils</span> </span>&#123;    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Channel <span class="hljs-title">getChannel</span><span class="hljs-params">()</span></span>&#123;        ConnectionFactory factory = <span class="hljs-keyword">new</span> ConnectionFactory();        factory.setHost(<span class="hljs-string">&quot;192.168.198.198&quot;</span>);        factory.setUsername(<span class="hljs-string">&quot;admin&quot;</span>);        factory.setPassword(<span class="hljs-string">&quot;admin&quot;</span>);        Connection connection = <span class="hljs-keyword">null</span>;        <span class="hljs-keyword">try</span> &#123;            connection = factory.newConnection();        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;            e.printStackTrace();        &#125; <span class="hljs-keyword">catch</span> (TimeoutException e) &#123;            e.printStackTrace();        &#125;        Channel channel = <span class="hljs-keyword">null</span>;        <span class="hljs-keyword">try</span> &#123;            channel = connection.createChannel();        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;            e.printStackTrace();        &#125;        <span class="hljs-keyword">return</span> channel;    &#125;&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>生产者</strong></p>
+<p>启动发送线程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Task01</span> </span>&#123;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String QUEUE_NAME = <span class="hljs-string">&quot;hello&quot;</span>;    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;        Channel channel = RabbitMqUtils.getChannel();        channel.queueDeclare(QUEUE_NAME,<span class="hljs-keyword">false</span>,<span class="hljs-keyword">false</span>,<span class="hljs-keyword">false</span>,<span class="hljs-keyword">null</span>);        <span class="hljs-comment">//从控制台接收信息发送到消费者        Scanner scanner = new Scanner(System.in);        while(scanner.hasNext())&#123;            String message = scanner.next();            channel.basicPublish(&quot;&quot;,QUEUE_NAME,null,message.getBytes());            System.out.println(message+&quot;发送完成！&quot;);        &#125;    &#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>启动两个工作线程</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Worker01</span> </span>&#123;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String QUEUE_NAME = <span class="hljs-string">&quot;hello&quot;</span>;    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;        Channel channel = RabbitMqUtils.getChannel();        <span class="hljs-comment">//消息的接收        DeliverCallback deliverCallback = (consumerTag,message)-&gt;&#123;            System.out.println(&quot;接收到的消息：&quot;+new String(message.getBody()));        &#125;;        CancelCallback cancelCallback = (consumerTag)-&gt;&#123;            System.out.println(consumerTag+&quot;消息被取消接受&quot;);        &#125;;        System.out.println(&quot;Consumer 1------&quot;);        channel.basicConsume(QUEUE_NAME,true,deliverCallback,cancelCallback);    &#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>使用IDEA设置并行运行，<code>Edit Configurations</code>-&gt;<code>Allow multiple instances</code>，这样可以同时启动两个消费者线程。</p>
+<p><strong>运行</strong></p>
+<p>生产者发送消息，消费者1和消费者2会轮流处理消息。</p>
+<p>比如生产者发送1、2、3、4、5、6，消费者1接收到1、3、5，消费者2接收到2、4、6。</p>
+<h2 id="3-2-消息应答"><a href="#3-2-消息应答" class="headerlink" title="3.2 消息应答"></a>3.2 消息应答</h2><p><strong>概念</strong></p>
+<p>消费者完成一个任务需要耗费一定的时间，RabbitMQ一旦向消费者发送消息后，会将此消息标记为删除，这种情况下，如果消费者处理任务的过程中出现故障，会导致任务丢失。<strong>为了保证消息不会丢失，RabbitMQ引入了消息应答机制</strong>。</p>
+<p><strong>消息应答（Message acknowledgment）</strong>：消费者在接收到消息并且处理完该消息之后，告诉RabbitMQ此消息已经被处理，RabbitMQ可以将该消息删除。这样就保证当某一个消费者线程故障后，消息会被重新发送给其他消费者，确保消息不会丢失（前提是RabbitMQ无故障）。</p>
+<p>消息应答包括<strong>自动应答</strong>和<strong>手动应答</strong>两种方式：</p>
+<ul>
+<li><strong>自动应答</strong>：消息发送后立即被认为已经传送成功。这种方式没有对传递的消息数量做限制，会导致消费者端消息积压，线程被系统杀死。这种模式仅适用于消费者可以高效并以某种速率能够处理这些消息的情况下使用。</li>
+<li><strong>手动应答</strong>：默认是手动应答模式。如果一个消费者线程宕机，其消息可以被其他消费者线程消费，而不会出现消息丢失的情况。</li>
+</ul>
+<p>手动应答示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/** * 消息在手动应答时不丢失、放回队列中重新消费 */</span><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Worker03</span> </span>&#123;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String TASK_QUEUE_NAME = <span class="hljs-string">&quot;ack_queue&quot;</span>;    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;        Channel channel = RabbitMqUtils.getChannel(); <span class="hljs-comment">//获取channel        System.out.println(&quot;消费者1等待接收消息，处理时间较短------&quot;);        //手动应答        boolean autoAck = false;        DeliverCallback deliverCallback = (consumerTag, message)-&gt;&#123;            //沉睡1s，模拟处理信息场景。            SleepUtils.sleep(1); //工具类SleepUtils用来睡眠线程。            System.out.println(&quot;接收到的消息：&quot;+new String(message.getBody(),&quot;UTF-8&quot;));            //手动应答。参数1为消息的标记tag，参数2表示是否批量应答            channel.basicAck(message.getEnvelope().getDeliveryTag(),false);        &#125;;        CancelCallback cancelCallback = (consumerTag)-&gt;&#123;            System.out.println(consumerTag+&quot;消息被取消接受&quot;);        &#125;;        //设置为手动应答        channel.basicConsume(TASK_QUEUE_NAME,autoAck,deliverCallback,cancelCallback);    &#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>手动应答主要是在接收消息的回调方法中调用<code>basicAck()</code>方法，已经在<code>basicConsume()</code>方法中设置自动应答方式为false。</p>
+<p>其中<code>basicAck()</code>方法的第二个参数表示是否批量化应答。如果是**批量化应答(Multiple)**，则每次会应答一个批次的消息。</p>
+<p><strong>手动应答的好处就是可以批量应答并且减少网络拥堵</strong>。</p>
+<p><strong>消息重新入队</strong>：如果某个消费者由于某些原因失去连接（或发生故障），导致消息未发送ACK确认，RabbitMQ将了解到消息未完全处理，并将其重新排队发送给其他消费者。这样，即使某个消费者偶尔死亡，也可以确保不丢失消息。</p>
+<h2 id="3-3-RabbitMQ持久化"><a href="#3-3-RabbitMQ持久化" class="headerlink" title="3.3 RabbitMQ持久化"></a>3.3 RabbitMQ持久化</h2><p><strong>消息应答</strong>能够确保消费者线程故障后，消息不会丢失，如何保障当RabbitMQ服务停掉以后消息也不丢失？</p>
+<p>这就<strong>需要将队列和消息都标记为持久化。</strong></p>
+<p><strong>队列持久化</strong></p>
+<p>在声明队列时将是否持久化的参数置为<code>true</code>即可：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">channel.queueDeclare(TASK_QUEUE_NAME,<span class="hljs-keyword">true</span>,<span class="hljs-keyword">false</span>,<span class="hljs-keyword">false</span>,<span class="hljs-keyword">null</span>);<br></code></pre></td></tr></table></figure>
+
+<p>第二个参数就表示是否持久化队列。</p>
+<p>如果已经存在的队列需要持久化，需要将队列删除，重新创建。</p>
+<p><strong>消息持久化</strong></p>
+<p>仅将队列持久化不能保证消息不丢失，因为如果消费者线程宕机断开连接，仍然有可能出现消息丢失的情况。</p>
+<p>设置消息持久化，需要在<code>channel</code>发布消息时设置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">channel.basicPublish(<span class="hljs-string">&quot;&quot;</span>,TASK_QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN,message.getBytes(<span class="hljs-string">&quot;UTF-8&quot;</span>));<br></code></pre></td></tr></table></figure>
+
+<p>这种方式只是尽量保证持久化，如果绝对保证持久化，需要使用发布确认机制。</p>
+<p><strong>预取值</strong></p>
+<p><code>basicQos()</code>方法可以设置消费者线程的预取值。</p>
+<p>预取值表示一个消费者线程对应的信道最大可以堆积的消息个数，即<strong>通道上允许的未确认消息的最大数量</strong>。</p>
+<blockquote>
+<p>类似于缓冲池，预取值最大值就是缓存池的最大值。最多只能存放预取值个数的未确认消息。</p>
+</blockquote>
+<p>如果不设置预取值，可能会有大量已传递但尚未处理的消息的数量堆积，导致消费者RAM消耗。</p>
+<p><strong>不公平分发</strong></p>
+<p>轮询方式是不管每个消费者的处理速度，给每个消费者线程轮流分发任务。</p>
+<p>不公平分发是指<strong>根据每个消费者线程的处理能力，为每个消费者线程分配不同个数的消息</strong>。——能者多劳。</p>
+<p>在<strong>消费者</strong>的信道上，设置Qos的值为1，就可以表示按处理能力分发：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//将Qos设置为1，就是不公平分发；默认为0，表示轮询分发channel.basicQos(1); </span><br></code></pre></td></tr></table></figure>
+
+<p>Qos的值为1时，表示根据消费者线程的处理能力分发，最多堆积一个任务。</p>
+<h1 id="四、发布确认"><a href="#四、发布确认" class="headerlink" title="四、发布确认"></a>四、发布确认</h1><p>如果想要确保消息一定不会丢失，除了上面提到的<strong>队列持久化</strong>和<strong>消息持久化</strong>，还需要使用<strong>发布确认（Publisher confirm）</strong>。这三种设置保证了消息不会丢失。</p>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/tutorials/tutorial-seven-java.html">Publisher Confirms</a></p>
+<h2 id="4-1-发布确认原理"><a href="#4-1-发布确认原理" class="headerlink" title="4.1 发布确认原理"></a>4.1 发布确认原理</h2><p>生产者将channel设置为confirm模式，一旦channel进入<strong>confirm模式</strong>，<strong>所有在该channel上面发布的消息都会被指派一个唯一的ID（从1开始）</strong>。一旦消息被投递到所有匹配的队列之后，broker会发送一个确认给生产者。</p>
+<p>生产者得知消息已经正确到达目的队列后，如果消息和队列是可持久化的，确认消息会在消息写入磁盘后发出。</p>
+<blockquote>
+<p>broker回传给生产者的确认消息中delivery-tag域中包含了确认消息的序列号，此外broker也可以设置basic.ack的multiple域，表示到这个序列号之前的所有消息都已经得到了处理。</p>
+<p>发布确认（Publisher confirm）是broker给生产者发送的确认消息。</p>
+<p>消息应答（Message acknowledgment）是消费者处理完消息发送给broker的ack确认。</p>
+</blockquote>
+<p><strong>confirm模式</strong>的好处在于它是异步的，发布一条消息后，生产者可以边等确认消息边发送下一条消息。消息得到确认或者丢失，生产者都会通过相应的回调方法进行处理。</p>
+<h2 id="4-2-发布确认策略"><a href="#4-2-发布确认策略" class="headerlink" title="4.2 发布确认策略"></a>4.2 发布确认策略</h2><h3 id="4-2-1-开启发布确认"><a href="#4-2-1-开启发布确认" class="headerlink" title="4.2.1 开启发布确认"></a>4.2.1 开启发布确认</h3><p>生产者创建信道后，调用<code>confirmSelect()</code>方法即可开启发布确认模式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">channel.confirmSelect();<br></code></pre></td></tr></table></figure>
+
+<p>发布确认可以有单个确认、批量确认、异步确认三种方式。</p>
+<h3 id="4-2-2-单个确认发布"><a href="#4-2-2-单个确认发布" class="headerlink" title="4.2.2 单个确认发布"></a>4.2.2 单个确认发布</h3><p>单个确认发布，即对每一条消息进行同步确认，生产者发布一条消息后只有它被确认发布后，后续的消息才能继续发布。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">publishMessageIndividually</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;    Channel channel = RabbitMqUtils.getChannel();    <span class="hljs-comment">//信道名字使用随机的UUID    String queueName = UUID.randomUUID().toString();    channel.queueDeclare(queueName,true,false,false,null);    //开启发布确认    channel.confirmSelect();    long start = System.currentTimeMillis();    //批量发消息    for(int i=0;i&lt;1000;i++)&#123;        String message = i+&quot;&quot;;        channel.basicPublish(&quot;&quot;,queueName,null,message.getBytes());        //单个消息马上确认        boolean flag = channel.waitForConfirms();        if(flag)&#123;            System.out.println(&quot;第&quot;+i+&quot;条消息发送成功&quot;);        &#125;    &#125;    long end = System.currentTimeMillis();    System.out.println(&quot;发布1000个单独确认消息，耗时&quot;+(end-start)+&quot;ms&quot;);&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>单个确认发布的速度是最慢的，因为要每条消息都确认一次。</p>
+<h3 id="4-2-3-批量确认发布"><a href="#4-2-3-批量确认发布" class="headerlink" title="4.2.3 批量确认发布"></a>4.2.3 批量确认发布</h3><p>批量确认发布是指根据批次大小确认发布，这种方式的缺点是当发生故障导致发布出现问题时，不知道哪个消息出问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//批量发布确认public static void publishMessageBatch() throws Exception&#123;    Channel channel = RabbitMqUtils.getChannel();    //信道名字使用随机的UUID    String queueName = UUID.randomUUID().toString();    channel.queueDeclare(queueName,true,false,false,null);    //开启发布确认    channel.confirmSelect();    long start = System.currentTimeMillis();    //批量发消息，并批量确认消息    int batchSize = 100; //每100条确认一次    for(int i=0;i&lt;1000;i++)&#123;        String message = i+&quot;&quot;;        channel.basicPublish(&quot;&quot;,queueName,null,message.getBytes());        if((i+1)%batchSize==0)&#123; //每100条消息确认一次            boolean flag = channel.waitForConfirms();            if(flag)&#123;                System.out.println(&quot;确认前&quot;+i+&quot;条数据&quot;);            &#125;        &#125;    &#125;    long end = System.currentTimeMillis();    System.out.println(&quot;发布1000个批量确认消息，耗时&quot;+(end-start)+&quot;ms&quot;);&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-2-4-异步确认发布"><a href="#4-2-4-异步确认发布" class="headerlink" title="4.2.4 异步确认发布"></a>4.2.4 异步确认发布</h3><p>异步确认发布是效率和可靠性最高的。对于已确认消息和未确认消息，异步确认方式都能够处理。</p>
+<p>异步确认发布主要是通过<code>addConfirmListener</code>方法监听确认和未确认的消息，使用哈希表记录所有发布的消息，对于成功确认的消息从哈希表中删除，剩下的是未确认的消息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//异步批量确认public static void publishMessageAsync() throws Exception&#123;    Channel channel = RabbitMqUtils.getChannel();    //信道名字使用随机的UUID    String queueName = UUID.randomUUID().toString();    channel.queueDeclare(queueName,true,false,false,null);    //开启发布确认    channel.confirmSelect();    //使用哈希表记录所有消息，便于多个线程进行消息的添加和删除    /*线程安全的哈希表，适用于高并发的情况。    1.哈希表能够轻松的将序号和消息进行关联。    2.可以轻松地批量删除条目，只需要知道序号    3.支持高并发（多线程）    */    ConcurrentSkipListMap&lt;Long,String&gt; map = new ConcurrentSkipListMap&lt;&gt;();        long start = System.currentTimeMillis();    //创建消息的监听器，监听哪些消息成功了，哪些消息失败了。    //消息确认成功 回调函数    /*参数：1. 消息的标记（序号）2.是否为批量确认*/    ConfirmCallback ackCallback = (deliveryTag, multiple) -&gt;&#123;        //2.删除掉已经确认的消息，剩下的就是未确认的消息        if(multiple)&#123; //默认multiple是true，即批量确认的            //如果是批量确认的，则找到所有小于当前序号的值，并清除。这样剩下的就是未确认的消息            //headMap方法就是返回所有小于指定序号的值的map，第二个参数表示是否找出等于序号的。            ConcurrentNavigableMap&lt;Long, String&gt; navigableMap = map.headMap(deliveryTag, true);            navigableMap.clear();        &#125;else&#123;//如果不是批量确认，则只删除当前已经确认的消息即可。            map.remove(deliveryTag);        &#125;        System.out.println(&quot;确认的消息：&quot;+deliveryTag);    &#125;;    //监听确认失败的消息    ConfirmCallback nackCallback = (deliveryTag, multiple) -&gt;&#123;        //3.打印未确认的消息        System.out.println(&quot;未确认的消息：&quot;+deliveryTag);    &#125;;    /*参数：1.监听确认成功的消息 2. 监听确认失败的消息*/    channel.addConfirmListener(ackCallback,nackCallback);    //批量发消息，异步确认消息    int batchSize = 100; //每100条确认一次    for (int i = 0; i &lt; 1000; i++) &#123;        String message = &quot;消息&quot; + i;        //1.记录下所有要发送的消息        map.put(channel.getNextPublishSeqNo(),message);        //发布消息        channel.basicPublish(&quot;&quot;,queueName,null,message.getBytes());    &#125;    long end = System.currentTimeMillis();    System.out.println(&quot;发布&quot;+MESSAGE_COUNT+&quot;个异步确认消息，耗时&quot;+(end-start)+&quot;ms&quot;);&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="五、交换机"><a href="#五、交换机" class="headerlink" title="五、交换机"></a>五、交换机</h1><h2 id="5-1-相关概念"><a href="#5-1-相关概念" class="headerlink" title="5.1 相关概念"></a>5.1 相关概念</h2><p>生产者生产的消息不会直接发送到队列，只能将消息发送到<strong>交换机（exchange）</strong>，然后由交换机发送到队列。</p>
+<p><strong>交换机</strong>的功能：①接收来自生产者的消息。②将消息推入队列。</p>
+<p>交换机主要的三个类型：</p>
+<ul>
+<li><strong>fanout</strong>：这种类型的交换机不分析Routing Key，将消息转发到所有和该交换机绑定的队列中。用于<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/tutorials/tutorial-three-java.html">Publish/Subscribe模式</a>。</li>
+<li><strong>direct</strong>：这类交换机需要精准匹配Routing Key，只将消息转发到指定Routing Key的队列中。用于<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/tutorials/tutorial-four-java.html">Routing模式</a>。</li>
+<li><strong>topic</strong>：这类交换机按照一定规则匹配Routing Key，将消息转发到匹配到的队列中，通常是一组相同主题的队列。用于<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/tutorials/tutorial-five-java.html">Topics模式</a></li>
+</ul>
+<p><strong>临时队列</strong></p>
+<p>创建一个随机名称的临时队列：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">String queueName = channel.queueDeclare().getQueue();<br></code></pre></td></tr></table></figure>
+
+<p><strong>绑定（bindings）</strong></p>
+<p>binding是指exchange和queue之间的关系，将exchange和queue进行绑定。</p>
+<p>其中一个交换机和一个队列之间可以有多个binding key</p>
+<h2 id="5-2-Publish-Subscribe"><a href="#5-2-Publish-Subscribe" class="headerlink" title="5.2 Publish/Subscribe"></a>5.2 Publish/Subscribe</h2><p><a target="_blank" rel="noopener" href="https://www.rabbitmq.com/tutorials/tutorial-three-java.html">发布订阅模式</a>是使用的扇出（fanout）类型的交换机。</p>
+<p>交换机会<strong>将消息推送至所有和他绑定的队列，不会匹配Routing Key</strong>。无论绑定的Routing Key是什么值，都会发送到所有和其绑定的队列中。</p>
+<p><img src="C:\Users\Kangshitao\AppData\Roaming\Typora\typora-user-images\image-20211019201626154.png" alt="Publish/Subscribe"></p>
+<p><strong>实例</strong></p>
+<p>如上图所示，一个交换机，两个队列。</p>
+<p>生产者：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EmitLog</span> </span>&#123;    <span class="hljs-comment">//交换机名字为logs    public static final String EXCHANGE_NAME = &quot;logs&quot;;    public static void main(String[] args) throws IOException &#123;        Channel channel = RabbitMqUtils.getChannel();        //声明为fanout类型，可以用枚举类型或者字符串。        //channel.exchangeDeclare(EXCHANGE_NAME,&quot;fanout&quot;);        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.FANOUT);        Scanner scanner = new Scanner(System.in);        while(scanner.hasNext())&#123;            String message = scanner.next();            //绑定信息为空            channel.basicPublish(EXCHANGE_NAME,&quot;&quot;,null,message.getBytes(&quot;UTF-8&quot;));            System.out.println(&quot;生产者发出消息：&quot;+message);        &#125;    &#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>消费者1</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReceiveLogs01</span> </span>&#123;    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;        Channel channel = RabbitMqUtils.getChannel();        <span class="hljs-comment">/*声明临时队列        临时队列的队列名称是随机的        当消费者断开与队列的连接后，队列会被自动删除。         */</span>        String queueName = channel.queueDeclare().getQueue();        <span class="hljs-comment">/*        将队列和交换机绑定 binding，routingKey为空         */</span>        channel.queueBind(queueName,EXCHANGE_NAME,<span class="hljs-string">&quot;&quot;</span>);        DeliverCallback deliverCallback = (consumerTag, message)-&gt;&#123;            System.out.println(<span class="hljs-string">&quot;消费者1控制台打印接收到的消息：&quot;</span>+<span class="hljs-keyword">new</span> String(message.getBody(),<span class="hljs-string">&quot;UTF-8&quot;</span>));        &#125;;        CancelCallback cancelCallback = consumerTag-&gt;&#123;&#125;;        channel.basicConsume(queueName,deliverCallback,cancelCallback);    &#125;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>消费者2的代码和消费者1相同，会生成另一个随机名称的临时队列。</p>
+<p>这样，当生产者每次发送一条消息，消费者1和消费者2都能接收到。</p>
+<h2 id="5-3-Routing"><a href="#5-3-Routing" class="headerlink" title="5.3 Routing"></a>5.3 Routing</h2><p><a target="_blank" rel="noopener" href="https://www.rabbitmq.com/tutorials/tutorial-four-java.html">Routing模式</a>使用的是direct类型交换机，这种模式下，交换机需要精准匹配Routing Key，只将消息转发到指定Routing Key的队列中。</p>
+<p><img src="C:\Users\Kangshitao\AppData\Roaming\Typora\typora-user-images\image-20211019204129471.png" alt="Routing"></p>
+<p>如图，交换机X绑定了Q1和Q2两个队列，其中和Q1之间的Binding Key为<code>orange</code>，和Q2的Binding Key包括<code>black</code>和<code>green</code>两个。</p>
+<p>Routing Key为<code>orange</code>的消息会被推送到Q1队列。Routing Key为<code>black</code>和<code>green</code>的消息会被推送到Q2队列。</p>
+<blockquote>
+<p>多重绑定：允许不同队列和交换机之间的Binding Key是相同的，这种情况下效果和Publish/Subscribe模式相同。</p>
+</blockquote>
+<p><strong>实现</strong></p>
+<p>生产者：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DirectProducer</span> </span>&#123;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String EXCHANGE_NAME = <span class="hljs-string">&quot;X&quot;</span>;    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;        Channel channel = RabbitMqUtils.getChannel();        <span class="hljs-comment">//声明交换机,类型为direct        channel.exchangeDeclare(EXCHANGE_NAME,&quot;direct&quot;);                Scanner scanner = new Scanner(System.in);        while(scanner.hasNext())&#123;            String message = scanner.next();            //当Bingding Key取不同值时，会根据情况发送的相应的队列。            channel.basicPublish(EXCHANGE_NAME,&quot;orange&quot;,null,message.getBytes(&quot;UTF-8&quot;));//            channel.basicPublish(EXCHANGE_NAME,&quot;black&quot;,null,message.getBytes(&quot;UTF-8&quot;));//            channel.basicPublish(EXCHANGE_NAME,&quot;green&quot;,null,message.getBytes(&quot;UTF-8&quot;));            System.out.println(&quot;Direct类型，生产者发出消息：&quot;+message);        &#125;    &#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>消费者1：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DirectConsumer01</span> </span>&#123;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String EXCHANGE_NAME = <span class="hljs-string">&quot;X&quot;</span>;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String QUEUE_NAME = <span class="hljs-string">&quot;Q1&quot;</span>;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String BINGDING_NAME = <span class="hljs-string">&quot;orange&quot;</span>;    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;        Channel channel = RabbitMqUtils.getChannel();        <span class="hljs-comment">//声明交换机,类型为direct        channel.exchangeDeclare(EXCHANGE_NAME,&quot;direct&quot;);        //声明名为Q1的队列        channel.queueDeclare(QUEUE_NAME,false,false,false,null);        //将队列和交换机绑定        channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,BINGDING_NAME);        DeliverCallback deliverCallback = (consumerTag, message)-&gt;&#123;            System.out.println(&quot;C1接收到消息：&quot;+new String(message.getBody(),&quot;UTF-8&quot;));        &#125;;        CancelCallback cancelCallback = consumerTag-&gt;&#123;&#125;;        channel.basicConsume(QUEUE_NAME,deliverCallback,cancelCallback);    &#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>消费者2和消费者1类似，不同的是有两个Bingding：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//多重绑定，一个channel和交换机有两个绑定,两个不同的routing keychannel.queueBind(&quot;Q2&quot;,&quot;X&quot;,&quot;black&quot;);channel.queueBind(&quot;Q2&quot;,&quot;X&quot;,&quot;green&quot;);</span><br></code></pre></td></tr></table></figure>
+
+<p>这样，当发送消息的Routing Key为<code>orange</code>时，消息会被推送到Q1，Routing Key为<code>black</code>或<code>green</code>时，消息被推送到Q2。</p>
+<h2 id="5-4-Topics"><a href="#5-4-Topics" class="headerlink" title="5.4 Topics"></a>5.4 Topics</h2><p><a target="_blank" rel="noopener" href="https://www.rabbitmq.com/tutorials/tutorial-five-java.html">Topics</a>模式使用的是Topic类型的交换机，队列可以匹配一定规则的多个Routing Key。</p>
+<p>Topic模式的Routing Key必须符合一定的要求：<strong>必须是一个单词列表，以<code>.</code>号分开</strong>，单词可以是任意的，比如<code>stock.usd.nyse</code>, <code>nyse.vmw</code>, <code>quick.orange.rabbit</code>等。单词列表最多为255个字节。</p>
+<p><code>*</code>号可以代替一个单词。</p>
+<p><code>#</code>号可以代替0个或多个单词。</p>
+<p><img src="C:\Users\Kangshitao\AppData\Roaming\Typora\typora-user-images\image-20211019213420569.png" alt="Topics"></p>
+<p>如上图所示，交换机X和Q1的Binding Key为<code>*.orange.*</code>，X和Q2的Binding Key为<code>*.*.rabbit</code>和<code>lazy.#</code>。</p>
+<p>一些案例：</p>
+<p>①<code>quick.orange.rabbit</code>：Q1、Q2接收到消息。</p>
+<p>②<code>quick.orange.rabbit</code> ： Q1、Q2接收到消息。</p>
+<p>③<code>lazy.orange.elephant</code>：Q1、Q2 接收到消息。</p>
+<p>④<code>quick.orange.fox</code>：Q1 接收到消息。</p>
+<p>⑤<code>lazy.brown.fox</code>：Q2 接收到消息。</p>
+<p>⑥<code>lazy.pink.rabbit</code> ：Q2 接收一次消息，虽然两种绑定都匹配，但只接收一次。</p>
+<p>⑦<code>quick.brown.fox</code> ：不匹配任何绑定，被丢弃。</p>
+<p>⑧<code>quick.orange.male.rabbit</code> ：是四个单词，不匹配任何绑定，被丢弃。</p>
+<p>⑨<code>lazy.orange.male.rabbit</code> ：是四个单词，Q2接收到消息。</p>
+<p><strong>实现</strong></p>
+<p>声明交换机：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">channel.exchangeDeclare(<span class="hljs-string">&quot;X&quot;</span>,<span class="hljs-string">&quot;topic&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>队列Q1绑定：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">channel.queueBind(<span class="hljs-string">&quot;Q1&quot;</span>,<span class="hljs-string">&quot;X&quot;</span>,<span class="hljs-string">&quot;*.orange.*&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>队列Q2绑定：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">channel.queueBind(<span class="hljs-string">&quot;Q1&quot;</span>,<span class="hljs-string">&quot;X&quot;</span>,<span class="hljs-string">&quot;*.*.rabbit&quot;</span>);channel.queueBind(<span class="hljs-string">&quot;Q1&quot;</span>,<span class="hljs-string">&quot;X&quot;</span>,<span class="hljs-string">&quot;lazy.#&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="六、死信队列"><a href="#六、死信队列" class="headerlink" title="六、死信队列"></a>六、死信队列</h1><p>关于死信队列的官方文档：<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/dlx.html">死信队列</a></p>
+<p>队列中的消息如果发生以下情况就会变成<strong>死信（Dead Letter）</strong>：</p>
+<ul>
+<li>消息被拒绝（<code>basic.reject</code>或<code>basic.nack</code>），并且<code>requeue</code>参数为<code>false</code></li>
+<li>消息TTL超时，即消息过期。</li>
+<li>队列长度超过最大限制。</li>
+</ul>
+<blockquote>
+<p>队列过期不会导致消息变为死信。</p>
+</blockquote>
+<p>死信交换机（Dead Letter eXchanges，DLXs）是正常的交换机，它可以将Dead Letter转发给死信队列，进一步处理。</p>
+<p>如图，正常情况下，消息通过<code>normal_exchange</code>推送到<code>normal_queue</code>，然后被<code>C1</code>消费；如果消息变为死信，<code>normal_queue</code>会将死信转发给死信交换机<code>DLX</code>，<code>DLX</code>将死信推送给死信队列<code>dead_letter_queue</code>，然后被<code>C2</code>消费。</p>
+<p><img src="C:\Users\Kangshitao\AppData\Roaming\Typora\typora-user-images\image-20211019222750171.png" alt="死信队列"></p>
+<p><strong>实现</strong></p>
+<p>生产者：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Producer</span>  </span>&#123;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String NORMAL_EXCHANGE=<span class="hljs-string">&quot;normal_exchange&quot;</span>;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String NORMAL_ROUTING_KEY=<span class="hljs-string">&quot;normal_routing_key&quot;</span>;    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;        Channel channel = RabbitMqUtils.getChannel();        channel.exchangeDeclare(NORMAL_EXCHANGE,<span class="hljs-string">&quot;direct&quot;</span>);        <span class="hljs-comment">//设置过期时间为10s        //AMQP.BasicProperties properties = new AMQP.BasicProperties().builder().expiration(&quot;10000&quot;).build();        //模拟发10条消息        for (int i = 0; i &lt; 10; i++) &#123;            String message = String.valueOf(i);            //超过ttl变为死信            //channel.basicPublish(NORMAL_EXCHANGE,NORMAL_BINDING,properties,message.getBytes(&quot;UTF-8&quot;));             //超过最大长度变为死信            //channel.basicPublish(NORMAL_EXCHANGE,NORMAL_BINDING,null,message.getBytes(&quot;UTF-8&quot;));             channel.basicPublish(NORMAL_EXCHANGE,NORMAL_ROUTING_KEY,null,message.getBytes(&quot;UTF-8&quot;)); //消息被拒绝变为死信            System.out.println(&quot;生产者发出消息：&quot;+message);        &#125;    &#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>消费者C1：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Consumer01</span> </span>&#123;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String NORMAL_EXCHANGE=<span class="hljs-string">&quot;normal_exchange&quot;</span>;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String DEAD_EXCHANGE=<span class="hljs-string">&quot;dead_exchange&quot;</span>;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String NORMAL_QUEUE=<span class="hljs-string">&quot;normal_queue&quot;</span>;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String DEAD_QUEUE=<span class="hljs-string">&quot;dead_queue&quot;</span>;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String NORMAL_ROUTING_KEY=<span class="hljs-string">&quot;normal_routing_key&quot;</span>;    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String DEAD_ROUTING_KEY=<span class="hljs-string">&quot;dead_routing_key&quot;</span>;    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;        Channel channel = RabbitMqUtils.getChannel();        <span class="hljs-comment">//声明普通交换机和死信交换机，类型均为direct        channel.exchangeDeclare(NORMAL_EXCHANGE,&quot;direct&quot;);        channel.exchangeDeclare(DEAD_EXCHANGE,&quot;direct&quot;);        //声明正常队列。正常队列需要将死信消息转发到死信交换机，需要用到map参数        Map&lt;String, Object&gt; arguments = new HashMap&lt;&gt;();        //过期时间,比如为10s；也可以在生产者发送消息的时候设置过期时间        //arguments.put(&quot;x-message-ttl&quot;,10000);        //指定队列的最大长度，一旦消息个数超出这个长度，就会成为死信        //arguments.put(&quot;x-max-length&quot;,6);        //设置死信交换机，即死信消息将要转发到的交换机        arguments.put(&quot;x-dead-letter-exchange&quot;,DEAD_EXCHANGE);        //设置死信routingkey,死信消息通过此路由键发送到死信队列。        arguments.put(&quot;x-dead-letter-routing-key&quot;,DEAD_ROUTING_KEY);        channel.queueDeclare(NORMAL_QUEUE,false,false,false,arguments);        channel.queueBind(NORMAL_QUEUE,NORMAL_EXCHANGE,NORMAL_ROUTING_KEY); //绑定        //声明死信队列        channel.queueDeclare(DEAD_QUEUE,false,false,false,null);        channel.queueBind(DEAD_QUEUE,DEAD_EXCHANGE,DEAD_ROUTING_KEY); //绑定        DeliverCallback deliverCallback = (consumerTag, message)-&gt;&#123;            //模拟拒绝消息            String msg = new String(message.getBody(),&quot;UTF-8&quot;);            if(Integer.parseInt(msg)%2==0)&#123;                System.out.println(msg+&quot;被拒绝&quot;);                //拒绝消息                channel.basicReject(message.getEnvelope().getDeliveryTag(),false);            &#125;else&#123;                System.out.println(&quot;C1打印接收到的消息：&quot;+msg);                //手动应答消息                channel.basicAck(message.getEnvelope().getDeliveryTag(),false);            &#125;        &#125;;        CancelCallback cancelCallback = consumerTag-&gt;&#123;&#125;;        //模拟拒绝消息时，要关闭自动应答。        channel.basicConsume(NORMAL_QUEUE,false,deliverCallback,cancelCallback);    &#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>疑问：为什么要在正常队列中设置<code>x-dead-letter-routing-key</code>? 不设置会导致死信队列收不到消息，但是下文中也设置了死信队列和DLX和Routing Key，二者如果不一致也会导致死信队列收不到死信消息。</p>
+</blockquote>
+<p>消费者C2：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//C2只需要从死信队列中接收消息即可public class Consumer02 &#123;    public static final String DEAD_QUEUE=&quot;dead_queue&quot;;    public static void main(String[] args) throws IOException &#123;        Channel channel = RabbitMqUtils.getChannel();        DeliverCallback deliverCallback = (consumerTag, message)-&gt;&#123;            System.out.println(&quot;C2打印接收到的消息：&quot;+new String(message.getBody(),&quot;UTF-8&quot;));        &#125;;        CancelCallback cancelCallback = consumerTag-&gt;&#123;&#125;;        channel.basicConsume(DEAD_QUEUE,true,deliverCallback,cancelCallback);    &#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="七、延迟队列"><a href="#七、延迟队列" class="headerlink" title="七、延迟队列"></a>七、延迟队列</h1></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">wenk207</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/11/15/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9ARabbitMQ/">http://example.com/2021/11/15/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9ARabbitMQ/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">JavaLearning</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/11/15/API%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%EF%BC%9ASwagger/"><img class="prev-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">API接口文档管理工具：Swagger</div></div></a></div><div class="next-post pull-right"><a href="/2021/11/14/hello-world/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Hello World</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/12/27/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9AKafka/" title="Kafka"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-27</div><div class="title">Kafka</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">wenk207</div><div class="author-info__description">谦逊，努力，时刻保持学习状态</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RabbitMQ"><span class="toc-number">1.</span> <span class="toc-text">&#x3D;&#x3D;RabbitMQ&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">2.</span> <span class="toc-text">一、消息队列</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-MQ%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text">1.1 MQ相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-1-%E4%BB%80%E4%B9%88%E6%98%AFMQ"><span class="toc-number">2.1.1.</span> <span class="toc-text">1.1.1 什么是MQ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-2-MQ%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">2.1.2.</span> <span class="toc-text">1.1.2 MQ的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-3-MQ%E5%88%86%E7%B1%BB"><span class="toc-number">2.1.3.</span> <span class="toc-text">1.1.3 MQ分类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-RabbitMQ"><span class="toc-number">2.2.</span> <span class="toc-text">1.2 RabbitMQ</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-1-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">2.2.1.</span> <span class="toc-text">1.2.1 核心概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-2-%E5%AE%89%E8%A3%85"><span class="toc-number">2.2.2.</span> <span class="toc-text">1.2.2 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-3-%E5%8E%9F%E7%90%86%E5%92%8C%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.2.3.</span> <span class="toc-text">1.2.3 原理和工作模式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Hello-World"><span class="toc-number">3.</span> <span class="toc-text">二、Hello World</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81Work-Queues"><span class="toc-number">4.</span> <span class="toc-text">三、Work Queues</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E8%BD%AE%E8%AF%A2%E5%88%86%E5%8F%91%E6%B6%88%E6%81%AF"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 轮询分发消息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E6%B6%88%E6%81%AF%E5%BA%94%E7%AD%94"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 消息应答</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-RabbitMQ%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">4.3.</span> <span class="toc-text">3.3 RabbitMQ持久化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%8F%91%E5%B8%83%E7%A1%AE%E8%AE%A4"><span class="toc-number">5.</span> <span class="toc-text">四、发布确认</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E5%8F%91%E5%B8%83%E7%A1%AE%E8%AE%A4%E5%8E%9F%E7%90%86"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 发布确认原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E5%8F%91%E5%B8%83%E7%A1%AE%E8%AE%A4%E7%AD%96%E7%95%A5"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 发布确认策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-%E5%BC%80%E5%90%AF%E5%8F%91%E5%B8%83%E7%A1%AE%E8%AE%A4"><span class="toc-number">5.2.1.</span> <span class="toc-text">4.2.1 开启发布确认</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-%E5%8D%95%E4%B8%AA%E7%A1%AE%E8%AE%A4%E5%8F%91%E5%B8%83"><span class="toc-number">5.2.2.</span> <span class="toc-text">4.2.2 单个确认发布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-%E6%89%B9%E9%87%8F%E7%A1%AE%E8%AE%A4%E5%8F%91%E5%B8%83"><span class="toc-number">5.2.3.</span> <span class="toc-text">4.2.3 批量确认发布</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-4-%E5%BC%82%E6%AD%A5%E7%A1%AE%E8%AE%A4%E5%8F%91%E5%B8%83"><span class="toc-number">5.2.4.</span> <span class="toc-text">4.2.4 异步确认发布</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">6.</span> <span class="toc-text">五、交换机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">6.1.</span> <span class="toc-text">5.1 相关概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-Publish-Subscribe"><span class="toc-number">6.2.</span> <span class="toc-text">5.2 Publish&#x2F;Subscribe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-Routing"><span class="toc-number">6.3.</span> <span class="toc-text">5.3 Routing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-Topics"><span class="toc-number">6.4.</span> <span class="toc-text">5.4 Topics</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%AD%BB%E4%BF%A1%E9%98%9F%E5%88%97"><span class="toc-number">7.</span> <span class="toc-text">六、死信队列</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97"><span class="toc-number">8.</span> <span class="toc-text">七、延迟队列</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/12/30/Ambari%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1/" title="Ambari自定义服务"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ambari自定义服务"/></a><div class="content"><a class="title" href="/2021/12/30/Ambari%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1/" title="Ambari自定义服务">Ambari自定义服务</a><time datetime="2021-12-30T01:40:39.000Z" title="发表于 2021-12-30 09:40:39">2021-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/27/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9AKafka/" title="Kafka"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kafka"/></a><div class="content"><a class="title" href="/2021/12/27/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9AKafka/" title="Kafka">Kafka</a><time datetime="2021-12-27T06:15:54.000Z" title="发表于 2021-12-27 14:15:54">2021-12-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/22/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/" title="镜像制作"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="镜像制作"/></a><div class="content"><a class="title" href="/2021/12/22/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/" title="镜像制作">镜像制作</a><time datetime="2021-12-22T03:08:31.000Z" title="发表于 2021-12-22 11:08:31">2021-12-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux常用命令"/></a><div class="content"><a class="title" href="/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令">Linux常用命令</a><time datetime="2021-12-22T03:07:48.000Z" title="发表于 2021-12-22 11:07:48">2021-12-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/13/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%8Csentinel%E8%8E%B7%E5%8F%96master%E7%9A%84%E4%BF%A1%E6%81%AF/" title="redis哨兵模式，sentinel获取master的信息"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="redis哨兵模式，sentinel获取master的信息"/></a><div class="content"><a class="title" href="/2021/12/13/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%8Csentinel%E8%8E%B7%E5%8F%96master%E7%9A%84%E4%BF%A1%E6%81%AF/" title="redis哨兵模式，sentinel获取master的信息">redis哨兵模式，sentinel获取master的信息</a><time datetime="2021-12-13T09:34:21.000Z" title="发表于 2021-12-13 17:34:21">2021-12-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By wenk207</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
