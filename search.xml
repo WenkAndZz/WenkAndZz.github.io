@@ -1,6 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Ambari</title>
+    <url>/2021/12/04/Ambari/</url>
+    <content><![CDATA[<p>Ambari是hadoop分布式集群配置管理工具；从Ambari 的作用来说，就是<strong>创建、管理、监视 Hadoop 的集群</strong>，但是这里的 Hadoop 是广义，指的是 Hadoop 整个生态圈(例如 Hive数据仓库，Hbase数据库，Sqoop，Zookeeper 等)，而并不仅是特指 Hadoop。用一句话来说，Ambari 就是为了让 Hadoop 以及相关的大数据软件更容易使用的一个工具。</p>
+<span id="more"></span>
+
+
+
+<h1 id="Ambari的作用"><a href="#Ambari的作用" class="headerlink" title="Ambari的作用"></a>Ambari的作用</h1><ul>
+<li><p>提供Hadoop集群</p>
+<ul>
+<li>Ambari提供了跨任意数量的主机安装Hadoop服务的分步向导</li>
+<li>Ambari处理群集的Hadoop服务配置</li>
+</ul>
+</li>
+<li><p>管理Hadoop集群</p>
+<ul>
+<li>集中管理，用于在整个集群中启动、停止和重新配置Hadoop集群</li>
+</ul>
+</li>
+<li><p>监控Hadoop集群</p>
+<ul>
+<li>收集Hadoop的运行指标</li>
+<li>提供了一个仪表盘，监控Hadoop集群的运行情况</li>
+<li>故障预警</li>
+</ul>
+</li>
+</ul>
+<p><strong>Ambari使应用程序开发人员和系统集成商能够</strong></p>
+<ul>
+<li>使用Ambari REST API轻松将Hadoop配置，管理和监控功能集成到自己的应用程序中。</li>
+</ul>
+<h1 id="Ambari的组件"><a href="#Ambari的组件" class="headerlink" title="Ambari的组件"></a>Ambari的组件</h1><p>Ambari的主要组成有三部分：</p>
+<ul>
+<li><strong>Ambari-Server</strong>：将集群的状态通过web UI 或RESTAPI的形式呈献给用户，并且通过这两种方式将用户指令下发到集群中，从而实现用户与Hadoop集群的交互。<strong>hadoop集群节点上一般没有server。</strong>（不知道为啥）</li>
+<li><strong>Ambari-Agent</strong>：负责对集群内主机状态的采集以及执行Server发来的指令，并且将执行结果发送给<strong>Server</strong>。</li>
+<li><strong>Ambari-Metrics</strong>：负责监控集群状态的功能组件。会搜集一下两种数据指标：<ul>
+<li>个节点“系统级”的指标</li>
+<li>Hadoop各组件的指标</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-fa754b5349e1948bba38d124854af6e0_b.jpg" alt="img"></p>
+<p><strong>心跳机制：</strong></p>
+<p>Ambari-Server与Ambari-Agent之间的交互是通过<strong>agent定期发送post请求</strong>，上报Ambari-agent所在主机的状态；Ambari-Server<strong>接收到Agent发送来的状态之后，给Ambari-Agent返回需要在此主机上执行的指令</strong>。这样一次完整的指令就像是一次心跳一样 ，通过心跳完成主从交互的机制就是心跳机制。</p>
+<p><strong>用户和数据集群中间的交互：</strong></p>
+<p>1）在server安装、配置完成并启动后；</p>
+<p>2）用户通过浏览器访问server，在地址栏输入的url是由ambari-web（以后简称web）模块响应请求，web端又调用ambari-server 的REST api获取数据显示在浏览器页面上。</p>
+<p>3）当用户想要通过浏览器操作集群（stop、start某些组件）时，由web端向ambari-server发送post或put请求，ambari-server 接收到请求后通过心跳机制，向ambari-agent(以后简称agent)发送指令，最后由agent执行shell或python脚本来完成。</p>
+<p><strong>显示在浏览器上的数据来源：</strong></p>
+<p>主要分为以下两种类型：</p>
+<ul>
+<li>集群内各服务的实时状态信息，这类数据是由AMS模块实时采集上报给Ambari-Metrics-Collector，再由Ambari-Server调用的Ambari-Metries-controller的REST API显示在页面上。这部分数据没有落地到ambari-server 的数据库中，在每次web端调用ambari-server的数据时，ambari-server都会调用ambari-metrics-collector获取数据，进行适当的加工处理后直接返回给web端 显示在浏览器页面上。</li>
+<li>由ambari-server缓存在内存，持久化到数据库的数据，这类数据<strong>比如主机列表、服务列表、服务的配置信息等</strong>。这些数据是由agent采集通过心跳发送给ambari-server后，ambari-server更新自身的数据状态。当web端调用ambari-server的rest api获取这些数据时，ambari-server将web端请求的数据直接返回给web显示在浏览器页面。</li>
+</ul>
+<h1 id="Ambari用户权限"><a href="#Ambari用户权限" class="headerlink" title="Ambari用户权限"></a>Ambari用户权限</h1><p>1.服务级别权限</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111153463.png" alt="image-20211204111153463"></p>
+<p>2.主机级权限</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111259671.png" alt="image-20211204111259671"></p>
+<p>3.集群级权限</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111333306.png" alt="image-20211204111333306"></p>
+<p>4.Ambari级权限</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111403313.png" alt="image-20211204111403313"></p>
+]]></content>
+      <tags>
+        <tag>云计算</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>API接口文档管理工具：Swagger</title>
     <url>/2021/11/15/API%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%EF%BC%9ASwagger/</url>
     <content><![CDATA[<p>Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化 RESTful 风格的 Web 服务。总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法，参数和模型紧密集成到服务器端的代码，允许API来始终保持同步。</p>
@@ -78,74 +146,6 @@
       </categories>
       <tags>
         <tag>微服务</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ambari</title>
-    <url>/2021/12/04/Ambari/</url>
-    <content><![CDATA[<p>Ambari是hadoop分布式集群配置管理工具；从Ambari 的作用来说，就是<strong>创建、管理、监视 Hadoop 的集群</strong>，但是这里的 Hadoop 是广义，指的是 Hadoop 整个生态圈(例如 Hive数据仓库，Hbase数据库，Sqoop，Zookeeper 等)，而并不仅是特指 Hadoop。用一句话来说，Ambari 就是为了让 Hadoop 以及相关的大数据软件更容易使用的一个工具。</p>
-<span id="more"></span>
-
-
-
-<h1 id="Ambari的作用"><a href="#Ambari的作用" class="headerlink" title="Ambari的作用"></a>Ambari的作用</h1><ul>
-<li><p>提供Hadoop集群</p>
-<ul>
-<li>Ambari提供了跨任意数量的主机安装Hadoop服务的分步向导</li>
-<li>Ambari处理群集的Hadoop服务配置</li>
-</ul>
-</li>
-<li><p>管理Hadoop集群</p>
-<ul>
-<li>集中管理，用于在整个集群中启动、停止和重新配置Hadoop集群</li>
-</ul>
-</li>
-<li><p>监控Hadoop集群</p>
-<ul>
-<li>收集Hadoop的运行指标</li>
-<li>提供了一个仪表盘，监控Hadoop集群的运行情况</li>
-<li>故障预警</li>
-</ul>
-</li>
-</ul>
-<p><strong>Ambari使应用程序开发人员和系统集成商能够</strong></p>
-<ul>
-<li>使用Ambari REST API轻松将Hadoop配置，管理和监控功能集成到自己的应用程序中。</li>
-</ul>
-<h1 id="Ambari的组件"><a href="#Ambari的组件" class="headerlink" title="Ambari的组件"></a>Ambari的组件</h1><p>Ambari的主要组成有三部分：</p>
-<ul>
-<li><strong>Ambari-Server</strong>：将集群的状态通过web UI 或RESTAPI的形式呈献给用户，并且通过这两种方式将用户指令下发到集群中，从而实现用户与Hadoop集群的交互。<strong>hadoop集群节点上一般没有server。</strong>（不知道为啥）</li>
-<li><strong>Ambari-Agent</strong>：负责对集群内主机状态的采集以及执行Server发来的指令，并且将执行结果发送给<strong>Server</strong>。</li>
-<li><strong>Ambari-Metrics</strong>：负责监控集群状态的功能组件。会搜集一下两种数据指标：<ul>
-<li>个节点“系统级”的指标</li>
-<li>Hadoop各组件的指标</li>
-</ul>
-</li>
-</ul>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-fa754b5349e1948bba38d124854af6e0_b.jpg" alt="img"></p>
-<p><strong>心跳机制：</strong></p>
-<p>Ambari-Server与Ambari-Agent之间的交互是通过<strong>agent定期发送post请求</strong>，上报Ambari-agent所在主机的状态；Ambari-Server<strong>接收到Agent发送来的状态之后，给Ambari-Agent返回需要在此主机上执行的指令</strong>。这样一次完整的指令就像是一次心跳一样 ，通过心跳完成主从交互的机制就是心跳机制。</p>
-<p><strong>用户和数据集群中间的交互：</strong></p>
-<p>1）在server安装、配置完成并启动后；</p>
-<p>2）用户通过浏览器访问server，在地址栏输入的url是由ambari-web（以后简称web）模块响应请求，web端又调用ambari-server 的REST api获取数据显示在浏览器页面上。</p>
-<p>3）当用户想要通过浏览器操作集群（stop、start某些组件）时，由web端向ambari-server发送post或put请求，ambari-server 接收到请求后通过心跳机制，向ambari-agent(以后简称agent)发送指令，最后由agent执行shell或python脚本来完成。</p>
-<p><strong>显示在浏览器上的数据来源：</strong></p>
-<p>主要分为以下两种类型：</p>
-<ul>
-<li>集群内各服务的实时状态信息，这类数据是由AMS模块实时采集上报给Ambari-Metrics-Collector，再由Ambari-Server调用的Ambari-Metries-controller的REST API显示在页面上。这部分数据没有落地到ambari-server 的数据库中，在每次web端调用ambari-server的数据时，ambari-server都会调用ambari-metrics-collector获取数据，进行适当的加工处理后直接返回给web端 显示在浏览器页面上。</li>
-<li>由ambari-server缓存在内存，持久化到数据库的数据，这类数据<strong>比如主机列表、服务列表、服务的配置信息等</strong>。这些数据是由agent采集通过心跳发送给ambari-server后，ambari-server更新自身的数据状态。当web端调用ambari-server的rest api获取这些数据时，ambari-server将web端请求的数据直接返回给web显示在浏览器页面。</li>
-</ul>
-<h1 id="Ambari用户权限"><a href="#Ambari用户权限" class="headerlink" title="Ambari用户权限"></a>Ambari用户权限</h1><p>1.服务级别权限</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111153463.png" alt="image-20211204111153463"></p>
-<p>2.主机级权限</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111259671.png" alt="image-20211204111259671"></p>
-<p>3.集群级权限</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111333306.png" alt="image-20211204111333306"></p>
-<p>4.Ambari级权限</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211204111403313.png" alt="image-20211204111403313"></p>
-]]></content>
-      <tags>
-        <tag>云计算</tag>
       </tags>
   </entry>
   <entry>
@@ -394,6 +394,51 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux常用命令</title>
+    <url>/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>记录工作学习中遇到的Linux命令。</p>
+<span id="more"></span>
+
+<h1 id="Linux命令"><a href="#Linux命令" class="headerlink" title="Linux命令"></a>Linux命令</h1><h2 id="字符串相关操作"><a href="#字符串相关操作" class="headerlink" title="字符串相关操作"></a>字符串相关操作</h2><figure class="highlight vim"><table><tr><td class="code"><pre><code class="hljs vim"><span class="hljs-number">1</span>.<span class="hljs-keyword">grep</span>         字符串查找（过滤）              例如： glance image-<span class="hljs-keyword">list</span> | <span class="hljs-keyword">grep</span> redis<br><br><span class="hljs-number">2</span>.sed          字符串替换                          文件名 | sed <span class="hljs-string">&#x27;s/要被取代的字串/新的字串/g&#x27;</span><br><br><span class="hljs-number">3</span>.awk          字符串分割                          <br>每行按空格或TAB分割，输出文本中的<span class="hljs-number">1</span>、<span class="hljs-number">4</span>项    awk <span class="hljs-string">&#x27;&#123;print $1,$4&#125;&#x27;</span> test.txt<br><br><span class="hljs-number">4</span>.yum  提供查找、安装和删除软件<br>yum [<span class="hljs-keyword">options</span>] [<span class="hljs-keyword">command</span>] [package ...]         yum  操作  命令  安装的包名<br>http<span class="hljs-variable">s:</span>//www.runoob.<span class="hljs-keyword">com</span>/linux/linux-yum.html<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.添加新的用户<br>useradd 选项 用户名<br><br><span class="hljs-number">2</span>.删除用户   -r把当前用户下的目录一起删除<br>userdel -r sam<br><br><span class="hljs-number">3</span>.修改用户<br>usermod 选项 用户名<br><br><span class="hljs-number">4</span>.修改密码<br>passwd 选项 用户名<br><br><span class="hljs-number">5</span>.查看test所在的用户组<br>groups test<br><br><span class="hljs-number">6</span>.创建用户组<br>groupadd group_name<br>删除<br>groupdel<br>修改<br>groupmod<br><br><span class="hljs-number">7</span>.查看用户登录日志<br>last<br><br><span class="hljs-number">8</span>.查看系统中的所有用户<br>cut -d: -f1 <span class="hljs-regexp">/etc/</span>passwd<br><br><span class="hljs-number">9</span>.查看系统所有的组<br>cut -d: -f1 <span class="hljs-regexp">/etc/g</span>roup<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="系统相关操作"><a href="#系统相关操作" class="headerlink" title="系统相关操作"></a>系统相关操作</h2><figure class="highlight tcl"><table><tr><td class="code"><pre><code class="hljs tcl"><span class="hljs-number">1.</span>查看Linux版本信息<br>cat /<span class="hljs-keyword">proc</span>/version<br><br>2.cpu信息<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/cpuinfo<br><br>3.查看中断<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/interrupts<br><br>4.查看负载<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/loadavg<br><br>5.环境变量<span class="hljs-title"></span><br><span class="hljs-title">env</span><br><br>6.查看系统运⾏时间、⽤户数、负载<span class="hljs-title"></span><br><span class="hljs-title">uptime</span><br><br>7.查看内存容量、空闲内存量<span class="hljs-title"></span><br><span class="hljs-title">gerp</span> MenTotal /<span class="hljs-keyword">proc</span>/meninfo<span class="hljs-title"></span><br><span class="hljs-title">gerp</span> MenFree /<span class="hljs-keyword">proc</span>/meninfo<br><br>8.查看进程<span class="hljs-title"></span><br><span class="hljs-title">top</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="磁盘相关"><a href="#磁盘相关" class="headerlink" title="磁盘相关"></a>磁盘相关</h2><figure class="highlight stata"><table><tr><td class="code"><pre><code class="hljs stata">1.查看磁盘使用情况<br>df -<span class="hljs-keyword">h</span><br><br>2.查看某个目录的使用情况<br>du -<span class="hljs-keyword">sh</span> /<span class="hljs-keyword">dir</span><br><br>3.查看所有的磁盘分区<br>fdisk -<span class="hljs-keyword">l</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><code class="hljs applescript"><span class="hljs-number">1.</span>查看所有进程<br>ps -ef<br><br><span class="hljs-number">2.</span>杀死进程<br>kill -s <span class="hljs-built_in">name</span>/<span class="hljs-built_in">id</span><br><br><span class="hljs-number">3.</span>实时查看进程状态<br>top<br></code></pre></td></tr></table></figure>
+
+<h2 id="系统服务"><a href="#系统服务" class="headerlink" title="系统服务"></a>系统服务</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><code class="hljs pgsql"><span class="hljs-number">1.</span>列出服务列表<br>chkconfig <span class="hljs-comment">--list</span><br><br><span class="hljs-number">2.</span>服务相关操作<br>service &lt;服务名&gt; &lt;操作&gt;<br>systemctl &lt;操作&gt; &lt;服务名&gt;<br><br>操作包括：<br>status ： 状态<br><span class="hljs-keyword">start</span>  ： 开启<br>stop   ： 关闭<br><span class="hljs-keyword">restart</span>： 重启<br><span class="hljs-keyword">enable</span> ： 开启自启动<br><span class="hljs-keyword">disable</span>： 关闭自启动<br></code></pre></td></tr></table></figure>
+
+<h2 id="文件和目录操作"><a href="#文件和目录操作" class="headerlink" title="文件和目录操作"></a>文件和目录操作</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.新建文件夹<br><span class="hljs-attribute">mkdir</span> fileName<br><br><span class="hljs-attribute">2</span>.删除文件名<br><span class="hljs-attribute">rm</span> -f fileName<br><br><span class="hljs-attribute">3</span>.目录操作<br><span class="hljs-attribute">mv</span>         重命名、移动文件夹<br><br><span class="hljs-attribute">cp</span>         复制文件<br><br><span class="hljs-attribute">find</span>       查找                     find / -name file<span class="hljs-number">1</span>    从根目录开始搜索文件<br><br><span class="hljs-attribute">cat</span>        文件查看<br><br><span class="hljs-attribute">vi</span>|vim     文件修改           i：插入模式      esc：退出到命令模式      ：wq   保存退出<br><br><span class="hljs-attribute">4</span>.查看文件前两行<br><span class="hljs-attribute">head</span> -<span class="hljs-number">2</span> filename       <br><br><span class="hljs-attribute">5</span>.查看文件后两行<br><span class="hljs-attribute">tail</span> -<span class="hljs-number">2</span> filename       <br><br><span class="hljs-attribute">6</span>.将hello.txt⽂件中的s<span class="hljs-number">1</span>替换成s<span class="hljs-number">2</span><br><span class="hljs-attribute">sed</span> &#x27;s/s<span class="hljs-number">1</span>/s<span class="hljs-number">2</span>/g&#x27; hello.txt<br><br><span class="hljs-attribute">7</span>.合并文件夹<br><span class="hljs-attribute">paste</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span> <br><br><span class="hljs-attribute">8</span>.比较两个文件之间的内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">1</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除文件<span class="hljs-number">1</span>中的所有内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">2</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除文件<span class="hljs-number">2</span>中的所有内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">3</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除两个文件共有的部分<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="打包和压缩"><a href="#打包和压缩" class="headerlink" title="打包和压缩"></a>打包和压缩</h2><figure class="highlight stata"><table><tr><td class="code"><pre><code class="hljs stata">1.<span class="hljs-keyword">zip</span>打包，解压<br><span class="hljs-keyword">zip</span>  unzip<br><br>2.tar<br>tar -cvf xxx.tar <span class="hljs-keyword">file</span>     创建压缩文件<br>tar -xvf xxx.tar          解压<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="yum包管理"><a href="#yum包管理" class="headerlink" title="yum包管理"></a>yum包管理</h2><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211222110156561.png" style="zoom:150%;" />
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OpenStack</title>
     <url>/2021/12/03/OpenStack/</url>
     <content><![CDATA[<p>OpenStack是一个IaaS的解决方案。使用Python开发的；OpenStack是一个云操作系统，通过数据中心可控制大型的计算、存储、网络等资源池；OpenStack主要使用池化虚拟资源来构建和管理私有云及公共云。</p>
@@ -530,51 +575,6 @@
 ]]></content>
       <tags>
         <tag>云计算</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux常用命令</title>
-    <url>/2021/12/22/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>记录工作学习中遇到的Linux命令。</p>
-<span id="more"></span>
-
-<h1 id="Linux命令"><a href="#Linux命令" class="headerlink" title="Linux命令"></a>Linux命令</h1><h2 id="字符串相关操作"><a href="#字符串相关操作" class="headerlink" title="字符串相关操作"></a>字符串相关操作</h2><figure class="highlight vim"><table><tr><td class="code"><pre><code class="hljs vim"><span class="hljs-number">1</span>.<span class="hljs-keyword">grep</span>         字符串查找（过滤）              例如： glance image-<span class="hljs-keyword">list</span> | <span class="hljs-keyword">grep</span> redis<br><br><span class="hljs-number">2</span>.sed          字符串替换                          文件名 | sed <span class="hljs-string">&#x27;s/要被取代的字串/新的字串/g&#x27;</span><br><br><span class="hljs-number">3</span>.awk          字符串分割                          <br>每行按空格或TAB分割，输出文本中的<span class="hljs-number">1</span>、<span class="hljs-number">4</span>项    awk <span class="hljs-string">&#x27;&#123;print $1,$4&#125;&#x27;</span> test.txt<br><br><span class="hljs-number">4</span>.yum  提供查找、安装和删除软件<br>yum [<span class="hljs-keyword">options</span>] [<span class="hljs-keyword">command</span>] [package ...]         yum  操作  命令  安装的包名<br>http<span class="hljs-variable">s:</span>//www.runoob.<span class="hljs-keyword">com</span>/linux/linux-yum.html<br><br></code></pre></td></tr></table></figure>
-
-<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.添加新的用户<br>useradd 选项 用户名<br><br><span class="hljs-number">2</span>.删除用户   -r把当前用户下的目录一起删除<br>userdel -r sam<br><br><span class="hljs-number">3</span>.修改用户<br>usermod 选项 用户名<br><br><span class="hljs-number">4</span>.修改密码<br>passwd 选项 用户名<br><br><span class="hljs-number">5</span>.查看test所在的用户组<br>groups test<br><br><span class="hljs-number">6</span>.创建用户组<br>groupadd group_name<br>删除<br>groupdel<br>修改<br>groupmod<br><br><span class="hljs-number">7</span>.查看用户登录日志<br>last<br><br><span class="hljs-number">8</span>.查看系统中的所有用户<br>cut -d: -f1 <span class="hljs-regexp">/etc/</span>passwd<br><br><span class="hljs-number">9</span>.查看系统所有的组<br>cut -d: -f1 <span class="hljs-regexp">/etc/g</span>roup<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="系统相关操作"><a href="#系统相关操作" class="headerlink" title="系统相关操作"></a>系统相关操作</h2><figure class="highlight tcl"><table><tr><td class="code"><pre><code class="hljs tcl"><span class="hljs-number">1.</span>查看Linux版本信息<br>cat /<span class="hljs-keyword">proc</span>/version<br><br>2.cpu信息<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/cpuinfo<br><br>3.查看中断<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/interrupts<br><br>4.查看负载<span class="hljs-title"></span><br><span class="hljs-title">cat</span> /<span class="hljs-keyword">proc</span>/loadavg<br><br>5.环境变量<span class="hljs-title"></span><br><span class="hljs-title">env</span><br><br>6.查看系统运⾏时间、⽤户数、负载<span class="hljs-title"></span><br><span class="hljs-title">uptime</span><br><br>7.查看内存容量、空闲内存量<span class="hljs-title"></span><br><span class="hljs-title">gerp</span> MenTotal /<span class="hljs-keyword">proc</span>/meninfo<span class="hljs-title"></span><br><span class="hljs-title">gerp</span> MenFree /<span class="hljs-keyword">proc</span>/meninfo<br><br>8.查看进程<span class="hljs-title"></span><br><span class="hljs-title">top</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="磁盘相关"><a href="#磁盘相关" class="headerlink" title="磁盘相关"></a>磁盘相关</h2><figure class="highlight stata"><table><tr><td class="code"><pre><code class="hljs stata">1.查看磁盘使用情况<br>df -<span class="hljs-keyword">h</span><br><br>2.查看某个目录的使用情况<br>du -<span class="hljs-keyword">sh</span> /<span class="hljs-keyword">dir</span><br><br>3.查看所有的磁盘分区<br>fdisk -<span class="hljs-keyword">l</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><code class="hljs applescript"><span class="hljs-number">1.</span>查看所有进程<br>ps -ef<br><br><span class="hljs-number">2.</span>杀死进程<br>kill -s <span class="hljs-built_in">name</span>/<span class="hljs-built_in">id</span><br><br><span class="hljs-number">3.</span>实时查看进程状态<br>top<br></code></pre></td></tr></table></figure>
-
-<h2 id="系统服务"><a href="#系统服务" class="headerlink" title="系统服务"></a>系统服务</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><code class="hljs pgsql"><span class="hljs-number">1.</span>列出服务列表<br>chkconfig <span class="hljs-comment">--list</span><br><br><span class="hljs-number">2.</span>服务相关操作<br>service &lt;服务名&gt; &lt;操作&gt;<br>systemctl &lt;操作&gt; &lt;服务名&gt;<br><br>操作包括：<br>status ： 状态<br><span class="hljs-keyword">start</span>  ： 开启<br>stop   ： 关闭<br><span class="hljs-keyword">restart</span>： 重启<br><span class="hljs-keyword">enable</span> ： 开启自启动<br><span class="hljs-keyword">disable</span>： 关闭自启动<br></code></pre></td></tr></table></figure>
-
-<h2 id="文件和目录操作"><a href="#文件和目录操作" class="headerlink" title="文件和目录操作"></a>文件和目录操作</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.新建文件夹<br><span class="hljs-attribute">mkdir</span> fileName<br><br><span class="hljs-attribute">2</span>.删除文件名<br><span class="hljs-attribute">rm</span> -f fileName<br><br><span class="hljs-attribute">3</span>.目录操作<br><span class="hljs-attribute">mv</span>         重命名、移动文件夹<br><br><span class="hljs-attribute">cp</span>         复制文件<br><br><span class="hljs-attribute">find</span>       查找                     find / -name file<span class="hljs-number">1</span>    从根目录开始搜索文件<br><br><span class="hljs-attribute">cat</span>        文件查看<br><br><span class="hljs-attribute">vi</span>|vim     文件修改           i：插入模式      esc：退出到命令模式      ：wq   保存退出<br><br><span class="hljs-attribute">4</span>.查看文件前两行<br><span class="hljs-attribute">head</span> -<span class="hljs-number">2</span> filename       <br><br><span class="hljs-attribute">5</span>.查看文件后两行<br><span class="hljs-attribute">tail</span> -<span class="hljs-number">2</span> filename       <br><br><span class="hljs-attribute">6</span>.将hello.txt⽂件中的s<span class="hljs-number">1</span>替换成s<span class="hljs-number">2</span><br><span class="hljs-attribute">sed</span> &#x27;s/s<span class="hljs-number">1</span>/s<span class="hljs-number">2</span>/g&#x27; hello.txt<br><br><span class="hljs-attribute">7</span>.合并文件夹<br><span class="hljs-attribute">paste</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span> <br><br><span class="hljs-attribute">8</span>.比较两个文件之间的内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">1</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除文件<span class="hljs-number">1</span>中的所有内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">2</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除文件<span class="hljs-number">2</span>中的所有内容<br><span class="hljs-attribute">comm</span> -<span class="hljs-number">3</span> file<span class="hljs-number">1</span> file<span class="hljs-number">2</span>      去除两个文件共有的部分<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="打包和压缩"><a href="#打包和压缩" class="headerlink" title="打包和压缩"></a>打包和压缩</h2><figure class="highlight stata"><table><tr><td class="code"><pre><code class="hljs stata">1.<span class="hljs-keyword">zip</span>打包，解压<br><span class="hljs-keyword">zip</span>  unzip<br><br>2.tar<br>tar -cvf xxx.tar <span class="hljs-keyword">file</span>     创建压缩文件<br>tar -xvf xxx.tar          解压<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="yum包管理"><a href="#yum包管理" class="headerlink" title="yum包管理"></a>yum包管理</h2><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211222110156561.png" style="zoom:150%;" />
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <tags>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -904,6 +904,45 @@
       </tags>
   </entry>
   <entry>
+    <title>redis哨兵模式，sentinel获取master的信息</title>
+    <url>/2021/12/13/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%8Csentinel%E8%8E%B7%E5%8F%96master%E7%9A%84%E4%BF%A1%E6%81%AF/</url>
+    <content><![CDATA[<p>哨兵模式是主从的升级版，因为主从的出现故障后，不会自动恢复，需要人为干预，这就很蛋疼啊。</p>
+<p>在主从的基础上，实现哨兵模式就是为了监控主从的运行状况，对主从的健壮进行监控，就好像哨兵一样，只要有异常就发出警告，对异常状况进行处理。</p>
+<span id="more"></span>
+
+
+
+<h1 id="1-哨兵模式基本概念"><a href="#1-哨兵模式基本概念" class="headerlink" title="1.哨兵模式基本概念"></a>1.哨兵模式基本概念</h1><p>哨兵模式是主从的升级版，因为主从的出现故障后，不会自动恢复，需要人为干预，这就很蛋疼啊。</p>
+<p>在主从的基础上，实现哨兵模式就是为了监控主从的运行状况，对主从的健壮进行监控，就好像哨兵一样，只要有异常就发出警告，对异常状况进行处理。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-0c8f6c4253843790b774fd216dea58c5_720w.jpg" alt="img"></p>
+<ol>
+<li><strong>「监控」</strong>：监控master和slave是否正常运行，以及哨兵之间也会相互监控</li>
+<li><strong>「自动故障恢复」</strong>：当master出现故障的时候，会自动选举一个slave作为master顶上去。</li>
+</ol>
+<h1 id="2-根据sentinel获取master的信息"><a href="#2-根据sentinel获取master的信息" class="headerlink" title="2.根据sentinel获取master的信息"></a>2.根据sentinel获取master的信息</h1><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><br><br><span class="hljs-keyword">import</span> org.springframework.stereotype.Service;<br><span class="hljs-keyword">import</span> redis.clients.jedis.HostAndPort;<br><span class="hljs-keyword">import</span> redis.clients.jedis.Jedis;<br><span class="hljs-keyword">import</span> redis.clients.jedis.exceptions.JedisException;<br><br><span class="hljs-keyword">import</span> java.util.List;<br><span class="hljs-keyword">import</span> java.util.Set;<br><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FindMasterService</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 通过传入的哨兵集群找到主节点的信息</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> sentinels：哨兵集群</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> masterName：主节点的名字</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> HostAndPort <span class="hljs-title">findMaster</span><span class="hljs-params">(Set&lt;String&gt; sentinels,String masterName)</span></span>&#123;<br>        HostAndPort master = <span class="hljs-keyword">null</span>;<br>        String password = <span class="hljs-string">&quot;xdata@123&quot;</span>;<br><br>        <span class="hljs-comment">//遍历哨兵，根据哨兵获取主节点的信息</span><br>        <span class="hljs-keyword">for</span> (String sentinel:sentinels)&#123;<br>            <span class="hljs-comment">//当前的集群节点是String，封装成HostAndPost类</span><br>            HostAndPort hap = HostAndPort.parseString(sentinel);<br><br>            Jedis jedis = <span class="hljs-keyword">null</span>;<br>            <span class="hljs-keyword">try</span>&#123;<br>                <span class="hljs-comment">//使用Jedis连接哨兵,当前哨兵挂了，会抛出异常</span><br>                jedis = <span class="hljs-keyword">new</span> Jedis(hap.getHost(),hap.getPort());<br>                <span class="hljs-comment">//密码验证,jedis不需要密码验证，直接可以连接。</span><br>                <span class="hljs-comment">//jedis.auth(password);</span><br><br>                <span class="hljs-comment">// 向哨兵发送指令：sentinel get-master-addr-by-name masterName 可以获取主节点的host的端口</span><br>                List&lt;String&gt; masterAddress = jedis.sentinelGetMasterAddrByName(masterName);<br>                <span class="hljs-comment">//当前哨兵宕机时，masterAddress为空。</span><br>                <span class="hljs-keyword">if</span> (masterAddress.size() == <span class="hljs-number">2</span>)&#123;<br>                    <span class="hljs-comment">//获取到master的信息</span><br>                    master = <span class="hljs-keyword">new</span> HostAndPort(masterAddress.get(<span class="hljs-number">0</span>),Integer.parseInt(masterAddress.get(<span class="hljs-number">1</span>)));<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>            &#125;<span class="hljs-keyword">catch</span> (JedisException e)&#123;<br>                <span class="hljs-comment">//出现异常可能是因为当前sentinel挂了，继续遍历下一个sentinel</span><br>                e.getMessage();<br>            &#125;<span class="hljs-keyword">finally</span> &#123;<br>                <span class="hljs-keyword">if</span> (jedis != <span class="hljs-keyword">null</span>)&#123;<br>                    jedis.close();<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> master;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>测试</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.junit.jupiter.api.Test;<br><span class="hljs-keyword">import</span> redis.clients.jedis.HostAndPort;<br><br><span class="hljs-keyword">import</span> java.util.HashSet;<br><span class="hljs-keyword">import</span> java.util.Set;<br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FindMasterServiceTest</span> </span>&#123;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testFindMaster</span><span class="hljs-params">()</span></span>&#123;<br>        FindMasterService findMasterService = <span class="hljs-keyword">new</span> FindMasterService();<br>        Set&lt;String&gt; sentinels = <span class="hljs-keyword">new</span> HashSet&lt;&gt;();<br>        sentinels.add(<span class="hljs-string">&quot;host:post&quot;</span>);              <span class="hljs-comment">//host:post修改端口号</span><br>        sentinels.add(<span class="hljs-string">&quot;host:post&quot;</span>);<br>        sentinels.add(<span class="hljs-string">&quot;host:post&quot;</span>);<br><br>        String masterName = <span class="hljs-string">&quot;mymaster&quot;</span>;<br>        HostAndPort master = findMasterService.findMaster(sentinels, masterName);<br>        System.out.println(master.toString());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="3-修改（代码优化）"><a href="#3-修改（代码优化）" class="headerlink" title="3.修改（代码优化）"></a>3.修改（代码优化）</h1><p>之前的代码之后获得master的信息，使用这个方法可以得到master、slave与sentinel的信息（ip、port、role、status）。</p>
+<p>之前写的代码，层次结构不够清晰，代码不够规范，根据师兄的建议修改了一下</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SentinelService</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 主从模式下，查找host</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> sentinelsList：哨兵列表</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> hosts列表</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;HostServiceDTO&gt; <span class="hljs-title">sentinelFindHosts</span><span class="hljs-params">(List&lt;ServiceCheckDTO&gt; sentinelsList)</span></span>&#123;<br><br>        String password = sentinelsList.get(<span class="hljs-number">0</span>).getPassword();<br>        List&lt;HostServiceDTO&gt; hosts = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>        <span class="hljs-keyword">boolean</span> writeInList = <span class="hljs-keyword">true</span>;       <span class="hljs-comment">//用来标记是否已经将master与slave的信息写入到list中</span><br><br>        <span class="hljs-keyword">for</span> (ServiceCheckDTO sentinel : sentinelsList)&#123;<br><br>            String sentinelStatus = ServiceStatusEnum.RUNNING.getName();<br><br>            <span class="hljs-keyword">try</span>(Jedis jedis = <span class="hljs-keyword">new</span> Jedis(sentinel.getIp(),Integer.parseInt(sentinel.getPort())))&#123;<br>                <span class="hljs-comment">/**</span><br><span class="hljs-comment">                 * 根据sentinel获得master,主从模式master只有一个</span><br><span class="hljs-comment">                 */</span><br>                List&lt;Map&lt;String, String&gt;&gt; mastersMeg = jedis.sentinelMasters();<br><br>                <span class="hljs-keyword">if</span> (writeInList &amp;&amp; !mastersMeg.isEmpty())&#123;<br>                    Map&lt;String, String&gt; masterMeg = mastersMeg.get(<span class="hljs-number">0</span>);<br>                    String masterStatus = getStatus(masterMeg, password);<br>                    HostServiceDTO master = HostServiceDTO.builder()<br>                            .ip(masterMeg.get(<span class="hljs-string">&quot;ip&quot;</span>))<br>                            .port(masterMeg.get(<span class="hljs-string">&quot;port&quot;</span>))<br>                            .role(ServiceRoleEnum.MASTER.getName())<br>                            .status(masterStatus)<br>                            .build();<br>                    hosts.add(master);<br>                    <span class="hljs-comment">/**</span><br><span class="hljs-comment">                     * 根据master得到slaves</span><br><span class="hljs-comment">                     */</span><br>                    List&lt;Map&lt;String, String&gt;&gt; slavesMeg = jedis.sentinelSlaves(masterMeg.get(<span class="hljs-string">&quot;name&quot;</span>));<br>                    <span class="hljs-keyword">for</span> (Map&lt;String, String&gt; slaveMeg : slavesMeg)&#123;<br>                        String slaveStatus = getStatus(slaveMeg, password);<br>                        HostServiceDTO slave = HostServiceDTO.builder()<br>                                .ip(slaveMeg.get(<span class="hljs-string">&quot;ip&quot;</span>))<br>                                .port(slaveMeg.get(<span class="hljs-string">&quot;port&quot;</span>))<br>                                .role(ServiceRoleEnum.SLAVE.getName())<br>                                .status(slaveStatus)<br>                                .build();<br>                        hosts.add(slave);<br>                    &#125;<br>                    writeInList = <span class="hljs-keyword">false</span>;<br>                &#125;<br>            &#125;<span class="hljs-keyword">catch</span> (JedisException e)&#123;<br>                sentinelStatus = ServiceStatusEnum.STOPPED.getName();<br>            &#125;<br>            <span class="hljs-comment">/**</span><br><span class="hljs-comment">             * 写入sentinel</span><br><span class="hljs-comment">             */</span><br>            HostServiceDTO sentinelHost = HostServiceDTO.builder()<br>                    .ip(sentinel.getIp())<br>                    .port(sentinel.getPort())<br>                    .role(ServiceRoleEnum.SENTINEL.getName())<br>                    .status(sentinelStatus)<br>                    .build();<br>            hosts.add(sentinelHost);<br>        &#125;<br>        <span class="hljs-keyword">return</span> hosts;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getStatus</span><span class="hljs-params">(Map&lt;String, String&gt; host, String password)</span></span>&#123;<br>        String hostIp = host.get(<span class="hljs-string">&quot;ip&quot;</span>);<br>        String hostPort = host.get(<span class="hljs-string">&quot;port&quot;</span>);<br>        String status = ServiceStatusEnum.RUNNING.getName();<br>        <span class="hljs-keyword">try</span>(Jedis masterLive = <span class="hljs-keyword">new</span> Jedis(hostIp, Integer.parseInt(hostPort)))&#123;<br>            masterLive.auth(password);<br>        &#125;<span class="hljs-keyword">catch</span> (JedisException e)&#123;<br>            status = ServiceStatusEnum.STOPPED.getName();<br>        &#125;<br>        <span class="hljs-keyword">return</span> status;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>代码优化总结：</p>
+<ol>
+<li>公共模块提取成一个方法。</li>
+<li>超过三次使用的值，需要设置为一个常量（private final …），如果在多个文件中使用到了的话，就放到常量接口中。</li>
+<li>注意代码性能，减少for，判断条件优化</li>
+<li>注意代码层次结构</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>代码托管工具：Git</title>
     <url>/2021/11/15/%E4%BB%A3%E7%A0%81%E6%89%98%E7%AE%A1%E5%B7%A5%E5%85%B7%EF%BC%9AGit/</url>
     <content><![CDATA[<p><em>Git</em>（读音为/gɪt/）是一个开源的分布式版本控制系统，可以有效、高速地处理从很小到非常大的项目版本管理。在团队协作开发中起到了十分重要的作用。</p>
@@ -949,7 +988,7 @@
 <h4 id="2-5-2-设置签名"><a href="#2-5-2-设置签名" class="headerlink" title="2.5.2.设置签名"></a>2.5.2.设置签名</h4><ul>
 <li><p>形式：</p>
 <p>用户名：liwenkai</p>
-<p>email地址：<a href="mailto:&#108;&#105;&#49;&#x37;&#54;&#x36;&#57;&#52;&#x39;&#56;&#51;&#x36;&#52;&#64;&#49;&#54;&#x33;&#x2e;&#99;&#x6f;&#x6d;">&#108;&#105;&#49;&#x37;&#54;&#x36;&#57;&#52;&#x39;&#56;&#51;&#x36;&#52;&#64;&#49;&#54;&#x33;&#x2e;&#99;&#x6f;&#x6d;</a></p>
+<p>email地址：<a href="mailto:&#x6c;&#x69;&#x31;&#55;&#54;&#x36;&#57;&#52;&#57;&#56;&#51;&#x36;&#52;&#x40;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#x69;&#x31;&#55;&#54;&#x36;&#57;&#52;&#57;&#56;&#51;&#x36;&#52;&#x40;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 </li>
 <li><p>作用：区分不同的开发人员的身份。</p>
 </li>
@@ -960,14 +999,14 @@
 <ul>
 <li>项目级别：仅在当前本地库范围内有效。<ul>
 <li> git config user.name liwenkai       </li>
-<li> git config user.email   <a href="mailto:&#108;&#105;&#49;&#x37;&#54;&#x36;&#57;&#52;&#x39;&#56;&#x33;&#x36;&#52;&#x40;&#49;&#x36;&#x33;&#46;&#x63;&#x6f;&#x6d;">&#108;&#105;&#49;&#x37;&#54;&#x36;&#57;&#52;&#x39;&#56;&#x33;&#x36;&#52;&#x40;&#49;&#x36;&#x33;&#46;&#x63;&#x6f;&#x6d;</a></li>
+<li> git config user.email   <a href="mailto:&#x6c;&#x69;&#x31;&#x37;&#x36;&#x36;&#57;&#52;&#57;&#56;&#51;&#54;&#52;&#x40;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#x69;&#x31;&#x37;&#x36;&#x36;&#57;&#52;&#57;&#56;&#51;&#54;&#52;&#x40;&#49;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;</a></li>
 <li> 项目保存的位置：./.git/config</li>
 <li> <img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111150801163.png" alt="image-20211111150801163"></li>
 </ul>
 </li>
 <li>系统用户级别：登录等钱操作系统的用户范围。git config –global<ul>
 <li> git config <strong>–global</strong> user.name liwenkai       </li>
-<li> git config <strong>–global</strong> user.email   <a href="mailto:&#x6c;&#x69;&#x31;&#55;&#x36;&#x36;&#57;&#x34;&#x39;&#56;&#51;&#54;&#x34;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#x6d;">&#x6c;&#x69;&#x31;&#55;&#x36;&#x36;&#57;&#x34;&#x39;&#56;&#51;&#54;&#x34;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#x6d;</a></li>
+<li> git config <strong>–global</strong> user.email   <a href="mailto:&#x6c;&#105;&#x31;&#x37;&#54;&#x36;&#x39;&#52;&#57;&#x38;&#51;&#x36;&#x34;&#64;&#49;&#x36;&#51;&#46;&#99;&#111;&#x6d;">&#x6c;&#105;&#x31;&#x37;&#54;&#x36;&#x39;&#52;&#57;&#x38;&#51;&#x36;&#x34;&#64;&#49;&#x36;&#51;&#46;&#99;&#111;&#x6d;</a></li>
 <li> 信息保存的位置：~/.gitconfig文件下</li>
 </ul>
 </li>
@@ -1159,7 +1198,7 @@
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112113310025.png" alt="image-20211112113310025"></p>
 <h2 id="4-GitHub相关"><a href="#4-GitHub相关" class="headerlink" title="4.GitHub相关"></a>4.GitHub相关</h2><p>账号注册：</p>
 <ul>
-<li>email：<a href="mailto:&#x33;&#50;&#57;&#49;&#x32;&#57;&#56;&#x36;&#x36;&#x40;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;">&#x33;&#50;&#57;&#49;&#x32;&#57;&#56;&#x36;&#x36;&#x40;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;</a></li>
+<li>email：<a href="mailto:&#51;&#x32;&#x39;&#x31;&#50;&#57;&#56;&#x36;&#54;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#109;">&#51;&#x32;&#x39;&#x31;&#50;&#57;&#56;&#x36;&#54;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#109;</a></li>
 <li>用户名：WenkAndZz</li>
 </ul>
 <h3 id="4-1创建本地库与远程库"><a href="#4-1创建本地库与远程库" class="headerlink" title="4.1创建本地库与远程库"></a>4.1创建本地库与远程库</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs git">创建本地库文件夹<br>mkdir [文件名]<br><br>进入本地库<br>cd [文件名]<br><br>初始化<br>git init<br><br>创建一个txt文件<br>vim [txt文件名].txt<br></code></pre></td></tr></table></figure>
@@ -1248,45 +1287,6 @@
       </categories>
       <tags>
         <tag>Git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>redis哨兵模式，sentinel获取master的信息</title>
-    <url>/2021/12/13/redis%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F%EF%BC%8Csentinel%E8%8E%B7%E5%8F%96master%E7%9A%84%E4%BF%A1%E6%81%AF/</url>
-    <content><![CDATA[<p>哨兵模式是主从的升级版，因为主从的出现故障后，不会自动恢复，需要人为干预，这就很蛋疼啊。</p>
-<p>在主从的基础上，实现哨兵模式就是为了监控主从的运行状况，对主从的健壮进行监控，就好像哨兵一样，只要有异常就发出警告，对异常状况进行处理。</p>
-<span id="more"></span>
-
-
-
-<h1 id="1-哨兵模式基本概念"><a href="#1-哨兵模式基本概念" class="headerlink" title="1.哨兵模式基本概念"></a>1.哨兵模式基本概念</h1><p>哨兵模式是主从的升级版，因为主从的出现故障后，不会自动恢复，需要人为干预，这就很蛋疼啊。</p>
-<p>在主从的基础上，实现哨兵模式就是为了监控主从的运行状况，对主从的健壮进行监控，就好像哨兵一样，只要有异常就发出警告，对异常状况进行处理。</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-0c8f6c4253843790b774fd216dea58c5_720w.jpg" alt="img"></p>
-<ol>
-<li><strong>「监控」</strong>：监控master和slave是否正常运行，以及哨兵之间也会相互监控</li>
-<li><strong>「自动故障恢复」</strong>：当master出现故障的时候，会自动选举一个slave作为master顶上去。</li>
-</ol>
-<h1 id="2-根据sentinel获取master的信息"><a href="#2-根据sentinel获取master的信息" class="headerlink" title="2.根据sentinel获取master的信息"></a>2.根据sentinel获取master的信息</h1><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><br><br><span class="hljs-keyword">import</span> org.springframework.stereotype.Service;<br><span class="hljs-keyword">import</span> redis.clients.jedis.HostAndPort;<br><span class="hljs-keyword">import</span> redis.clients.jedis.Jedis;<br><span class="hljs-keyword">import</span> redis.clients.jedis.exceptions.JedisException;<br><br><span class="hljs-keyword">import</span> java.util.List;<br><span class="hljs-keyword">import</span> java.util.Set;<br><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FindMasterService</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 通过传入的哨兵集群找到主节点的信息</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> sentinels：哨兵集群</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> masterName：主节点的名字</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> HostAndPort <span class="hljs-title">findMaster</span><span class="hljs-params">(Set&lt;String&gt; sentinels,String masterName)</span></span>&#123;<br>        HostAndPort master = <span class="hljs-keyword">null</span>;<br>        String password = <span class="hljs-string">&quot;xdata@123&quot;</span>;<br><br>        <span class="hljs-comment">//遍历哨兵，根据哨兵获取主节点的信息</span><br>        <span class="hljs-keyword">for</span> (String sentinel:sentinels)&#123;<br>            <span class="hljs-comment">//当前的集群节点是String，封装成HostAndPost类</span><br>            HostAndPort hap = HostAndPort.parseString(sentinel);<br><br>            Jedis jedis = <span class="hljs-keyword">null</span>;<br>            <span class="hljs-keyword">try</span>&#123;<br>                <span class="hljs-comment">//使用Jedis连接哨兵,当前哨兵挂了，会抛出异常</span><br>                jedis = <span class="hljs-keyword">new</span> Jedis(hap.getHost(),hap.getPort());<br>                <span class="hljs-comment">//密码验证,jedis不需要密码验证，直接可以连接。</span><br>                <span class="hljs-comment">//jedis.auth(password);</span><br><br>                <span class="hljs-comment">// 向哨兵发送指令：sentinel get-master-addr-by-name masterName 可以获取主节点的host的端口</span><br>                List&lt;String&gt; masterAddress = jedis.sentinelGetMasterAddrByName(masterName);<br>                <span class="hljs-comment">//当前哨兵宕机时，masterAddress为空。</span><br>                <span class="hljs-keyword">if</span> (masterAddress.size() == <span class="hljs-number">2</span>)&#123;<br>                    <span class="hljs-comment">//获取到master的信息</span><br>                    master = <span class="hljs-keyword">new</span> HostAndPort(masterAddress.get(<span class="hljs-number">0</span>),Integer.parseInt(masterAddress.get(<span class="hljs-number">1</span>)));<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>            &#125;<span class="hljs-keyword">catch</span> (JedisException e)&#123;<br>                <span class="hljs-comment">//出现异常可能是因为当前sentinel挂了，继续遍历下一个sentinel</span><br>                e.getMessage();<br>            &#125;<span class="hljs-keyword">finally</span> &#123;<br>                <span class="hljs-keyword">if</span> (jedis != <span class="hljs-keyword">null</span>)&#123;<br>                    jedis.close();<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> master;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<p>测试</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.junit.jupiter.api.Test;<br><span class="hljs-keyword">import</span> redis.clients.jedis.HostAndPort;<br><br><span class="hljs-keyword">import</span> java.util.HashSet;<br><span class="hljs-keyword">import</span> java.util.Set;<br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FindMasterServiceTest</span> </span>&#123;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testFindMaster</span><span class="hljs-params">()</span></span>&#123;<br>        FindMasterService findMasterService = <span class="hljs-keyword">new</span> FindMasterService();<br>        Set&lt;String&gt; sentinels = <span class="hljs-keyword">new</span> HashSet&lt;&gt;();<br>        sentinels.add(<span class="hljs-string">&quot;host:post&quot;</span>);              <span class="hljs-comment">//host:post修改端口号</span><br>        sentinels.add(<span class="hljs-string">&quot;host:post&quot;</span>);<br>        sentinels.add(<span class="hljs-string">&quot;host:post&quot;</span>);<br><br>        String masterName = <span class="hljs-string">&quot;mymaster&quot;</span>;<br>        HostAndPort master = findMasterService.findMaster(sentinels, masterName);<br>        System.out.println(master.toString());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h1 id="3-修改（代码优化）"><a href="#3-修改（代码优化）" class="headerlink" title="3.修改（代码优化）"></a>3.修改（代码优化）</h1><p>之前的代码之后获得master的信息，使用这个方法可以得到master、slave与sentinel的信息（ip、port、role、status）。</p>
-<p>之前写的代码，层次结构不够清晰，代码不够规范，根据师兄的建议修改了一下</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SentinelService</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 主从模式下，查找host</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> sentinelsList：哨兵列表</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> hosts列表</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;HostServiceDTO&gt; <span class="hljs-title">sentinelFindHosts</span><span class="hljs-params">(List&lt;ServiceCheckDTO&gt; sentinelsList)</span></span>&#123;<br><br>        String password = sentinelsList.get(<span class="hljs-number">0</span>).getPassword();<br>        List&lt;HostServiceDTO&gt; hosts = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>        <span class="hljs-keyword">boolean</span> writeInList = <span class="hljs-keyword">true</span>;       <span class="hljs-comment">//用来标记是否已经将master与slave的信息写入到list中</span><br><br>        <span class="hljs-keyword">for</span> (ServiceCheckDTO sentinel : sentinelsList)&#123;<br><br>            String sentinelStatus = ServiceStatusEnum.RUNNING.getName();<br><br>            <span class="hljs-keyword">try</span>(Jedis jedis = <span class="hljs-keyword">new</span> Jedis(sentinel.getIp(),Integer.parseInt(sentinel.getPort())))&#123;<br>                <span class="hljs-comment">/**</span><br><span class="hljs-comment">                 * 根据sentinel获得master,主从模式master只有一个</span><br><span class="hljs-comment">                 */</span><br>                List&lt;Map&lt;String, String&gt;&gt; mastersMeg = jedis.sentinelMasters();<br><br>                <span class="hljs-keyword">if</span> (writeInList &amp;&amp; !mastersMeg.isEmpty())&#123;<br>                    Map&lt;String, String&gt; masterMeg = mastersMeg.get(<span class="hljs-number">0</span>);<br>                    String masterStatus = getStatus(masterMeg, password);<br>                    HostServiceDTO master = HostServiceDTO.builder()<br>                            .ip(masterMeg.get(<span class="hljs-string">&quot;ip&quot;</span>))<br>                            .port(masterMeg.get(<span class="hljs-string">&quot;port&quot;</span>))<br>                            .role(ServiceRoleEnum.MASTER.getName())<br>                            .status(masterStatus)<br>                            .build();<br>                    hosts.add(master);<br>                    <span class="hljs-comment">/**</span><br><span class="hljs-comment">                     * 根据master得到slaves</span><br><span class="hljs-comment">                     */</span><br>                    List&lt;Map&lt;String, String&gt;&gt; slavesMeg = jedis.sentinelSlaves(masterMeg.get(<span class="hljs-string">&quot;name&quot;</span>));<br>                    <span class="hljs-keyword">for</span> (Map&lt;String, String&gt; slaveMeg : slavesMeg)&#123;<br>                        String slaveStatus = getStatus(slaveMeg, password);<br>                        HostServiceDTO slave = HostServiceDTO.builder()<br>                                .ip(slaveMeg.get(<span class="hljs-string">&quot;ip&quot;</span>))<br>                                .port(slaveMeg.get(<span class="hljs-string">&quot;port&quot;</span>))<br>                                .role(ServiceRoleEnum.SLAVE.getName())<br>                                .status(slaveStatus)<br>                                .build();<br>                        hosts.add(slave);<br>                    &#125;<br>                    writeInList = <span class="hljs-keyword">false</span>;<br>                &#125;<br>            &#125;<span class="hljs-keyword">catch</span> (JedisException e)&#123;<br>                sentinelStatus = ServiceStatusEnum.STOPPED.getName();<br>            &#125;<br>            <span class="hljs-comment">/**</span><br><span class="hljs-comment">             * 写入sentinel</span><br><span class="hljs-comment">             */</span><br>            HostServiceDTO sentinelHost = HostServiceDTO.builder()<br>                    .ip(sentinel.getIp())<br>                    .port(sentinel.getPort())<br>                    .role(ServiceRoleEnum.SENTINEL.getName())<br>                    .status(sentinelStatus)<br>                    .build();<br>            hosts.add(sentinelHost);<br>        &#125;<br>        <span class="hljs-keyword">return</span> hosts;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getStatus</span><span class="hljs-params">(Map&lt;String, String&gt; host, String password)</span></span>&#123;<br>        String hostIp = host.get(<span class="hljs-string">&quot;ip&quot;</span>);<br>        String hostPort = host.get(<span class="hljs-string">&quot;port&quot;</span>);<br>        String status = ServiceStatusEnum.RUNNING.getName();<br>        <span class="hljs-keyword">try</span>(Jedis masterLive = <span class="hljs-keyword">new</span> Jedis(hostIp, Integer.parseInt(hostPort)))&#123;<br>            masterLive.auth(password);<br>        &#125;<span class="hljs-keyword">catch</span> (JedisException e)&#123;<br>            status = ServiceStatusEnum.STOPPED.getName();<br>        &#125;<br>        <span class="hljs-keyword">return</span> status;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-<p>代码优化总结：</p>
-<ol>
-<li>公共模块提取成一个方法。</li>
-<li>超过三次使用的值，需要设置为一个常量（private final …），如果在多个文件中使用到了的话，就放到常量接口中。</li>
-<li>注意代码性能，减少for，判断条件优化</li>
-<li>注意代码层次结构</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -2955,51 +2955,6 @@
       </tags>
   </entry>
   <entry>
-    <title>镜像制作</title>
-    <url>/2021/12/22/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/</url>
-    <content><![CDATA[<p>OpenStack+CloudBreak+Ambari</p>
-<ul>
-<li>OpenStack：镜像制作相关操作</li>
-<li>Ambari：自定义服务，提供UI界面</li>
-<li>Cloudbreak：集群管理，给Ambari提供服务</li>
-</ul>
-<span id="more"></span>
-
-
-
-<h1 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h1><p>OpenStack+CloudBreak+Ambari</p>
-<ul>
-<li>OpenStack：镜像制作相关操作</li>
-<li>Ambari：自定义服务，提供UI界面</li>
-<li>Cloudbreak：集群管理，给Ambari提供服务</li>
-</ul>
-<h1 id="账号汇总"><a href="#账号汇总" class="headerlink" title="账号汇总"></a>账号汇总</h1><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.OpenStack镜像制作公共节点：<br><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span>         <br><br><span class="hljs-number">2</span>.OpenStack网站：<br>http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span><span class="hljs-regexp">/dashboard/</span>auth<span class="hljs-regexp">/login/</span>          <br><br><span class="hljs-number">3</span>.cloudbreak网址：<br><span class="hljs-number">10.6</span>.<span class="hljs-number">6.102</span>      <br><br><br><span class="hljs-number">4</span>.catalog创建目录：<br><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>catalog<br><br><span class="hljs-number">5</span>.Ambari服务修改目录：<br><span class="hljs-regexp">/var/</span>lib<span class="hljs-regexp">/ambari-server/</span>resources<span class="hljs-regexp">/stacks/</span>HDP<span class="hljs-regexp">/3.1/</span>services<br><br></code></pre></td></tr></table></figure>
-
-<h1 id="镜像制作流程"><a href="#镜像制作流程" class="headerlink" title="镜像制作流程"></a>镜像制作流程</h1><h2 id="1-镜像创建，并上传到OpenStack"><a href="#1-镜像创建，并上传到OpenStack" class="headerlink" title="1.镜像创建，并上传到OpenStack"></a>1.镜像创建，并上传到OpenStack</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.登录到<span class="hljs-number">10.6.8.67</span><br><span class="hljs-attribute">ssh</span> root@<span class="hljs-number">10.6.8.67</span><br><br><span class="hljs-attribute">2</span>.服务admin权限<br><span class="hljs-attribute">source</span> keystonerc-admin<br><br><span class="hljs-attribute">3</span>.查看镜像列表<br><span class="hljs-attribute">glance</span> image-list<br><br><span class="hljs-attribute">4</span>.下载镜像<br><span class="hljs-attribute">glance</span> image-download --file /tmp/cv-sugon-data-governance-<span class="hljs-number">20210604</span>.qcow<span class="hljs-number">2</span>   <span class="hljs-number">2</span>c<span class="hljs-number">44</span>d<span class="hljs-number">9</span>ef-<span class="hljs-number">9</span>da<span class="hljs-number">1</span>-<span class="hljs-number">410</span>c-<span class="hljs-number">8483</span>-<span class="hljs-number">0466</span>ca<span class="hljs-number">1</span>c<span class="hljs-number">055</span>c<br><br><span class="hljs-attribute">5</span>.压缩镜像<br><span class="hljs-attribute">virt</span>-sparsify --compress cv-sugon-hadoop-analysis-<span class="hljs-number">20210607</span>.qcow<span class="hljs-number">2</span> cv-sugon-hadoop-analysis-<span class="hljs-number">20210607</span>-alpha.qcow<span class="hljs-number">2</span><br><br><span class="hljs-attribute">6</span>.上传镜像<br><span class="hljs-attribute">openstack</span> image create <span class="hljs-string">&quot;cv-xdata-31-20210604-sugon-alpha-test&quot;</span>   --file cb-xdata-<span class="hljs-number">31</span>-<span class="hljs-number">20210428</span>-sugon-alpha.qcow<span class="hljs-number">2</span> --disk-format qcow<span class="hljs-number">2</span> --container-format bare --property hypervisor_type=kvm --public<br><br><span class="hljs-attribute">7</span>.查看镜像信息<br><span class="hljs-attribute">qemu</span>-img info ***.qcow<span class="hljs-number">2</span><br><br><span class="hljs-attribute">8</span>.删除镜像<br><span class="hljs-attribute">openstack</span> image delete &#123;id&#125;<br><br><span class="hljs-attribute">9</span>.转换格式：<br><span class="hljs-attribute">qemu</span>-img convert -f qcow<span class="hljs-number">2</span> -O raw aa.qcow<span class="hljs-number">2</span> aa.raw -p<br></code></pre></td></tr></table></figure>
-
-<p>删除文件时，要注意删除的文件是不是还有用</p>
-<p>尽量用 rm</p>
-<h2 id="2-登录UI界面，根据镜像创建实例"><a href="#2-登录UI界面，根据镜像创建实例" class="headerlink" title="2.登录UI界面，根据镜像创建实例"></a>2.登录UI界面，根据镜像创建实例</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.登录OpenStack网站：<br>http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span><span class="hljs-regexp">/dashboard/</span>auth<span class="hljs-regexp">/login/</span>        <br><br><span class="hljs-number">2</span>.创建实例 <br>新卷（否）   ----wan     ----注意根目录与内存的大小<br><br><span class="hljs-number">3</span>.创建实例结束之后，会有一个IP地址<br></code></pre></td></tr></table></figure>
-
-<h2 id="3-虚拟机配置文件修改"><a href="#3-虚拟机配置文件修改" class="headerlink" title="3.虚拟机配置文件修改"></a>3.虚拟机配置文件修改</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.<br><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>catalog<br>对其进行修改 镜像名，ID<br><br><span class="hljs-number">2</span>.可以登录cloudbreak上进行查看，image catalog。<br>例如：http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">6.5</span>:<span class="hljs-number">9999</span><span class="hljs-regexp">/catalog/</span>cv-sugon-redis.json<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="4-Ambari自定义服务"><a href="#4-Ambari自定义服务" class="headerlink" title="4.Ambari自定义服务"></a>4.Ambari自定义服务</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.通过IP地址登录虚拟机<br>ssh root@ip<br><br><span class="hljs-number">2</span>.查看主机名<br>cat <span class="hljs-regexp">/etc/</span>hostname<br>修改主机名<br>hostname localhost.localdomain<br><br><span class="hljs-number">3</span>.修改自定义服务脚本<br>替换<span class="hljs-regexp">/var/</span>lib<span class="hljs-regexp">/ambari-server/</span>resources<span class="hljs-regexp">/stacks/</span>HDP<span class="hljs-regexp">/3.1/</span>services中的脚本。<br><br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="5-查看镜像、挂载"><a href="#5-查看镜像、挂载" class="headerlink" title="5.查看镜像、挂载"></a>5.查看镜像、挂载</h2><p>直接在当前虚拟机上对镜像进行修改，不需要创建实例再修改。</p>
-<figure class="highlight dsconfig"><table><tr><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">1</span>.查看镜像分区表信息<br><span class="hljs-string">virt-df</span> <span class="hljs-string">your</span>.<span class="hljs-string">qcow2</span><br><span class="hljs-string">qemu-img</span> <span class="hljs-string">info</span> <span class="hljs-string">your</span>.<span class="hljs-string">qcow2</span><br><br><span class="hljs-string">2</span>.挂载镜像，修改镜像中的文件<br><span class="hljs-string">guestfish</span> -<span class="hljs-string">a</span> <span class="hljs-string">your</span>.<span class="hljs-string">qcow2</span><br>&gt;&lt;<span class="hljs-string">fs</span>&gt; <span class="hljs-string">launch</span>                            //启动<br>&gt;&lt;<span class="hljs-string">fs</span>&gt; <span class="hljs-built_in">list-partitions</span>                   //查看分区列表<br>/<span class="hljs-string">dev</span>/<span class="hljs-string">sda1</span><br>&gt;&lt;<span class="hljs-string">fs</span>&gt; <span class="hljs-built_in">list-filesystems</span><br>/<span class="hljs-string">dev</span>/<span class="hljs-string">sda1</span>: <span class="hljs-string">xfs</span><br>&gt;&lt;<span class="hljs-string">fs</span>&gt;<span class="hljs-string">mount</span>  /<span class="hljs-string">dev</span>/<span class="hljs-string">sda1</span>  /               //修改当前目录成根目录<br>&gt; <span class="hljs-string">exit</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="6-修改镜像格式"><a href="#6-修改镜像格式" class="headerlink" title="6.修改镜像格式"></a>6.修改镜像格式</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><code class="hljs stylus"><span class="hljs-number">1</span>.转换格式：<br>qemu-<span class="hljs-selector-tag">img</span> convert -f qcow2 -O raw aa<span class="hljs-selector-class">.qcow2</span> aa<span class="hljs-selector-class">.raw</span> -<span class="hljs-selector-tag">p</span><br><br><span class="hljs-number">2</span>.查看镜像信息<br>qemu-<span class="hljs-selector-tag">img</span> info t<span class="hljs-selector-class">.raw</span><br><br><span class="hljs-number">3</span>.上传raw格式镜像：<br>openstack image create <span class="hljs-string">&quot;cv-sugon-data-governance-20210831-alpha&quot;</span> --file cv-sugon-data-governance-<span class="hljs-number">20210831</span>-alpha<span class="hljs-selector-class">.raw</span> --disk-format raw --container-format bare --property hypervisor_type=kvm --public<br></code></pre></td></tr></table></figure>
-
-<h2 id="7-Cloudbreak创建集群"><a href="#7-Cloudbreak创建集群" class="headerlink" title="7.Cloudbreak创建集群"></a>7.Cloudbreak创建集群</h2>]]></content>
-      <tags>
-        <tag>镜像制作、云计算</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>消息队列中间件：RabbitMQ</title>
     <url>/2021/11/15/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9ARabbitMQ/</url>
     <content><![CDATA[<p>消息队列（MQ，Message Queue）本质是一个队列，队列中存放的内容是message，是一种跨进程的通信机制，用于上下游传递消息。RabbitMQ是一个消息中间件，它接受、存储、转发消息数据。</p>
@@ -3363,6 +3318,51 @@
       </categories>
       <tags>
         <tag>中间件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>镜像制作</title>
+    <url>/2021/12/22/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/</url>
+    <content><![CDATA[<p>OpenStack+CloudBreak+Ambari</p>
+<ul>
+<li>OpenStack：镜像制作相关操作</li>
+<li>Ambari：自定义服务，提供UI界面</li>
+<li>Cloudbreak：集群管理，给Ambari提供服务</li>
+</ul>
+<span id="more"></span>
+
+
+
+<h1 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h1><p>OpenStack+CloudBreak+Ambari</p>
+<ul>
+<li>OpenStack：镜像制作相关操作</li>
+<li>Ambari：自定义服务，提供UI界面</li>
+<li>Cloudbreak：集群管理，给Ambari提供服务</li>
+</ul>
+<h1 id="账号汇总"><a href="#账号汇总" class="headerlink" title="账号汇总"></a>账号汇总</h1><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.OpenStack镜像制作公共节点：<br><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span>         <br><br><span class="hljs-number">2</span>.OpenStack网站：<br>http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span><span class="hljs-regexp">/dashboard/</span>auth<span class="hljs-regexp">/login/</span>          <br><br><span class="hljs-number">3</span>.cloudbreak网址：<br><span class="hljs-number">10.6</span>.<span class="hljs-number">6.102</span>      <br><br><br><span class="hljs-number">4</span>.catalog创建目录：<br><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>catalog<br><br><span class="hljs-number">5</span>.Ambari服务修改目录：<br><span class="hljs-regexp">/var/</span>lib<span class="hljs-regexp">/ambari-server/</span>resources<span class="hljs-regexp">/stacks/</span>HDP<span class="hljs-regexp">/3.1/</span>services<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="镜像制作流程"><a href="#镜像制作流程" class="headerlink" title="镜像制作流程"></a>镜像制作流程</h1><h2 id="1-镜像创建，并上传到OpenStack"><a href="#1-镜像创建，并上传到OpenStack" class="headerlink" title="1.镜像创建，并上传到OpenStack"></a>1.镜像创建，并上传到OpenStack</h2><figure class="highlight apache"><table><tr><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.登录到<span class="hljs-number">10.6.8.67</span><br><span class="hljs-attribute">ssh</span> root@<span class="hljs-number">10.6.8.67</span><br><br><span class="hljs-attribute">2</span>.服务admin权限<br><span class="hljs-attribute">source</span> keystonerc-admin<br><br><span class="hljs-attribute">3</span>.查看镜像列表<br><span class="hljs-attribute">glance</span> image-list<br><br><span class="hljs-attribute">4</span>.下载镜像<br><span class="hljs-attribute">glance</span> image-download --file /tmp/cv-sugon-data-governance-<span class="hljs-number">20210604</span>.qcow<span class="hljs-number">2</span>   <span class="hljs-number">2</span>c<span class="hljs-number">44</span>d<span class="hljs-number">9</span>ef-<span class="hljs-number">9</span>da<span class="hljs-number">1</span>-<span class="hljs-number">410</span>c-<span class="hljs-number">8483</span>-<span class="hljs-number">0466</span>ca<span class="hljs-number">1</span>c<span class="hljs-number">055</span>c<br><br><span class="hljs-attribute">5</span>.压缩镜像<br><span class="hljs-attribute">virt</span>-sparsify --compress cv-sugon-hadoop-analysis-<span class="hljs-number">20210607</span>.qcow<span class="hljs-number">2</span> cv-sugon-hadoop-analysis-<span class="hljs-number">20210607</span>-alpha.qcow<span class="hljs-number">2</span><br><br><span class="hljs-attribute">6</span>.上传镜像<br><span class="hljs-attribute">openstack</span> image create <span class="hljs-string">&quot;cv-xdata-31-20210604-sugon-alpha-test&quot;</span>   --file cb-xdata-<span class="hljs-number">31</span>-<span class="hljs-number">20210428</span>-sugon-alpha.qcow<span class="hljs-number">2</span> --disk-format qcow<span class="hljs-number">2</span> --container-format bare --property hypervisor_type=kvm --public<br><br><span class="hljs-attribute">7</span>.查看镜像信息<br><span class="hljs-attribute">qemu</span>-img info ***.qcow<span class="hljs-number">2</span><br><br><span class="hljs-attribute">8</span>.删除镜像<br><span class="hljs-attribute">openstack</span> image delete &#123;id&#125;<br><br><span class="hljs-attribute">9</span>.转换格式：<br><span class="hljs-attribute">qemu</span>-img convert -f qcow<span class="hljs-number">2</span> -O raw aa.qcow<span class="hljs-number">2</span> aa.raw -p<br></code></pre></td></tr></table></figure>
+
+<p>删除文件时，要注意删除的文件是不是还有用</p>
+<p>尽量用 rm</p>
+<h2 id="2-登录UI界面，根据镜像创建实例"><a href="#2-登录UI界面，根据镜像创建实例" class="headerlink" title="2.登录UI界面，根据镜像创建实例"></a>2.登录UI界面，根据镜像创建实例</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.登录OpenStack网站：<br>http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">8.67</span><span class="hljs-regexp">/dashboard/</span>auth<span class="hljs-regexp">/login/</span>        <br><br><span class="hljs-number">2</span>.创建实例 <br>新卷（否）   ----wan     ----注意根目录与内存的大小<br><br><span class="hljs-number">3</span>.创建实例结束之后，会有一个IP地址<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-虚拟机配置文件修改"><a href="#3-虚拟机配置文件修改" class="headerlink" title="3.虚拟机配置文件修改"></a>3.虚拟机配置文件修改</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.<br><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>catalog<br>对其进行修改 镜像名，ID<br><br><span class="hljs-number">2</span>.可以登录cloudbreak上进行查看，image catalog。<br>例如：http:<span class="hljs-regexp">//</span><span class="hljs-number">10.6</span>.<span class="hljs-number">6.5</span>:<span class="hljs-number">9999</span><span class="hljs-regexp">/catalog/</span>cv-sugon-redis.json<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-Ambari自定义服务"><a href="#4-Ambari自定义服务" class="headerlink" title="4.Ambari自定义服务"></a>4.Ambari自定义服务</h2><figure class="highlight awk"><table><tr><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>.通过IP地址登录虚拟机<br>ssh root@ip<br><br><span class="hljs-number">2</span>.查看主机名<br>cat <span class="hljs-regexp">/etc/</span>hostname<br>修改主机名<br>hostname localhost.localdomain<br><br><span class="hljs-number">3</span>.修改自定义服务脚本<br>替换<span class="hljs-regexp">/var/</span>lib<span class="hljs-regexp">/ambari-server/</span>resources<span class="hljs-regexp">/stacks/</span>HDP<span class="hljs-regexp">/3.1/</span>services中的脚本。<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-查看镜像、挂载"><a href="#5-查看镜像、挂载" class="headerlink" title="5.查看镜像、挂载"></a>5.查看镜像、挂载</h2><p>直接在当前虚拟机上对镜像进行修改，不需要创建实例再修改。</p>
+<figure class="highlight dsconfig"><table><tr><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">1</span>.查看镜像分区表信息<br><span class="hljs-string">virt-df</span> <span class="hljs-string">your</span>.<span class="hljs-string">qcow2</span><br><span class="hljs-string">qemu-img</span> <span class="hljs-string">info</span> <span class="hljs-string">your</span>.<span class="hljs-string">qcow2</span><br><br><span class="hljs-string">2</span>.挂载镜像，修改镜像中的文件<br><span class="hljs-string">guestfish</span> -<span class="hljs-string">a</span> <span class="hljs-string">your</span>.<span class="hljs-string">qcow2</span><br>&gt;&lt;<span class="hljs-string">fs</span>&gt; <span class="hljs-string">launch</span>                            //启动<br>&gt;&lt;<span class="hljs-string">fs</span>&gt; <span class="hljs-built_in">list-partitions</span>                   //查看分区列表<br>/<span class="hljs-string">dev</span>/<span class="hljs-string">sda1</span><br>&gt;&lt;<span class="hljs-string">fs</span>&gt; <span class="hljs-built_in">list-filesystems</span><br>/<span class="hljs-string">dev</span>/<span class="hljs-string">sda1</span>: <span class="hljs-string">xfs</span><br>&gt;&lt;<span class="hljs-string">fs</span>&gt;<span class="hljs-string">mount</span>  /<span class="hljs-string">dev</span>/<span class="hljs-string">sda1</span>  /               //修改当前目录成根目录<br>&gt; <span class="hljs-string">exit</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="6-修改镜像格式"><a href="#6-修改镜像格式" class="headerlink" title="6.修改镜像格式"></a>6.修改镜像格式</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><code class="hljs stylus"><span class="hljs-number">1</span>.转换格式：<br>qemu-<span class="hljs-selector-tag">img</span> convert -f qcow2 -O raw aa<span class="hljs-selector-class">.qcow2</span> aa<span class="hljs-selector-class">.raw</span> -<span class="hljs-selector-tag">p</span><br><br><span class="hljs-number">2</span>.查看镜像信息<br>qemu-<span class="hljs-selector-tag">img</span> info t<span class="hljs-selector-class">.raw</span><br><br><span class="hljs-number">3</span>.上传raw格式镜像：<br>openstack image create <span class="hljs-string">&quot;cv-sugon-data-governance-20210831-alpha&quot;</span> --file cv-sugon-data-governance-<span class="hljs-number">20210831</span>-alpha<span class="hljs-selector-class">.raw</span> --disk-format raw --container-format bare --property hypervisor_type=kvm --public<br></code></pre></td></tr></table></figure>
+
+<h2 id="7-Cloudbreak创建集群"><a href="#7-Cloudbreak创建集群" class="headerlink" title="7.Cloudbreak创建集群"></a>7.Cloudbreak创建集群</h2>]]></content>
+      <tags>
+        <tag>镜像制作、云计算</tag>
       </tags>
   </entry>
   <entry>
