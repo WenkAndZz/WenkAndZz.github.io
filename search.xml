@@ -81,6 +81,99 @@
       </tags>
   </entry>
   <entry>
+    <title>CloudBreak</title>
+    <url>/2021/12/03/CloudBreak/</url>
+    <content><![CDATA[<p>Cloudbreak 允许<strong>在云平台（私有云、公有云都可）上创建、管理和监控 HDP 和 HDF 集群</strong>。</p>
+<span id="more"></span>
+
+<h1 id="CloudBreak"><a href="#CloudBreak" class="headerlink" title="CloudBreak"></a>CloudBreak</h1><h1 id="1-核心概念简介"><a href="#1-核心概念简介" class="headerlink" title="1.核心概念简介"></a>1.核心概念简介</h1><p>Cloudbreak 允许<strong>在云平台上创建、管理和监控 HDP 和 HDF 集群</strong>：</p>
+<ul>
+<li>在公共云和私有云（AWS、Azure、谷歌云、OpenStack）上动态部署、配置和管理集群。</li>
+<li>随着集群工作负载的变化，使用自动扩展无缝管理弹性需求。</li>
+<li>通过启用 Kerberos 保护您的集群。</li>
+</ul>
+<p>Cloudbreak支持通过Cloudbreak web UI、Cloudbreak CLI和Cloudbreak REST API创建集群。集群可以在公共云基础设施平台Microsoft Azure、Amazon Web Services (AWS)和谷歌云平台(GCP)上发布，也可以在私有云基础设施平台上发布</p>
+<h2 id="1-1Ambari"><a href="#1-1Ambari" class="headerlink" title="1.1Ambari"></a>1.1Ambari</h2><p>Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的供应、管理和监控。</p>
+<p>Apache Ambari 支持HDFS、MapReduce、Hive、Pig、Hbase、Zookeepr、Sqoop和Hcatalog等的集中管理。</p>
+<h2 id="1-2-Clusters-数据集群"><a href="#1-2-Clusters-数据集群" class="headerlink" title="1.2 Clusters (数据集群)"></a>1.2 Clusters (数据集群)</h2><p><em>数据库集群</em>，就是利用至少两台或者多台数据库服务器，构成一个虚拟单一数据库逻辑映像，像单数据库系统那样，向客户端提供透明的数据服务。</p>
+<h2 id="1-3-blueprints（蓝图）"><a href="#1-3-blueprints（蓝图）" class="headerlink" title="1.3 blueprints（蓝图）"></a>1.3 blueprints（蓝图）</h2><ul>
+<li>blueprints是集群的声明性定义。</li>
+<li>允许定义堆栈、组件布局和配置的集群实例。</li>
+<li>启动集群时将 JSON 中的主机组映射到一组实例，并在相应的节点上安装指定的服务和组件。</li>
+</ul>
+<p><strong>Ambari 蓝图是集群的声明性定义</strong>。蓝图<strong>允许您指定堆栈、组件布局和配置以通过 Ambari REST API 实现集群实例</strong>，而无需使用 Ambari 集群安装向导。</p>
+<p>Ambari 蓝图以 <strong>JSON 格式</strong>指定。将蓝图提供给 Cloudbreak 后，<strong>启动集群时将 JSON 中的主机组映射到一组实例，并在相应的节点上安装指定的服务和组件</strong>。</p>
+<p>Cloudbreak 包含一些默认蓝图，并允许您上传自己的蓝图。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/cb_arch-blue.png" alt="img"></p>
+<h2 id="1-4-Credential（凭证）"><a href="#1-4-Credential（凭证）" class="headerlink" title="1.4 Credential（凭证）"></a>1.4 Credential（凭证）</h2><p>启动 Cloudbreak 后，必须为要在其上配置集群的每个云提供商创建一个 Cloudbreak 凭证。只有在完成该步骤后，您才能开始创建集群。</p>
+<p>Cloudbreak 凭证<strong>允许 Cloudbreak 向云提供商进行身份验证并代表您创建资源</strong>。身份验证过程因云提供商而异，但通常通过向 Cloudbreak 分配特定 IAM 角色来完成，这允许 Cloudbreak 在您的云提供商帐户中执行某些操作。</p>
+<h2 id="1-5Data-lake（数据湖）"><a href="#1-5Data-lake（数据湖）" class="headerlink" title="1.5Data lake（数据湖）"></a>1.5Data lake（数据湖）</h2><p>为当前和未来的临时工作负载提供一致的可用安全策略定义。所有与schema (Hive)、security policy (Ranger)、audit (Ranger)相关的信息都存储在外部位置(外部数据库、云存储)。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/cb_datalake-diag01.png" alt="img"></p>
+<p>创建数据湖实例后，可以选择将其附加到一个或多个临时集群。这允许您跨多个工作负载集群应用身份验证、授权和审计。</p>
+<ul>
+<li>工作负载集群（Workload clusters）</li>
+</ul>
+<p>连接到数据湖以运行工作负载的集群。这是通过JDBC运行Hive等工作负载的地方。</p>
+<p>数据湖的组成：</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/cb_datalake-diag02.png" alt="img"></p>
+<ul>
+<li>Schema：实现技术<ul>
+<li>Apache Hive。数据仓库，提供Hive模式(表、视图等)。</li>
+<li>如果有两个或多个工作负载访问相同的Hive数据，则需要在这些工作负载之间共享模式。</li>
+</ul>
+</li>
+<li>Policy：安全政策<ul>
+<li>Apache Ranger</li>
+<li>定义围绕Hive模式的安全策略。如果有两个或多个用户访问相同的数据，则需要始终可用并实施安全策略。</li>
+</ul>
+</li>
+<li>Audit：<ul>
+<li>Apache Range</li>
+<li>审计用户访问并捕获工作负载的数据访问活动。</li>
+</ul>
+</li>
+<li>Directory<ul>
+<li>LDAP/AD</li>
+<li>为用户提供身份验证源，并定义用于授权的组。</li>
+</ul>
+</li>
+<li>GateWay：<ul>
+<li>Apache Knox</li>
+<li>支持单个工作负载端点，可以使用SSL保护该端点，并启用身份验证以访问资源。</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-6Dynamic-blueprints（动态蓝湖）"><a href="#1-6Dynamic-blueprints（动态蓝湖）" class="headerlink" title="1.6Dynamic blueprints（动态蓝湖）"></a>1.6Dynamic blueprints（动态蓝湖）</h2><p>在蓝图之外管理外部资源，简化了蓝图。</p>
+<p>生产集群配置通常包括某些配置参数，例如与外部数据库（用于 Hive、Ranger 等）和 LDAP/AD 相关的配置参数，迫使用户创建相同蓝图的 1+ 版本来处理这些外部系统的不同组件配置。</p>
+<p>动态蓝图提供了在蓝图之外管理外部源（例如 RDBMS 和 LDAP/AD）的能力，因为它们仅使用蓝图作为模板，而 Cloudbreak 将实际配置注入到您的蓝图中。这简化了外部源（RDBMS 和 LDAP/AD）集群配置的重用，并简化了蓝图本身。</p>
+<h2 id="1-7-外部资源"><a href="#1-7-外部资源" class="headerlink" title="1.7 外部资源"></a>1.7 外部资源</h2><p>Cloudbreak <strong>允许定义独立于集群创建的外部源</strong>——因此它们的生命周期不受任何集群的生命周期的限制——并且可以与多个集群重用：</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/cb_external-source.png" alt="img"></p>
+<p>可以在 Cloudbreak 中注册的外部源包括：</p>
+<ul>
+<li>身份验证配置（LDAP/AD）</li>
+<li>数据库配置</li>
+<li>图片目录</li>
+<li>代理配置</li>
+</ul>
+<p>注册外部源后，您可以将其重用于多个集群。</p>
+<h2 id="1-8-Recipes"><a href="#1-8-Recipes" class="headerlink" title="1.8 Recipes"></a>1.8 Recipes</h2><p>Cloudbreak 允许您上传自定义脚本，称为“Recipes”。Recipes是在特定时间在选定节点组的所有节点上运行的脚本。您可以将配方用于安装其他软件或执行高级集群配置等任务。</p>
+<p>执行时间为：</p>
+<ul>
+<li>Ambari 服务器启动前</li>
+<li>Ambari 服务器启动后</li>
+<li>集群安装后</li>
+<li>集群终止前</li>
+</ul>
+<p>可以通过 UI 或 CLI将recipes上传到cloudbreak中，创建集群时，可以创建多个recipes，他们将在特定时间，特定主机组上执行。</p>
+]]></content>
+      <categories>
+        <category>云计算</category>
+      </categories>
+      <tags>
+        <tag>云计算</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ambari</title>
     <url>/2021/12/04/Ambari/</url>
     <content><![CDATA[<p>Ambari是hadoop分布式集群配置管理工具；从Ambari 的作用来说，就是<strong>创建、管理、监视 Hadoop 的集群</strong>，但是这里的 Hadoop 是广义，指的是 Hadoop 整个生态圈(例如 Hive数据仓库，Hbase数据库，Sqoop，Zookeeper 等)，而并不仅是特指 Hadoop。用一句话来说，Ambari 就是为了让 Hadoop 以及相关的大数据软件更容易使用的一个工具。</p>
@@ -249,99 +342,6 @@
       </categories>
       <tags>
         <tag>自定义服务</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CloudBreak</title>
-    <url>/2021/12/03/CloudBreak/</url>
-    <content><![CDATA[<p>Cloudbreak 允许<strong>在云平台（私有云、公有云都可）上创建、管理和监控 HDP 和 HDF 集群</strong>。</p>
-<span id="more"></span>
-
-<h1 id="CloudBreak"><a href="#CloudBreak" class="headerlink" title="CloudBreak"></a>CloudBreak</h1><h1 id="1-核心概念简介"><a href="#1-核心概念简介" class="headerlink" title="1.核心概念简介"></a>1.核心概念简介</h1><p>Cloudbreak 允许<strong>在云平台上创建、管理和监控 HDP 和 HDF 集群</strong>：</p>
-<ul>
-<li>在公共云和私有云（AWS、Azure、谷歌云、OpenStack）上动态部署、配置和管理集群。</li>
-<li>随着集群工作负载的变化，使用自动扩展无缝管理弹性需求。</li>
-<li>通过启用 Kerberos 保护您的集群。</li>
-</ul>
-<p>Cloudbreak支持通过Cloudbreak web UI、Cloudbreak CLI和Cloudbreak REST API创建集群。集群可以在公共云基础设施平台Microsoft Azure、Amazon Web Services (AWS)和谷歌云平台(GCP)上发布，也可以在私有云基础设施平台上发布</p>
-<h2 id="1-1Ambari"><a href="#1-1Ambari" class="headerlink" title="1.1Ambari"></a>1.1Ambari</h2><p>Apache Ambari是一种基于Web的工具，支持Apache Hadoop集群的供应、管理和监控。</p>
-<p>Apache Ambari 支持HDFS、MapReduce、Hive、Pig、Hbase、Zookeepr、Sqoop和Hcatalog等的集中管理。</p>
-<h2 id="1-2-Clusters-数据集群"><a href="#1-2-Clusters-数据集群" class="headerlink" title="1.2 Clusters (数据集群)"></a>1.2 Clusters (数据集群)</h2><p><em>数据库集群</em>，就是利用至少两台或者多台数据库服务器，构成一个虚拟单一数据库逻辑映像，像单数据库系统那样，向客户端提供透明的数据服务。</p>
-<h2 id="1-3-blueprints（蓝图）"><a href="#1-3-blueprints（蓝图）" class="headerlink" title="1.3 blueprints（蓝图）"></a>1.3 blueprints（蓝图）</h2><ul>
-<li>blueprints是集群的声明性定义。</li>
-<li>允许定义堆栈、组件布局和配置的集群实例。</li>
-<li>启动集群时将 JSON 中的主机组映射到一组实例，并在相应的节点上安装指定的服务和组件。</li>
-</ul>
-<p><strong>Ambari 蓝图是集群的声明性定义</strong>。蓝图<strong>允许您指定堆栈、组件布局和配置以通过 Ambari REST API 实现集群实例</strong>，而无需使用 Ambari 集群安装向导。</p>
-<p>Ambari 蓝图以 <strong>JSON 格式</strong>指定。将蓝图提供给 Cloudbreak 后，<strong>启动集群时将 JSON 中的主机组映射到一组实例，并在相应的节点上安装指定的服务和组件</strong>。</p>
-<p>Cloudbreak 包含一些默认蓝图，并允许您上传自己的蓝图。</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/cb_arch-blue.png" alt="img"></p>
-<h2 id="1-4-Credential（凭证）"><a href="#1-4-Credential（凭证）" class="headerlink" title="1.4 Credential（凭证）"></a>1.4 Credential（凭证）</h2><p>启动 Cloudbreak 后，必须为要在其上配置集群的每个云提供商创建一个 Cloudbreak 凭证。只有在完成该步骤后，您才能开始创建集群。</p>
-<p>Cloudbreak 凭证<strong>允许 Cloudbreak 向云提供商进行身份验证并代表您创建资源</strong>。身份验证过程因云提供商而异，但通常通过向 Cloudbreak 分配特定 IAM 角色来完成，这允许 Cloudbreak 在您的云提供商帐户中执行某些操作。</p>
-<h2 id="1-5Data-lake（数据湖）"><a href="#1-5Data-lake（数据湖）" class="headerlink" title="1.5Data lake（数据湖）"></a>1.5Data lake（数据湖）</h2><p>为当前和未来的临时工作负载提供一致的可用安全策略定义。所有与schema (Hive)、security policy (Ranger)、audit (Ranger)相关的信息都存储在外部位置(外部数据库、云存储)。</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/cb_datalake-diag01.png" alt="img"></p>
-<p>创建数据湖实例后，可以选择将其附加到一个或多个临时集群。这允许您跨多个工作负载集群应用身份验证、授权和审计。</p>
-<ul>
-<li>工作负载集群（Workload clusters）</li>
-</ul>
-<p>连接到数据湖以运行工作负载的集群。这是通过JDBC运行Hive等工作负载的地方。</p>
-<p>数据湖的组成：</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/cb_datalake-diag02.png" alt="img"></p>
-<ul>
-<li>Schema：实现技术<ul>
-<li>Apache Hive。数据仓库，提供Hive模式(表、视图等)。</li>
-<li>如果有两个或多个工作负载访问相同的Hive数据，则需要在这些工作负载之间共享模式。</li>
-</ul>
-</li>
-<li>Policy：安全政策<ul>
-<li>Apache Ranger</li>
-<li>定义围绕Hive模式的安全策略。如果有两个或多个用户访问相同的数据，则需要始终可用并实施安全策略。</li>
-</ul>
-</li>
-<li>Audit：<ul>
-<li>Apache Range</li>
-<li>审计用户访问并捕获工作负载的数据访问活动。</li>
-</ul>
-</li>
-<li>Directory<ul>
-<li>LDAP/AD</li>
-<li>为用户提供身份验证源，并定义用于授权的组。</li>
-</ul>
-</li>
-<li>GateWay：<ul>
-<li>Apache Knox</li>
-<li>支持单个工作负载端点，可以使用SSL保护该端点，并启用身份验证以访问资源。</li>
-</ul>
-</li>
-</ul>
-<h2 id="1-6Dynamic-blueprints（动态蓝湖）"><a href="#1-6Dynamic-blueprints（动态蓝湖）" class="headerlink" title="1.6Dynamic blueprints（动态蓝湖）"></a>1.6Dynamic blueprints（动态蓝湖）</h2><p>在蓝图之外管理外部资源，简化了蓝图。</p>
-<p>生产集群配置通常包括某些配置参数，例如与外部数据库（用于 Hive、Ranger 等）和 LDAP/AD 相关的配置参数，迫使用户创建相同蓝图的 1+ 版本来处理这些外部系统的不同组件配置。</p>
-<p>动态蓝图提供了在蓝图之外管理外部源（例如 RDBMS 和 LDAP/AD）的能力，因为它们仅使用蓝图作为模板，而 Cloudbreak 将实际配置注入到您的蓝图中。这简化了外部源（RDBMS 和 LDAP/AD）集群配置的重用，并简化了蓝图本身。</p>
-<h2 id="1-7-外部资源"><a href="#1-7-外部资源" class="headerlink" title="1.7 外部资源"></a>1.7 外部资源</h2><p>Cloudbreak <strong>允许定义独立于集群创建的外部源</strong>——因此它们的生命周期不受任何集群的生命周期的限制——并且可以与多个集群重用：</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/cb_external-source.png" alt="img"></p>
-<p>可以在 Cloudbreak 中注册的外部源包括：</p>
-<ul>
-<li>身份验证配置（LDAP/AD）</li>
-<li>数据库配置</li>
-<li>图片目录</li>
-<li>代理配置</li>
-</ul>
-<p>注册外部源后，您可以将其重用于多个集群。</p>
-<h2 id="1-8-Recipes"><a href="#1-8-Recipes" class="headerlink" title="1.8 Recipes"></a>1.8 Recipes</h2><p>Cloudbreak 允许您上传自定义脚本，称为“Recipes”。Recipes是在特定时间在选定节点组的所有节点上运行的脚本。您可以将配方用于安装其他软件或执行高级集群配置等任务。</p>
-<p>执行时间为：</p>
-<ul>
-<li>Ambari 服务器启动前</li>
-<li>Ambari 服务器启动后</li>
-<li>集群安装后</li>
-<li>集群终止前</li>
-</ul>
-<p>可以通过 UI 或 CLI将recipes上传到cloudbreak中，创建集群时，可以创建多个recipes，他们将在特定时间，特定主机组上执行。</p>
-]]></content>
-      <categories>
-        <category>云计算</category>
-      </categories>
-      <tags>
-        <tag>云计算</tag>
       </tags>
   </entry>
   <entry>
@@ -1012,7 +1012,7 @@
 <h4 id="2-5-2-设置签名"><a href="#2-5-2-设置签名" class="headerlink" title="2.5.2.设置签名"></a>2.5.2.设置签名</h4><ul>
 <li><p>形式：</p>
 <p>用户名：liwenkai</p>
-<p>email地址：<a href="mailto:&#108;&#105;&#x31;&#55;&#x36;&#54;&#57;&#x34;&#x39;&#x38;&#x33;&#54;&#x34;&#64;&#x31;&#54;&#x33;&#46;&#x63;&#111;&#x6d;">&#108;&#105;&#x31;&#55;&#x36;&#54;&#57;&#x34;&#x39;&#x38;&#x33;&#54;&#x34;&#64;&#x31;&#54;&#x33;&#46;&#x63;&#111;&#x6d;</a></p>
+<p>email地址：<a href="mailto:&#108;&#105;&#49;&#x37;&#54;&#54;&#x39;&#x34;&#x39;&#x38;&#51;&#54;&#x34;&#64;&#x31;&#54;&#x33;&#x2e;&#99;&#x6f;&#109;">&#108;&#105;&#49;&#x37;&#54;&#54;&#x39;&#x34;&#x39;&#x38;&#51;&#54;&#x34;&#64;&#x31;&#54;&#x33;&#x2e;&#99;&#x6f;&#109;</a></p>
 </li>
 <li><p>作用：区分不同的开发人员的身份。</p>
 </li>
@@ -1023,14 +1023,14 @@
 <ul>
 <li>项目级别：仅在当前本地库范围内有效。<ul>
 <li> git config user.name liwenkai       </li>
-<li> git config user.email   <a href="mailto:&#x6c;&#x69;&#49;&#55;&#54;&#54;&#x39;&#52;&#57;&#56;&#x33;&#x36;&#x34;&#64;&#x31;&#54;&#51;&#46;&#x63;&#111;&#109;">&#x6c;&#x69;&#49;&#55;&#54;&#54;&#x39;&#52;&#57;&#56;&#x33;&#x36;&#x34;&#64;&#x31;&#54;&#51;&#46;&#x63;&#111;&#109;</a></li>
+<li> git config user.email   <a href="mailto:&#x6c;&#x69;&#x31;&#x37;&#54;&#x36;&#x39;&#x34;&#x39;&#x38;&#51;&#x36;&#52;&#x40;&#x31;&#x36;&#x33;&#x2e;&#99;&#111;&#x6d;">&#x6c;&#x69;&#x31;&#x37;&#54;&#x36;&#x39;&#x34;&#x39;&#x38;&#51;&#x36;&#52;&#x40;&#x31;&#x36;&#x33;&#x2e;&#99;&#111;&#x6d;</a></li>
 <li> 项目保存的位置：./.git/config</li>
 <li> <img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111150801163.png" alt="image-20211111150801163"></li>
 </ul>
 </li>
 <li>系统用户级别：登录等钱操作系统的用户范围。git config –global<ul>
 <li> git config <strong>–global</strong> user.name liwenkai       </li>
-<li> git config <strong>–global</strong> user.email   <a href="mailto:&#108;&#105;&#x31;&#x37;&#54;&#x36;&#57;&#x34;&#x39;&#x38;&#x33;&#x36;&#52;&#64;&#49;&#x36;&#51;&#x2e;&#x63;&#111;&#109;">&#108;&#105;&#x31;&#x37;&#54;&#x36;&#57;&#x34;&#x39;&#x38;&#x33;&#x36;&#52;&#64;&#49;&#x36;&#51;&#x2e;&#x63;&#111;&#109;</a></li>
+<li> git config <strong>–global</strong> user.email   <a href="mailto:&#x6c;&#105;&#x31;&#x37;&#54;&#x36;&#57;&#x34;&#57;&#x38;&#x33;&#54;&#52;&#x40;&#49;&#54;&#51;&#x2e;&#99;&#111;&#x6d;">&#x6c;&#105;&#x31;&#x37;&#54;&#x36;&#57;&#x34;&#57;&#x38;&#x33;&#54;&#52;&#x40;&#49;&#54;&#51;&#x2e;&#99;&#111;&#x6d;</a></li>
 <li> 信息保存的位置：~/.gitconfig文件下</li>
 </ul>
 </li>
@@ -1222,7 +1222,7 @@
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112113310025.png" alt="image-20211112113310025"></p>
 <h2 id="4-GitHub相关"><a href="#4-GitHub相关" class="headerlink" title="4.GitHub相关"></a>4.GitHub相关</h2><p>账号注册：</p>
 <ul>
-<li>email：<a href="mailto:&#x33;&#50;&#57;&#x31;&#50;&#x39;&#x38;&#54;&#54;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#109;">&#x33;&#50;&#57;&#x31;&#50;&#x39;&#x38;&#54;&#54;&#x40;&#113;&#113;&#46;&#99;&#x6f;&#109;</a></li>
+<li>email：<a href="mailto:&#51;&#x32;&#x39;&#x31;&#50;&#57;&#56;&#54;&#54;&#x40;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;">&#51;&#x32;&#x39;&#x31;&#50;&#57;&#56;&#54;&#54;&#x40;&#x71;&#x71;&#x2e;&#99;&#111;&#x6d;</a></li>
 <li>用户名：WenkAndZz</li>
 </ul>
 <h3 id="4-1创建本地库与远程库"><a href="#4-1创建本地库与远程库" class="headerlink" title="4.1创建本地库与远程库"></a>4.1创建本地库与远程库</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs git">创建本地库文件夹<br>mkdir [文件名]<br><br>进入本地库<br>cd [文件名]<br><br>初始化<br>git init<br><br>创建一个txt文件<br>vim [txt文件名].txt<br></code></pre></td></tr></table></figure>
@@ -1708,111 +1708,6 @@
       </categories>
       <tags>
         <tag>项目</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kafka</title>
-    <url>/2021/11/02/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9AKafka/</url>
-    <content><![CDATA[<p>Kafka是一个分布式的基于发布、订阅模式的消息队列（Message Queue），主要应用于大数据实时处理领域。</p>
-<span id="more"></span>
-
-<h1 id="Kafka概述"><a href="#Kafka概述" class="headerlink" title="Kafka概述"></a>Kafka概述</h1><p>Kafka是一个分布式的基于发布、订阅模式的消息队列（Message Queue），主要应用于大数据实时处理领域。</p>
-<p>中间件。常用于做消息队列，处理实时问题。例如：</p>
-<ul>
-<li>实时支付和金融交易。</li>
-<li>实时跟踪和监控汽车。</li>
-<li>监测住院病人并预测病情变化。</li>
-<li>收集客户互动信息和订单信息并作出反应。</li>
-</ul>
-<p>关键字：中间件，解耦，实时。</p>
-<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144038229.png" alt="image-20211227144038229"></p>
-<h3 id="使用消息队列的好处："><a href="#使用消息队列的好处：" class="headerlink" title="使用消息队列的好处："></a>使用消息队列的好处：</h3><p>（1）解耦</p>
-<p>（2）可恢复性：系统中的一部分失效，不会影响到整个系统。</p>
-<p>（3）缓冲：有助于控制和延缓数据流经过系统的速度，解决生产消息和消费消息处理速度不一致的情况。</p>
-<p>（4）灵活性 &amp; 峰值处理能力。</p>
-<p>（5）异步通信。</p>
-<h3 id="消息队列的两种模式："><a href="#消息队列的两种模式：" class="headerlink" title="消息队列的两种模式："></a>消息队列的两种模式：</h3><p>（1）点对点模式（<strong>一对一</strong>，消费者主动拉取数据，消息收到后消息清除）</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144055848.png" alt="image-20211227144055848"></p>
-<p>缺点：不可复用。</p>
-<p>（2）发布订阅模式（<strong>一对多</strong>，消费者消费数据之后不会清除消息）</p>
-<p>消息发布者将消息发布到topic（主题）中，同时多个消费者（订阅）消费该消息。但是topic中的消息是有一个过期时间的。</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144107611.png" alt="image-20211227144107611"></p>
-<p>有两种方式：</p>
-<ol>
-<li>消息队列主动推送消息（消费者是被动接收的）</li>
-<li>消费者主动拉取消息。</li>
-</ol>
-<h1 id="Kafka架构"><a href="#Kafka架构" class="headerlink" title="Kafka架构"></a>Kafka架构</h1><p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144630233.png" alt="image-20211227144630233"></p>
-<p>1）<strong>Producer</strong> ：消息生产者，就是向Kafka broker发消息的客户端；</p>
-<p>2）<strong>Consumer</strong> ：消息消费者，向Kafka broker取消息的客户端；</p>
-<p>3） <strong>Consumer Group</strong> （CG）：消费者组</p>
-<p>4）<strong>Broker</strong> ：kafka实例，每台服务器上可以有一个或者多个实例。一个集群由多个broker组成。一个broker可以容纳多个topic；</p>
-<p>5）<strong>Topic</strong> ：消息的主题。kafka中的所有数据都保存在topic中</p>
-<p>6）<strong>Partition</strong>：Topic的分区，每个Topic有多个分区，分区的目的是负载，提高kafka的吞吐量。（同一个分区中的数据是有序的）</p>
-<p>7）<strong>Replication</strong>：备份，每一个Partition都有多个备份。当一个Leader崩溃了之后，会从follower中选举出来一个新的Leader。写入生产数据、消费数据都是对Leader进行操作。</p>
-<p>8）<strong>Message</strong>：消息主体。</p>
-<p>9）<strong>Offset</strong>：kafka的存储文件都是按照offset.kafka来命名，用offset做名字的好处是方便查找。例如你想找位于2049的位置，只要找到2048.kafka的文件即可。当然the first offset就是00000000000.kafka。</p>
-<p>10）<strong>Zookeeper</strong>：kafka集群依赖zookeeper来保存集群的元信息，保证系统的可用性。</p>
-<h1 id="Kafka工作流程"><a href="#Kafka工作流程" class="headerlink" title="Kafka工作流程"></a>Kafka工作流程</h1><h2 id="写入数据"><a href="#写入数据" class="headerlink" title="写入数据"></a>写入数据</h2><p>producer就是生产者，是数据的入口。Producer在写入数据的时候<strong>永远的找leader</strong>，不会直接将数据写入follower！</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-b7e72e9c5b9971e89ec174a2c2201ed9_720w.jpg" alt="img"></p>
-<p>消息写入leader后，follower主动拉取leader中的信息进行同步！producer采用push模式将数据发布到broker，每条消息追加到分区中，顺序写入磁盘，所以保证<strong>同一分区</strong>内的数据是有序的！写入示意图如下：</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-87d558aaa349bf920711b9c157e11f6a_r.jpg" alt="preview"></p>
-<h3 id="问题1：kafka为什么要做分区？"><a href="#问题1：kafka为什么要做分区？" class="headerlink" title="问题1：kafka为什么要做分区？"></a>问题1：kafka为什么要做分区？</h3><p><strong>1、 方便扩展</strong>。因为一个topic可以有多个partition，所以我们可以通过扩展机器去轻松的应对日益增长的数据量。</p>
-<p><strong>2、 提高并发</strong>。以partition为读写单位，可以多个消费者同时消费数据，提高了消息的处理效率。</p>
-<h3 id="问题2：怎么确定消息要写入哪一个分区？"><a href="#问题2：怎么确定消息要写入哪一个分区？" class="headerlink" title="问题2：怎么确定消息要写入哪一个分区？"></a>问题2：怎么确定消息要写入哪一个分区？</h3><p>1、 partition在写入的时候可以指定需要写入的partition，如果有指定，则写入对应的partition。</p>
-<p>2、 如果没有指定partition，但是设置了数据的key，则会根据key的值hash出一个partition。</p>
-<p>3、 如果既没指定partition，又没有设置key，则会轮询选出一个partition</p>
-<h3 id="问题3：kafka怎么确保信息不丢失"><a href="#问题3：kafka怎么确保信息不丢失" class="headerlink" title="问题3：kafka怎么确保信息不丢失"></a>问题3：kafka怎么确保信息不丢失</h3><p>通过ACK应答机制！在生产者向队列写入数据的时候可以设置参数来确定是否确认kafka接收到数据，这个参数可设置的值为<strong>0</strong>、<strong>1</strong>、<strong>all</strong>。</p>
-<ul>
-<li><strong>0</strong>代表producer往集群发送数据不需要等到集群的返回，不确保消息发送成功。安全性最低但是效率最高。</li>
-<li><strong>1</strong>代表producer往集群发送数据只要leader应答就可以发送下一条，只确保leader发送成功。</li>
-<li><strong>all</strong>代表producer往集群发送数据需要所有的follower都完成从leader的同步才会发送下一条，确保leader发送成功和所有的副本都完成备份。安全性最高，但是效率最低。</li>
-</ul>
-<p>默认配置是1.</p>
-<h2 id="数据保存"><a href="#数据保存" class="headerlink" title="数据保存"></a>数据保存</h2><p>kafka的数据是保存在磁盘上的。</p>
-<p>写入磁盘会耗时？kafka初始化时会单独的开辟一块磁盘空间，顺序写入数据（效率比随机写入快）。</p>
-<h3 id="Partition结构"><a href="#Partition结构" class="headerlink" title="Partition结构"></a>Partition结构</h3><p>Partition在服务器上的表现形式就是一个一个的文件夹，每个partition的文件夹下面会有多组segment文件，每组segment文件又包含.index文件、.log文件、.timeindex文件（早期版本中没有）三个文件， <strong>log文件就实际是存储message的地方，而index和timeindex文件为索引文件，用于检索消息</strong>。</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-72e50c12fd9c6fbf58d3b5ca14c90623_r.jpg" alt="preview"></p>
-<p>如上图，这个partition有三组segment文件，每个log文件的大小是一样的，但是存储的message数量是不一定相等的（每条的message大小不一致）。<strong>文件的命名是以该segment最小offset来命名的</strong>，如000.index存储offset为0~368795的消息，kafka就是利用分段+索引的方式来解决查找效率的问题。</p>
-<h3 id="Message结构"><a href="#Message结构" class="headerlink" title="Message结构"></a>Message结构</h3><p>1、 offset：8byte的有序id号，它可以唯一确定每条消息在parition内的位置。</p>
-<p>2、 消息大小：4byte，用于描述消息的大小。</p>
-<p>3、 消息体：消息体存放的是实际的消息数据（被压缩过），占用的空间根据具体的消息而不一样。</p>
-<h3 id="存储策略"><a href="#存储策略" class="headerlink" title="存储策略"></a>存储策略</h3><p>无论消息是否被消费，kafka都会保存所有的消息。那对于旧数据有什么删除策略呢？</p>
-<p>1、 基于时间，默认配置是168小时（7天）。</p>
-<p>2、 基于大小，默认配置是1073741824。</p>
-<p>需要注意的是，kafka读取特定消息的时间复杂度是O(1)，所以这里删除过期的文件并不会提高kafka的性能！</p>
-<h2 id="消费数据"><a href="#消费数据" class="headerlink" title="消费数据"></a>消费数据</h2><p>消息存储在log文件后，消费者就可以进行消费了。在讲消息队列通信的两种模式的时候讲到过点对点模式和发布订阅模式。<strong>Kafka采用的是发布订阅的模式</strong>，消费者主动的去kafka集群拉取消息，与producer相同的是，消费者在拉取消息的时候也是<strong>找leader</strong>去拉取。</p>
-<p>多个消费者可以组成一个消费者组（consumer group），每个消费者组都有一个组id！<strong>同一个消费组者的消费者可以消费同一topic下不同分区的数据，但是不会组内多个消费者消费同一分区的数据</strong>！！！</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-75a79cba9cfafe5c2f4d5349acb72207_r.jpg" alt="preview"></p>
-<p>建议<strong>消费者组的consumer的数量与partition的数量一致</strong>！</p>
-<h3 id="查找消息"><a href="#查找消息" class="headerlink" title="查找消息"></a>查找消息</h3><p>在保存数据的小节里面，我们聊到了partition划分为多组segment，每个segment又含.log、.index、.timeindex文件，存放的每条message包含offset、消息大小、消息体……我们多次提到segment和offset，查找消息的时候是怎么利用segment+offset配合查找的呢？假如现在需要查找一个offset为368801的message是什么样的过程呢？我们先看看下面的图：</p>
-<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-87051d884344edf9f8fd97a3dacb32d0_r.jpg" alt="preview"></p>
-<p>1、 先找到offset的368801message所在的segment文件（利用<strong>二分法查找</strong>），这里找到的就是在第二个segment文件。</p>
-<p>2、 打开找到的segment中的.index文件（也就是368796.index文件，该文件起始偏移量为368796+1，我们要查找的offset为368801的message在该index内的偏移量为368796+5=368801，所以这里要查找的<strong>相对offset</strong>为5）。由于该文件采用的是稀疏索引的方式存储着相对offset及对应message物理偏移量的关系，所以直接找相对offset为5的索引找不到，这里同样<strong>利用二分法查找相对offset小于或者等于指定的相对offset的索引条目中最大的那个相对offset，所以找到的是相对offset为4的这个索引。</strong></p>
-<p>3、 根据找到的相对offset为4的索引确定message存储的物理偏移位置为256。打开数据文件，从位置为256的那个地方开始顺序扫描直到找到offset为368801的那条Message。</p>
-<p>这套机制是建立在offset为有序的基础上，利用<strong>segment</strong>+<strong>有序offset</strong>+<strong>稀疏索引</strong>+<strong>二分查找</strong>+<strong>顺序查找</strong>等多种手段来高效的查找数据！</p>
-<p>消费者记录消费的数据：</p>
-<ul>
-<li>旧版本：将消费到的offset维护zookeeper中，consumer每间隔一段时间上报一次，这里容易导致重复消费，且性能不好。</li>
-<li>消费者消费到的offset已经直接维护在kafk集群的__consumer_offsets这个topic中！不需要借助Zookeeper。</li>
-</ul>
-<h1 id="Java连接Kafka做消息队列"><a href="#Java连接Kafka做消息队列" class="headerlink" title="Java连接Kafka做消息队列"></a>Java连接Kafka做消息队列</h1><p>导入依赖</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--kafka--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.kafka<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-kafka<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.8.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-
-
-<p>配置信息</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#kafka</span><br><span class="hljs-comment">###########【Kafka集群】###########</span><br><span class="hljs-meta">spring.kafka.bootstrap-servers</span>=<span class="hljs-string">127.0.0.1:9092</span><br><span class="hljs-comment">###########【初始化生产者配置】###########</span><br><span class="hljs-comment"># 重试次数</span><br><span class="hljs-meta">spring.kafka.producer.retries</span>=<span class="hljs-string">0</span><br><span class="hljs-comment"># 应答级别:多少个分区副本备份完成时向生产者发送ack确认(可选0、1、all/-1)</span><br><span class="hljs-meta">spring.kafka.producer.acks</span>=<span class="hljs-string">1</span><br><span class="hljs-comment"># 批量大小</span><br><span class="hljs-meta">spring.kafka.producer.batch-size</span>=<span class="hljs-string">16384</span><br><span class="hljs-comment"># 提交延时</span><br><span class="hljs-meta">spring.kafka.producer.properties.linger.ms</span>=<span class="hljs-string">0</span><br><span class="hljs-comment"># 当生产端积累的消息达到batch-size或接收到消息linger.ms后,生产者就会将消息提交给kafka</span><br><span class="hljs-comment"># linger.ms为0表示每接收到一条消息就提交给kafka,这时候batch-size其实就没用了</span><br><span class="hljs-comment"># 生产端缓冲区大小</span><br><span class="hljs-meta">spring.kafka.producer.buffer-memory</span> = <span class="hljs-string">33554432</span><br><span class="hljs-comment"># Kafka提供的序列化和反序列化类</span><br><span class="hljs-meta">spring.kafka.producer.key-serializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringSerializer</span><br><span class="hljs-meta">spring.kafka.producer.value-serializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringSerializer</span><br><span class="hljs-comment"># 自定义分区器</span><br><span class="hljs-comment"># spring.kafka.producer.properties.partitioner.class=com.felix.kafka.producer.CustomizePartitioner</span><br><span class="hljs-comment">###########【初始化消费者配置】###########</span><br><span class="hljs-comment"># 默认的消费组ID</span><br><span class="hljs-meta">spring.kafka.consumer.properties.group.id</span>=<span class="hljs-string">defaultConsumerGroup</span><br><span class="hljs-comment"># 是否自动提交offset</span><br><span class="hljs-meta">spring.kafka.consumer.enable-auto-commit</span>=<span class="hljs-string">true</span><br><span class="hljs-comment"># 提交offset延时(接收到消息后多久提交offset)</span><br><span class="hljs-meta">spring.kafka.consumer.auto.commit.interval.ms</span>=<span class="hljs-string">1000</span><br><span class="hljs-comment"># 当kafka中没有初始offset或offset超出范围时将自动重置offset</span><br><span class="hljs-comment"># earliest:重置为分区中最小的offset;</span><br><span class="hljs-comment"># latest:重置为分区中最新的offset(消费分区中新产生的数据);</span><br><span class="hljs-comment"># none:只要有一个分区不存在已提交的offset,就抛出异常;</span><br><span class="hljs-meta">spring.kafka.consumer.auto-offset-reset</span>=<span class="hljs-string">latest</span><br><span class="hljs-comment"># 消费会话超时时间(超过这个时间consumer没有发送心跳,就会触发rebalance操作)</span><br><span class="hljs-meta">spring.kafka.consumer.properties.session.timeout.ms</span>=<span class="hljs-string">120000</span><br><span class="hljs-comment"># 消费请求超时时间</span><br><span class="hljs-meta">spring.kafka.consumer.properties.request.timeout.ms</span>=<span class="hljs-string">180000</span><br><span class="hljs-comment"># Kafka提供的序列化和反序列化类</span><br><span class="hljs-meta">spring.kafka.consumer.key-deserializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringDeserializer</span><br><span class="hljs-meta">spring.kafka.consumer.value-deserializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringDeserializer</span><br><span class="hljs-comment"># 消费端监听的topic不存在时，项目启动会报错(关掉)</span><br><span class="hljs-meta">spring.kafka.listener.missing-topics-fatal</span>=<span class="hljs-string">false</span><br><span class="hljs-comment"># 设置批量消费</span><br><span class="hljs-comment"># spring.kafka.listener.type=batch</span><br><span class="hljs-comment"># 批量消费每次最多消费多少条消息</span><br><span class="hljs-comment"># spring.kafka.consumer.max-poll-records=50</span><br></code></pre></td></tr></table></figure>
-
-<p>生产者，发送消息</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProducerController</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> KafkaTemplate&lt;Object, Object&gt; kafkaTemplate;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 生产者</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> message：消息</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@RequestMapping(&quot;/kafka/&#123;message&#125;&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendMessage</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;message&quot;)</span> String message)</span> </span>&#123;<br>        kafkaTemplate.send(<span class="hljs-string">&quot;topic1&quot;</span>,<span class="hljs-string">&quot;key&quot;</span>, message);    <span class="hljs-comment">//发送数据</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>消费者监控指定主题，当生产者发送消息之后，消费者进行消费。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerController</span> </span>&#123;<br><br>    <span class="hljs-comment">//监听当前的topic。当前topic中有数据的话，就进行消费</span><br>    <span class="hljs-meta">@KafkaListener(topics = &#123;&quot;topic1&quot;&#125;)</span><br>    <span class="hljs-comment">//创建一条记录，以从指定的主题和分区接收</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMessage1</span><span class="hljs-params">(ConsumerRecord&lt;?, ?&gt; record)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;消费简单模拟主题：&quot;</span> + record.topic());<br>        System.out.println(<span class="hljs-string">&quot;offset:&quot;</span> + record.offset());<br>        System.out.println(<span class="hljs-string">&quot;timestamp&quot;</span> + record.timestamp());<br>        System.out.println(record.key());<br>        System.out.println(record.value());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
@@ -2979,6 +2874,111 @@
       </categories>
       <tags>
         <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kafka</title>
+    <url>/2021/11/02/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6%EF%BC%9AKafka/</url>
+    <content><![CDATA[<p>Kafka是一个分布式的基于发布、订阅模式的消息队列（Message Queue），主要应用于大数据实时处理领域。</p>
+<span id="more"></span>
+
+<h1 id="Kafka概述"><a href="#Kafka概述" class="headerlink" title="Kafka概述"></a>Kafka概述</h1><p>Kafka是一个分布式的基于发布、订阅模式的消息队列（Message Queue），主要应用于大数据实时处理领域。</p>
+<p>中间件。常用于做消息队列，处理实时问题。例如：</p>
+<ul>
+<li>实时支付和金融交易。</li>
+<li>实时跟踪和监控汽车。</li>
+<li>监测住院病人并预测病情变化。</li>
+<li>收集客户互动信息和订单信息并作出反应。</li>
+</ul>
+<p>关键字：中间件，解耦，实时。</p>
+<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144038229.png" alt="image-20211227144038229"></p>
+<h3 id="使用消息队列的好处："><a href="#使用消息队列的好处：" class="headerlink" title="使用消息队列的好处："></a>使用消息队列的好处：</h3><p>（1）解耦</p>
+<p>（2）可恢复性：系统中的一部分失效，不会影响到整个系统。</p>
+<p>（3）缓冲：有助于控制和延缓数据流经过系统的速度，解决生产消息和消费消息处理速度不一致的情况。</p>
+<p>（4）灵活性 &amp; 峰值处理能力。</p>
+<p>（5）异步通信。</p>
+<h3 id="消息队列的两种模式："><a href="#消息队列的两种模式：" class="headerlink" title="消息队列的两种模式："></a>消息队列的两种模式：</h3><p>（1）点对点模式（<strong>一对一</strong>，消费者主动拉取数据，消息收到后消息清除）</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144055848.png" alt="image-20211227144055848"></p>
+<p>缺点：不可复用。</p>
+<p>（2）发布订阅模式（<strong>一对多</strong>，消费者消费数据之后不会清除消息）</p>
+<p>消息发布者将消息发布到topic（主题）中，同时多个消费者（订阅）消费该消息。但是topic中的消息是有一个过期时间的。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144107611.png" alt="image-20211227144107611"></p>
+<p>有两种方式：</p>
+<ol>
+<li>消息队列主动推送消息（消费者是被动接收的）</li>
+<li>消费者主动拉取消息。</li>
+</ol>
+<h1 id="Kafka架构"><a href="#Kafka架构" class="headerlink" title="Kafka架构"></a>Kafka架构</h1><p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20211227144630233.png" alt="image-20211227144630233"></p>
+<p>1）<strong>Producer</strong> ：消息生产者，就是向Kafka broker发消息的客户端；</p>
+<p>2）<strong>Consumer</strong> ：消息消费者，向Kafka broker取消息的客户端；</p>
+<p>3） <strong>Consumer Group</strong> （CG）：消费者组</p>
+<p>4）<strong>Broker</strong> ：kafka实例，每台服务器上可以有一个或者多个实例。一个集群由多个broker组成。一个broker可以容纳多个topic；</p>
+<p>5）<strong>Topic</strong> ：消息的主题。kafka中的所有数据都保存在topic中</p>
+<p>6）<strong>Partition</strong>：Topic的分区，每个Topic有多个分区，分区的目的是负载，提高kafka的吞吐量。（同一个分区中的数据是有序的）</p>
+<p>7）<strong>Replication</strong>：备份，每一个Partition都有多个备份。当一个Leader崩溃了之后，会从follower中选举出来一个新的Leader。写入生产数据、消费数据都是对Leader进行操作。</p>
+<p>8）<strong>Message</strong>：消息主体。</p>
+<p>9）<strong>Offset</strong>：kafka的存储文件都是按照offset.kafka来命名，用offset做名字的好处是方便查找。例如你想找位于2049的位置，只要找到2048.kafka的文件即可。当然the first offset就是00000000000.kafka。</p>
+<p>10）<strong>Zookeeper</strong>：kafka集群依赖zookeeper来保存集群的元信息，保证系统的可用性。</p>
+<h1 id="Kafka工作流程"><a href="#Kafka工作流程" class="headerlink" title="Kafka工作流程"></a>Kafka工作流程</h1><h2 id="写入数据"><a href="#写入数据" class="headerlink" title="写入数据"></a>写入数据</h2><p>producer就是生产者，是数据的入口。Producer在写入数据的时候<strong>永远的找leader</strong>，不会直接将数据写入follower！</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-b7e72e9c5b9971e89ec174a2c2201ed9_720w.jpg" alt="img"></p>
+<p>消息写入leader后，follower主动拉取leader中的信息进行同步！producer采用push模式将数据发布到broker，每条消息追加到分区中，顺序写入磁盘，所以保证<strong>同一分区</strong>内的数据是有序的！写入示意图如下：</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-87d558aaa349bf920711b9c157e11f6a_r.jpg" alt="preview"></p>
+<h3 id="问题1：kafka为什么要做分区？"><a href="#问题1：kafka为什么要做分区？" class="headerlink" title="问题1：kafka为什么要做分区？"></a>问题1：kafka为什么要做分区？</h3><p><strong>1、 方便扩展</strong>。因为一个topic可以有多个partition，所以我们可以通过扩展机器去轻松的应对日益增长的数据量。</p>
+<p><strong>2、 提高并发</strong>。以partition为读写单位，可以多个消费者同时消费数据，提高了消息的处理效率。</p>
+<h3 id="问题2：怎么确定消息要写入哪一个分区？"><a href="#问题2：怎么确定消息要写入哪一个分区？" class="headerlink" title="问题2：怎么确定消息要写入哪一个分区？"></a>问题2：怎么确定消息要写入哪一个分区？</h3><p>1、 partition在写入的时候可以指定需要写入的partition，如果有指定，则写入对应的partition。</p>
+<p>2、 如果没有指定partition，但是设置了数据的key，则会根据key的值hash出一个partition。</p>
+<p>3、 如果既没指定partition，又没有设置key，则会轮询选出一个partition</p>
+<h3 id="问题3：kafka怎么确保信息不丢失"><a href="#问题3：kafka怎么确保信息不丢失" class="headerlink" title="问题3：kafka怎么确保信息不丢失"></a>问题3：kafka怎么确保信息不丢失</h3><p>通过ACK应答机制！在生产者向队列写入数据的时候可以设置参数来确定是否确认kafka接收到数据，这个参数可设置的值为<strong>0</strong>、<strong>1</strong>、<strong>all</strong>。</p>
+<ul>
+<li><strong>0</strong>代表producer往集群发送数据不需要等到集群的返回，不确保消息发送成功。安全性最低但是效率最高。</li>
+<li><strong>1</strong>代表producer往集群发送数据只要leader应答就可以发送下一条，只确保leader发送成功。</li>
+<li><strong>all</strong>代表producer往集群发送数据需要所有的follower都完成从leader的同步才会发送下一条，确保leader发送成功和所有的副本都完成备份。安全性最高，但是效率最低。</li>
+</ul>
+<p>默认配置是1.</p>
+<h2 id="数据保存"><a href="#数据保存" class="headerlink" title="数据保存"></a>数据保存</h2><p>kafka的数据是保存在磁盘上的。</p>
+<p>写入磁盘会耗时？kafka初始化时会单独的开辟一块磁盘空间，顺序写入数据（效率比随机写入快）。</p>
+<h3 id="Partition结构"><a href="#Partition结构" class="headerlink" title="Partition结构"></a>Partition结构</h3><p>Partition在服务器上的表现形式就是一个一个的文件夹，每个partition的文件夹下面会有多组segment文件，每组segment文件又包含.index文件、.log文件、.timeindex文件（早期版本中没有）三个文件， <strong>log文件就实际是存储message的地方，而index和timeindex文件为索引文件，用于检索消息</strong>。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-72e50c12fd9c6fbf58d3b5ca14c90623_r.jpg" alt="preview"></p>
+<p>如上图，这个partition有三组segment文件，每个log文件的大小是一样的，但是存储的message数量是不一定相等的（每条的message大小不一致）。<strong>文件的命名是以该segment最小offset来命名的</strong>，如000.index存储offset为0~368795的消息，kafka就是利用分段+索引的方式来解决查找效率的问题。</p>
+<h3 id="Message结构"><a href="#Message结构" class="headerlink" title="Message结构"></a>Message结构</h3><p>1、 offset：8byte的有序id号，它可以唯一确定每条消息在parition内的位置。</p>
+<p>2、 消息大小：4byte，用于描述消息的大小。</p>
+<p>3、 消息体：消息体存放的是实际的消息数据（被压缩过），占用的空间根据具体的消息而不一样。</p>
+<h3 id="存储策略"><a href="#存储策略" class="headerlink" title="存储策略"></a>存储策略</h3><p>无论消息是否被消费，kafka都会保存所有的消息。那对于旧数据有什么删除策略呢？</p>
+<p>1、 基于时间，默认配置是168小时（7天）。</p>
+<p>2、 基于大小，默认配置是1073741824。</p>
+<p>需要注意的是，kafka读取特定消息的时间复杂度是O(1)，所以这里删除过期的文件并不会提高kafka的性能！</p>
+<h2 id="消费数据"><a href="#消费数据" class="headerlink" title="消费数据"></a>消费数据</h2><p>消息存储在log文件后，消费者就可以进行消费了。在讲消息队列通信的两种模式的时候讲到过点对点模式和发布订阅模式。<strong>Kafka采用的是发布订阅的模式</strong>，消费者主动的去kafka集群拉取消息，与producer相同的是，消费者在拉取消息的时候也是<strong>找leader</strong>去拉取。</p>
+<p>多个消费者可以组成一个消费者组（consumer group），每个消费者组都有一个组id！<strong>同一个消费组者的消费者可以消费同一topic下不同分区的数据，但是不会组内多个消费者消费同一分区的数据</strong>！！！</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-75a79cba9cfafe5c2f4d5349acb72207_r.jpg" alt="preview"></p>
+<p>建议<strong>消费者组的consumer的数量与partition的数量一致</strong>！</p>
+<h3 id="查找消息"><a href="#查找消息" class="headerlink" title="查找消息"></a>查找消息</h3><p>在保存数据的小节里面，我们聊到了partition划分为多组segment，每个segment又含.log、.index、.timeindex文件，存放的每条message包含offset、消息大小、消息体……我们多次提到segment和offset，查找消息的时候是怎么利用segment+offset配合查找的呢？假如现在需要查找一个offset为368801的message是什么样的过程呢？我们先看看下面的图：</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-87051d884344edf9f8fd97a3dacb32d0_r.jpg" alt="preview"></p>
+<p>1、 先找到offset的368801message所在的segment文件（利用<strong>二分法查找</strong>），这里找到的就是在第二个segment文件。</p>
+<p>2、 打开找到的segment中的.index文件（也就是368796.index文件，该文件起始偏移量为368796+1，我们要查找的offset为368801的message在该index内的偏移量为368796+5=368801，所以这里要查找的<strong>相对offset</strong>为5）。由于该文件采用的是稀疏索引的方式存储着相对offset及对应message物理偏移量的关系，所以直接找相对offset为5的索引找不到，这里同样<strong>利用二分法查找相对offset小于或者等于指定的相对offset的索引条目中最大的那个相对offset，所以找到的是相对offset为4的这个索引。</strong></p>
+<p>3、 根据找到的相对offset为4的索引确定message存储的物理偏移位置为256。打开数据文件，从位置为256的那个地方开始顺序扫描直到找到offset为368801的那条Message。</p>
+<p>这套机制是建立在offset为有序的基础上，利用<strong>segment</strong>+<strong>有序offset</strong>+<strong>稀疏索引</strong>+<strong>二分查找</strong>+<strong>顺序查找</strong>等多种手段来高效的查找数据！</p>
+<p>消费者记录消费的数据：</p>
+<ul>
+<li>旧版本：将消费到的offset维护zookeeper中，consumer每间隔一段时间上报一次，这里容易导致重复消费，且性能不好。</li>
+<li>消费者消费到的offset已经直接维护在kafk集群的__consumer_offsets这个topic中！不需要借助Zookeeper。</li>
+</ul>
+<h1 id="Java连接Kafka做消息队列"><a href="#Java连接Kafka做消息队列" class="headerlink" title="Java连接Kafka做消息队列"></a>Java连接Kafka做消息队列</h1><p>导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--kafka--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.kafka<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-kafka<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.8.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>配置信息</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#kafka</span><br><span class="hljs-comment">###########【Kafka集群】###########</span><br><span class="hljs-meta">spring.kafka.bootstrap-servers</span>=<span class="hljs-string">127.0.0.1:9092</span><br><span class="hljs-comment">###########【初始化生产者配置】###########</span><br><span class="hljs-comment"># 重试次数</span><br><span class="hljs-meta">spring.kafka.producer.retries</span>=<span class="hljs-string">0</span><br><span class="hljs-comment"># 应答级别:多少个分区副本备份完成时向生产者发送ack确认(可选0、1、all/-1)</span><br><span class="hljs-meta">spring.kafka.producer.acks</span>=<span class="hljs-string">1</span><br><span class="hljs-comment"># 批量大小</span><br><span class="hljs-meta">spring.kafka.producer.batch-size</span>=<span class="hljs-string">16384</span><br><span class="hljs-comment"># 提交延时</span><br><span class="hljs-meta">spring.kafka.producer.properties.linger.ms</span>=<span class="hljs-string">0</span><br><span class="hljs-comment"># 当生产端积累的消息达到batch-size或接收到消息linger.ms后,生产者就会将消息提交给kafka</span><br><span class="hljs-comment"># linger.ms为0表示每接收到一条消息就提交给kafka,这时候batch-size其实就没用了</span><br><span class="hljs-comment"># 生产端缓冲区大小</span><br><span class="hljs-meta">spring.kafka.producer.buffer-memory</span> = <span class="hljs-string">33554432</span><br><span class="hljs-comment"># Kafka提供的序列化和反序列化类</span><br><span class="hljs-meta">spring.kafka.producer.key-serializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringSerializer</span><br><span class="hljs-meta">spring.kafka.producer.value-serializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringSerializer</span><br><span class="hljs-comment"># 自定义分区器</span><br><span class="hljs-comment"># spring.kafka.producer.properties.partitioner.class=com.felix.kafka.producer.CustomizePartitioner</span><br><span class="hljs-comment">###########【初始化消费者配置】###########</span><br><span class="hljs-comment"># 默认的消费组ID</span><br><span class="hljs-meta">spring.kafka.consumer.properties.group.id</span>=<span class="hljs-string">defaultConsumerGroup</span><br><span class="hljs-comment"># 是否自动提交offset</span><br><span class="hljs-meta">spring.kafka.consumer.enable-auto-commit</span>=<span class="hljs-string">true</span><br><span class="hljs-comment"># 提交offset延时(接收到消息后多久提交offset)</span><br><span class="hljs-meta">spring.kafka.consumer.auto.commit.interval.ms</span>=<span class="hljs-string">1000</span><br><span class="hljs-comment"># 当kafka中没有初始offset或offset超出范围时将自动重置offset</span><br><span class="hljs-comment"># earliest:重置为分区中最小的offset;</span><br><span class="hljs-comment"># latest:重置为分区中最新的offset(消费分区中新产生的数据);</span><br><span class="hljs-comment"># none:只要有一个分区不存在已提交的offset,就抛出异常;</span><br><span class="hljs-meta">spring.kafka.consumer.auto-offset-reset</span>=<span class="hljs-string">latest</span><br><span class="hljs-comment"># 消费会话超时时间(超过这个时间consumer没有发送心跳,就会触发rebalance操作)</span><br><span class="hljs-meta">spring.kafka.consumer.properties.session.timeout.ms</span>=<span class="hljs-string">120000</span><br><span class="hljs-comment"># 消费请求超时时间</span><br><span class="hljs-meta">spring.kafka.consumer.properties.request.timeout.ms</span>=<span class="hljs-string">180000</span><br><span class="hljs-comment"># Kafka提供的序列化和反序列化类</span><br><span class="hljs-meta">spring.kafka.consumer.key-deserializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringDeserializer</span><br><span class="hljs-meta">spring.kafka.consumer.value-deserializer</span>=<span class="hljs-string">org.apache.kafka.common.serialization.StringDeserializer</span><br><span class="hljs-comment"># 消费端监听的topic不存在时，项目启动会报错(关掉)</span><br><span class="hljs-meta">spring.kafka.listener.missing-topics-fatal</span>=<span class="hljs-string">false</span><br><span class="hljs-comment"># 设置批量消费</span><br><span class="hljs-comment"># spring.kafka.listener.type=batch</span><br><span class="hljs-comment"># 批量消费每次最多消费多少条消息</span><br><span class="hljs-comment"># spring.kafka.consumer.max-poll-records=50</span><br></code></pre></td></tr></table></figure>
+
+<p>生产者，发送消息</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProducerController</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> KafkaTemplate&lt;Object, Object&gt; kafkaTemplate;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 生产者</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> message：消息</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@RequestMapping(&quot;/kafka/&#123;message&#125;&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendMessage</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;message&quot;)</span> String message)</span> </span>&#123;<br>        kafkaTemplate.send(<span class="hljs-string">&quot;topic1&quot;</span>,<span class="hljs-string">&quot;key&quot;</span>, message);    <span class="hljs-comment">//发送数据</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>消费者监控指定主题，当生产者发送消息之后，消费者进行消费。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerController</span> </span>&#123;<br><br>    <span class="hljs-comment">//监听当前的topic。当前topic中有数据的话，就进行消费</span><br>    <span class="hljs-meta">@KafkaListener(topics = &#123;&quot;topic1&quot;&#125;)</span><br>    <span class="hljs-comment">//创建一条记录，以从指定的主题和分区接收</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMessage1</span><span class="hljs-params">(ConsumerRecord&lt;?, ?&gt; record)</span> </span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;消费简单模拟主题：&quot;</span> + record.topic());<br>        System.out.println(<span class="hljs-string">&quot;offset:&quot;</span> + record.offset());<br>        System.out.println(<span class="hljs-string">&quot;timestamp&quot;</span> + record.timestamp());<br>        System.out.println(record.key());<br>        System.out.println(record.value());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>中间件</tag>
       </tags>
   </entry>
   <entry>
