@@ -3383,15 +3383,14 @@ d.有可能会提升数据库表的查询效率。</p>
   <entry>
     <title>jsch连接虚拟机</title>
     <url>/2022/01/12/jsch%E8%BF%9E%E6%8E%A5%E8%99%9A%E6%8B%9F%E6%9C%BA/</url>
-    <content><![CDATA[<h1>jsch连接虚拟机</h1>
-<p>需求：通过编写Java代码，远程连接虚拟机，实现基本操作。</p>
+    <content><![CDATA[<p>需求：通过编写Java代码，远程连接虚拟机，实现基本操作。</p>
 <p>使用策略模式，将基本操作封装成一个个的策略类。</p>
 <h1>代码实现</h1>
 <p>1.导入依赖</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 基于ssh2，连接虚拟机 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.jcraft<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jsch<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.1.55<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>2.ssh连接实体类</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * SSH连接实体类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="meta">@Builder</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SSHInfo</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String user;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="keyword">private</span> String host;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> port;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>3…ssh操作类实现</p>
+<p>3.ssh操作类实现</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SSHExecutor</span> <span class="keyword">implements</span> <span class="title">Constant</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Session session = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SSHExecutor</span><span class="params">(SSHInfo sshInfo)</span> <span class="keyword">throws</span> JSchException </span>&#123;</span><br><span class="line">        <span class="comment">//建立JSch对象。</span></span><br><span class="line">        JSch jsch =<span class="keyword">new</span> JSch();</span><br><span class="line">        <span class="comment">//连接host主机</span></span><br><span class="line">        session = jsch.getSession(sshInfo.getUser(),sshInfo.getHost(),sshInfo.getPort());</span><br><span class="line">        <span class="comment">//密码认证</span></span><br><span class="line">        session.setPassword(sshInfo.getPassword());</span><br><span class="line">        <span class="comment">//用户认证，MyUserInfo是实现UserInfo接口。</span></span><br><span class="line">        session.setUserInfo(<span class="keyword">new</span> MyUserInfo());</span><br><span class="line">        <span class="comment">//建立session，设置过期时间为3000s</span></span><br><span class="line">        session.connect(Constant.SESSION_TIMEOUT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 类出口方法，外部类可以通过这个方法构造SSHInfo连接类实例。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> JSchException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SSHExecutor <span class="title">newInstance</span><span class="params">()</span> <span class="keyword">throws</span> JSchException </span>&#123;</span><br><span class="line">        SSHInfo ssh = SSHInfo.builder()</span><br><span class="line">                .user(<span class="string">&quot;lwk&quot;</span>)</span><br><span class="line">                .password(<span class="string">&quot;lwk@123&quot;</span>)</span><br><span class="line">                .host(<span class="string">&quot;10.6.8.156&quot;</span>)</span><br><span class="line">                .port(<span class="number">22</span>)</span><br><span class="line">                .build();</span><br><span class="line">        <span class="comment">//返回一个连接对象，这个对象中包含了所有的连接信息</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SSHExecutor(ssh);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">shell</span><span class="params">(String cmd, String outputFileName)</span> <span class="keyword">throws</span> JSchException, IOException, InterruptedException </span>&#123;</span><br><span class="line">        <span class="comment">//时间转换，相当于new Date();</span></span><br><span class="line">        <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">        <span class="comment">//建立可执行的shell管道</span></span><br><span class="line">        Channel channel = session.openChannel(ChannelTypeEnum.shell.getType());</span><br><span class="line">        <span class="comment">//输入输出流</span></span><br><span class="line">        PipedInputStream pipeIn = <span class="keyword">new</span> PipedInputStream();</span><br><span class="line">        PipedOutputStream pipeOut = <span class="keyword">new</span> PipedOutputStream( pipeIn );</span><br><span class="line">        FileOutputStream fileOut = <span class="keyword">new</span> FileOutputStream( outputFileName, <span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">//为可执行管道设置输入输出流</span></span><br><span class="line">        channel.setInputStream(pipeIn);</span><br><span class="line">        channel.setOutputStream(fileOut);</span><br><span class="line">        <span class="comment">//建立管道输入流与文件输出流之间的连接，并设置过期时间</span></span><br><span class="line">        channel.connect(Constant.CHANNEL_TIMEOUT);</span><br><span class="line">        <span class="comment">//按照UTF-8的编码格式将命令写入到文件中</span></span><br><span class="line">        pipeOut.write(cmd.getBytes(StandardCharsets.UTF_8));</span><br><span class="line">        <span class="comment">//线程休眠，</span></span><br><span class="line">        Thread.sleep(Constant.INTERVAL);</span><br><span class="line">        <span class="comment">//关闭输入输出流、管道</span></span><br><span class="line">        pipeOut.close();</span><br><span class="line">        pipeIn.close();</span><br><span class="line">        fileOut.close();</span><br><span class="line">        channel.disconnect();</span><br><span class="line">        <span class="comment">//返回一个运行时间</span></span><br><span class="line">        <span class="keyword">return</span> System.currentTimeMillis() - start;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">exec</span><span class="params">(String cmd)</span> <span class="keyword">throws</span> IOException, JSchException, InterruptedException </span>&#123;</span><br><span class="line">        <span class="comment">//建立exec类型的管道</span></span><br><span class="line">        ChannelExec channelExec = (ChannelExec)session.openChannel(ChannelTypeEnum.exec.getType());</span><br><span class="line">        <span class="comment">//执行输入的命令</span></span><br><span class="line">        channelExec.setCommand( cmd );</span><br><span class="line">        <span class="comment">//设置输入流</span></span><br><span class="line">        channelExec.setInputStream( <span class="keyword">null</span> );</span><br><span class="line">        <span class="comment">//获取脚本可能会出现的错误日志</span></span><br><span class="line">        channelExec.setErrStream( System.err );</span><br><span class="line">        InputStream in = channelExec.getInputStream();</span><br><span class="line">        channelExec.connect();</span><br><span class="line">        <span class="comment">// 从远程主机读取输入流，获得脚本执行结果</span></span><br><span class="line">        <span class="keyword">int</span> res = -<span class="number">1</span>;      <span class="comment">//标记运行状态，0表示正确运行</span></span><br><span class="line">        StringBuffer buf = <span class="keyword">new</span> StringBuffer( <span class="number">1024</span> );</span><br><span class="line">        <span class="keyword">byte</span>[] tmp = <span class="keyword">new</span> <span class="keyword">byte</span>[ <span class="number">1024</span> ];</span><br><span class="line">        <span class="keyword">while</span> ( <span class="keyword">true</span> ) &#123;</span><br><span class="line">            <span class="comment">//available表示输入流中的字节的数量</span></span><br><span class="line">            <span class="keyword">while</span> ( in.available() &gt; <span class="number">0</span> ) &#123;</span><br><span class="line">                <span class="keyword">int</span> i = in.read( tmp, <span class="number">0</span>, <span class="number">1024</span> );</span><br><span class="line">                <span class="keyword">if</span> ( i &lt; <span class="number">0</span> ) <span class="keyword">break</span>;</span><br><span class="line">                <span class="comment">//将执行结果放入到StringBuffer中</span></span><br><span class="line">                <span class="comment">//System.out.println(new String( tmp, 0, i ));</span></span><br><span class="line">                buf.append( <span class="keyword">new</span> String( tmp, <span class="number">0</span>, i ) );</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> ( channelExec.isClosed() ) &#123;</span><br><span class="line">                <span class="comment">//获取退出状态，状态0表示脚本被正确执行</span></span><br><span class="line">                res = channelExec.getExitStatus();</span><br><span class="line">                System.out.println( format( <span class="string">&quot;Exit-status: %d&quot;</span>, res ) );</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            TimeUnit.MILLISECONDS.sleep(<span class="number">100</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//打印运行结果</span></span><br><span class="line">        System.out.println( buf.toString() );</span><br><span class="line">        <span class="comment">//关闭可执行管道</span></span><br><span class="line">        in.close();</span><br><span class="line">        channelExec.disconnect();</span><br><span class="line">        <span class="keyword">return</span> buf.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Session <span class="title">getSession</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> session;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 断开session连接。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span>&#123;</span><br><span class="line">        getSession().disconnect();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>4.策略模式实现</p>
 <p>策略模式的实体类，通过这个类来选择使用哪种策略</p>
@@ -3413,6 +3412,190 @@ d.有可能会提升数据库表的查询效率。</p>
       </categories>
       <tags>
         <tag>项目</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kibana、Logstash配置设置</title>
+    <url>/2022/01/14/Kibana%E3%80%81Logstash%E9%85%8D%E7%BD%AE%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<h1>kibana配置</h1>
+<p>Kibana server 启动时从 kibana.yml 文件中读取配置属性。<br>
+配置详细介绍：<a href="https://www.elastic.co/guide/cn/kibana/current/settings.html">https://www.elastic.co/guide/cn/kibana/current/settings.html</a></p>
+<h2 id="地址相关的配置">地址相关的配置</h2>
+<ul>
+<li>server.basePath：如果启用了代理，指定 Kibana 的路径，该配置项只影响 Kibana 生成的 URLs，转发请求到 Kibana 时代理会移除基础路径值，该配置项不能以斜杠 (/)结尾。</li>
+<li>pid.file：指定 Kibana 的进程 ID 文件的路径。</li>
+<li>logging.dest：默认值: stdout 指定 Kibana 日志输出的文件。</li>
+</ul>
+<h1>Logstash配置</h1>
+<p>Logstash配置实例：<a href="https://www.elastic.co/guide/en/logstash/current/configuration.html">https://www.elastic.co/guide/en/logstash/current/configuration.html</a><br>
+博客：<a href="https://blog.csdn.net/zjcjava/article/details/99258682">https://blog.csdn.net/zjcjava/article/details/99258682</a></p>
+<p>要配置 Logstash，您需要创建一个配置文件，该文件指定要使用的插件以及每个插件的设置。</p>
+<h2 id="配置文件实例">配置文件实例</h2>
+<p>xxx.conf</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">    stdin &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">#过滤</span><br><span class="line">filter &#123;</span><br><span class="line">    grok &#123;</span><br><span class="line">        <span class="function"><span class="params">patterns_dir</span> =&gt;</span> [<span class="string">&quot;/home/keepgostudio/download/logstash-5.2.0/patterns&quot;</span>]</span><br><span class="line">        match =&gt; &#123;</span><br><span class="line">            <span class="string">&quot;message&quot;</span> =&gt; [<span class="string">&quot;%&#123;PARAMS_APACHELOG&#125;&quot;</span>, <span class="string">&quot;%&#123;NO_PARAMS_APACHELOG&#125;&quot;</span>]</span><br><span class="line">        &#125;</span><br><span class="line">        remove_field =&gt; [<span class="string">&quot;host&quot;</span>, <span class="string">&quot;timestamp&quot;</span>, <span class="string">&quot;httpversion&quot;</span>, <span class="string">&quot;@version&quot;</span>]</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    kv &#123;</span><br><span class="line">        <span class="function"><span class="params">source</span> =&gt;</span> <span class="string">&quot;params&quot;</span></span><br><span class="line">        field_split =&gt; <span class="string">&quot;&amp;?&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    geoip &#123;</span><br><span class="line">        <span class="function"><span class="params">source</span> =&gt;</span> <span class="string">&quot;ip&quot;</span></span><br><span class="line">        fields =&gt; [<span class="string">&quot;country_name&quot;</span>, <span class="string">&quot;region_name&quot;</span>, <span class="string">&quot;city_name&quot;</span>, <span class="string">&quot;latitude&quot;</span>, <span class="string">&quot;longitude&quot;</span>]</span><br><span class="line">        target =&gt; <span class="string">&quot;location&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">output &#123;</span><br><span class="line">	#logstash输出到elasticsearch</span><br><span class="line">    elasticsearch &#123;</span><br><span class="line">        <span class="function"><span class="params">hosts</span> =&gt;</span> [<span class="string">&quot;192.168.1.44:9200&quot;</span>]      </span><br><span class="line">        index =&gt; <span class="string">&quot;logstash-test-%&#123;type&#125;-%&#123;host&#125;&quot;</span>        </span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	#file &#123;                        #保存成文件</span><br><span class="line">    #    path =&gt; <span class="string">&quot;../data_test/%&#123;+yyyy&#125;/%&#123;+MM&#125;/%&#123;+dd&#125;/%&#123;host&#125;.log&quot;</span></span><br><span class="line">    #    codec =&gt; line &#123; <span class="function"><span class="params">format</span> =&gt;</span> <span class="string">&quot;custom format: %&#123;message&#125;&quot;</span>&#125;</span><br><span class="line">    #&#125;</span><br><span class="line">	#stdout &#123; </span><br><span class="line">	#	codec =&gt; rubydebug            # 将日志输出到当前的终端上显示</span><br><span class="line">	#&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行 logstash 并使用标志指定配置文件 -f</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bin/logstash -f xxx.conf</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+      <tags>
+        <tag>配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis主动备份</title>
+    <url>/2022/01/14/Redis%E4%B8%BB%E5%8A%A8%E5%A4%87%E4%BB%BD/</url>
+    <content><![CDATA[<p>需求：Redis主动备份到某个路径下。</p>
+<ul>
+<li>分别支持rdb和AOF两种模式</li>
+<li>单机模式，主从模式，集群模式</li>
+</ul>
+<h1>数据备份</h1>
+<p>AOF和RDB</p>
+<p>Redis的所有数据都保存在内存中，然后不定期的通过异步方式保存到磁盘中（RDB）；也可以把每一次数据变化都写入到append only file （AOF）里面（全持久化模式）<br>
+由于Redis的数据存储在内存中，如果没有配置持久化，redis重启后，数据就会丢失。如果开启了持久化，重启后数据会依然存在，Redis支持两种持久化方式</p>
+<h2 id="RDB持久化">RDB持久化</h2>
+<p>将Redis内存中的数据在指定的时间间隔内将数据集快照写入磁盘，默认的持久化方式，<br>
+触发方式分为手动触发和自动触发</p>
+<ol>
+<li>手动触发</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">save</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>自动触发</li>
+</ol>
+<p>在配置文件中添加</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">save 900 1       #900秒内如果超过1个key被修改，则发起快照保存</span><br><span class="line">save 300 10      #300秒内如果有超过10key被修改，则发起快照保存</span><br><span class="line">save 60 100000</span><br></pre></td></tr></table></figure>
+<h2 id="AOF持久化">AOF持久化</h2>
+<p>将Redis的操作日志以追加的方式写入文件<br>
+AOF持久化以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，可以打开文件看到详细的操作记录。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">appendonly yes        #开启AOF备份   </span><br></pre></td></tr></table></figure>
+<ol>
+<li>主动备份</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">save</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>自动备份</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">appendfsync always            #每次发生修改都会写入AOF文件</span><br><span class="line">appendfsync everysec          #每秒发生修改就下入AOF文件</span><br><span class="line">appendfsync no                #数据写入依靠操作系统来决定</span><br></pre></td></tr></table></figure>
+<h1>Redis单机模式</h1>
+<p>导入jedis依赖：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- jedis --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>redis.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jedis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>方法调研：</p>
+<ol>
+<li>临时修改redis的配置文件中的dir参数。</li>
+<li>调用save方法数据备份到dir的地址中。</li>
+<li>将dir参数修改回原来的参数。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisSave</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">redisTestBackups</span><span class="params">()</span></span>&#123;</span><br><span class="line">        String newUrl = <span class="string">&quot;F:\redis\data&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>(Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">&quot;127.0.0.1&quot;</span>,<span class="number">6379</span>))&#123;</span><br><span class="line">            <span class="comment">//得到旧地址</span></span><br><span class="line">            List&lt;String&gt; listDir = jedis.configGet(<span class="string">&quot;dir&quot;</span>);</span><br><span class="line">            String oldUrl = listDir.get(<span class="number">1</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//得到旧的appendonly配置</span></span><br><span class="line">            List&lt;String&gt; listAppendonly = jedis.configGet(<span class="string">&quot;appendonly&quot;</span>);</span><br><span class="line">            String oldAppendonly = listAppendonly.get(<span class="number">1</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//1.临时修改配置文件</span></span><br><span class="line">            jedis.configSet(<span class="string">&quot;dir&quot;</span>,newUrl);</span><br><span class="line">            jedis.configSet(<span class="string">&quot;appendonly&quot;</span>,<span class="string">&quot;yes&quot;</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//2.数据备份，同时备份AOF和RDB</span></span><br><span class="line">            jedis.save();</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//3.将临时配置重新修改回来</span></span><br><span class="line">            jedis.configSet(<span class="string">&quot;dir&quot;</span>,oldUrl);</span><br><span class="line">            jedis.configSet(<span class="string">&quot;appendonly&quot;</span>,oldAppendonly);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (JedisException e)&#123;</span><br><span class="line">            System.out.println(e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="问题">问题</h2>
+<p>并发问题：当一个线程把dir临时修改后，此时如果有另外一个线程访问此节点上的redis，拿到的是修改后的地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.synchronize包裹代码块</span><br></pre></td></tr></table></figure>
+<h1>Redis集群模式</h1>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#1.主从复制</span><br><span class="line"></span><br><span class="line">#2.sentinel模式</span><br><span class="line"></span><br><span class="line">#3.cluster模式</span><br></pre></td></tr></table></figure>
+<h2 id="主从复制">主从复制</h2>
+<p>主从模式是三种模式中最简单的，在主从复制中，数据库分为两类：主数据库(master)和从数据库(slave)。</p>
+<p>主从模式的优点：</p>
+<ul>
+<li>主数据库可以进行读写操作，当<strong>读写操作导致数据变化时会自动将数据同步给从数据库</strong></li>
+<li>从数据库一般都是只读的，并且接收主数据库同步过来的数据</li>
+<li>一个master可以拥有多个slave，但是一个slave只能对应一个master</li>
+<li>slave挂了不影响其他slave的读和master的读和写，重新启动后会将数据从master同步过来</li>
+<li>master挂了以后，不影响slave的读，但redis不再提供写服务，master重启后redis将重新对外提供写服务</li>
+<li>master挂了以后，不会在slave节点中重新选一个master</li>
+</ul>
+<p><strong>工作机制：</strong></p>
+<p>当slave启动后，主动向master发送SYNC命令。master接收到SYNC命令后在后台保存快照（RDB持久化）和缓存保存快照这段时间的命令，然后将保存的快照文件和缓存的命令发送给slave。slave接收到快照文件和命令后加载快照文件和缓存的执行命令。</p>
+<p>复制初始化后，master每次接收到的写命令都会同步发送给slave，保证主从数据一致性。</p>
+<h2 id="sentinel模式">sentinel模式</h2>
+<p>主从模式的弊端就是不具备高可用性，当master挂掉以后，Redis将不能再对外提供写入操作，因此sentinel应运而生。</p>
+<p>sentinel中文含义为哨兵，顾名思义，它的作用就是监控redis集群的运行状况。</p>
+<p><strong>哨兵模式的优点：</strong></p>
+<ul>
+<li>
+<p>sentinel模式是建立在主从模式的基础上，如果只有一个Redis节点，sentinel就没有任何意义</p>
+</li>
+<li>
+<p>当master挂了以后，sentinel会在slave中选择一个做为master，并修改它们的配置文件，其他slave的配置文件也会被修改，比如slaveof属性会指向新的master</p>
+</li>
+<li>
+<p>当master重新启动后，它将不再是master而是做为slave接收新的master的同步数据</p>
+</li>
+<li>
+<p>sentinel因为也是一个进程有挂掉的可能，所以sentinel也会启动多个形成一个sentinel集群</p>
+</li>
+<li>
+<p>多sentinel配置的时候，sentinel之间也会自动监控</p>
+</li>
+<li>
+<p>当主从模式配置密码时，sentinel也会同步将配置信息修改到配置文件中，不需要担心</p>
+</li>
+<li>
+<p>一个sentinel或sentinel集群可以管理多个主从Redis，多个sentinel也可以监控同一个redis</p>
+</li>
+<li>
+<p>sentinel最好不要和Redis部署在同一台机器，不然Redis的服务器挂了以后，sentinel也挂了</p>
+</li>
+</ul>
+<p><strong>工作机制：</strong></p>
+<ol>
+<li>
+<p>每个sentinel以每秒钟一次的频率向它所知的master，slave以及其他sentinel实例发送一个 PING 命令</p>
+</li>
+<li>
+<p>如果一个实例距离最后一次有效回复 PING 命令的时间超过 down-after-milliseconds 选项所指定的值， 则这个实例会被sentinel标记为主观下线。</p>
+</li>
+<li>
+<p>如果一个master被标记为主观下线，则正在监视这个master的所有sentinel要以每秒一次的频率确认master的确进入了主观下线状态</p>
+</li>
+<li>
+<p>当有足够数量的sentinel（大于等于配置文件指定的值）在指定的时间范围内确认master的确进入了主观下线状态， 则master会被标记为客观下线</p>
+</li>
+<li>
+<p>在一般情况下， 每个sentinel会以每 10 秒一次的频率向它已知的所有master，slave发送 INFO 命令</p>
+</li>
+<li>
+<p>当master被sentinel标记为客观下线时，sentinel向下线的master的所有slave发送 INFO 命令的频率会从 10 秒一次改为 1 秒一次</p>
+</li>
+<li>
+<p>若没有足够数量的sentinel同意master已经下线，master的客观下线状态就会被移除；<br>
+若master重新向sentinel的 PING 命令返回有效回复，master的主观下线状态就会被移除</p>
+</li>
+</ol>
+<p>当使用sentinel模式的时候，客户端就不要直接连接Redis，而是连接sentinel的ip和port，由sentinel来提供具体的可提供服务的Redis实现，这样当master节点挂掉以后，sentinel就会感知并将新的master节点提供给使用者。</p>
+<h2 id="cluster模式">cluster模式</h2>
+<p>sentinel模式基本可以满足一般生产的需求，具备高可用性。但是当数据量过大到一台服务器存放不下的情况时，主从模式或sentinel模式就不能满足需求了，这个时候需要对存储的数据进行分片，将数据存储到多个Redis实例中。cluster模式的出现就是为了解决单机Redis容量有限的问题，将Redis的数据根据一定的规则分配到多台机器。</p>
+<p>cluster可以说是sentinel和主从模式的结合体，通过cluster可以实现主从和master重选功能，所以如果配置两个副本三个分片的话，就需要六个Redis实例。因为Redis的数据是根据一定规则分配到cluster的不同机器的，当数据量过大时，可以新增机器进行扩容。</p>
+<p>使用集群，只需要将redis配置文件中的cluster-enable配置打开即可。每个集群中至少需要三个主数据库才能正常运行，新增节点非常方便。</p>
+<p><strong>集群模式的优点</strong>：</p>
+<ul>
+<li>多个redis节点网络互联，数据共享</li>
+<li>所有的节点都是一主一从（也可以是一主多从），其中从不提供服务，仅作为备用</li>
+<li>不支持同时处理多个key（如MSET/MGET），因为redis需要把key均匀分布在各个节点上，<br>
+并发量很高的情况下同时创建key-value会降低性能并导致不可预测的行为</li>
+<li>支持在线增加、删除节点</li>
+<li>客户端可以连接任何一个主节点进行读写</li>
+</ul>
+<p>redis cluster集群是<strong>去中心化</strong>的，每个节点都是平等的，连接哪个节点都可以获取和设置数据。</p>
+<p>当然，平等指的是master节点，因为<strong>slave节点根本不提供服务，只是作为对应master节点的一个备份</strong>。</p>
+<h3 id="集群数据迁移"><strong>集群数据迁移</strong></h3>
+<p>BGREWRITEAOF命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">数据迁移：使用BGREWRITEAOF命令为所有 N 个 master 生成一个仅附加文件，并等待 AOF 文件完全生成。</span><br></pre></td></tr></table></figure>
+<p><strong>实现方式原理</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">前期准备：</span><br><span class="line"></span><br><span class="line">1. 停掉所有节点(先备后主)，然后删除所有节点下的appendonly.aof和dump.rdb文件，再动所有主节点，停掉所有节点（有密码的话，最好先不要用密码）</span><br><span class="line"></span><br><span class="line">2. 确定目标库所有节点appendonly为yes，将所有槽位分配到一个主节点</span><br><span class="line"></span><br><span class="line">3. 停掉拥有所有槽位的那个节点，等待appendonly.aof文件</span><br><span class="line"></span><br><span class="line">停业务迁移：</span><br><span class="line"></span><br><span class="line">4. 停业务，此时可以同步对所有应用修改redis配置（钉钉，管理门户，搜索引擎）</span><br><span class="line"></span><br><span class="line">5. 源库手动触发bgrewriteaof      源端(２分钟)</span><br><span class="line"></span><br><span class="line">6. 复制发送备份appendonly.aof　      源端，目标端（５分钟）</span><br><span class="line"></span><br><span class="line">7. 启动目标节点            目标端（５分钟）</span><br><span class="line"></span><br><span class="line">8. reshared槽位，启动备节点，设置密码 目标端（5分钟）</span><br><span class="line"></span><br><span class="line">恢复应用：</span><br><span class="line"></span><br><span class="line">9. 启动所有应用，并验证</span><br></pre></td></tr></table></figure>
+<h3 id="集群数据迁移工具">集群数据迁移工具</h3>
+<p>redis-shake</p>
+<ul>
+<li>数据包地址：<a href="https://github.com/alibaba/RedisShake/tree/develop/src/redis-shake">https://github.com/alibaba/RedisShake/tree/develop/src/redis-shake</a></li>
+<li>中文文档：<a href="https://developer.aliyun.com/article/691794">https://developer.aliyun.com/article/691794</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
       </tags>
   </entry>
 </search>
