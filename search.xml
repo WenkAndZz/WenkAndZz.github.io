@@ -3592,7 +3592,7 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 </ul>
 ]]></content>
       <categories>
-        <category>数据库</category>
+        <category>项目</category>
       </categories>
       <tags>
         <tag>redis</tag>
