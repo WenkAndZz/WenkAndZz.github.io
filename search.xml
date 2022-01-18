@@ -3596,4 +3596,31 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
         <tag>redis</tag>
       </tags>
   </entry>
+  <entry>
+    <title>查询/删除给定目录下的所有文件</title>
+    <url>/2022/01/18/%E6%9F%A5%E8%AF%A2-%E5%88%A0%E9%99%A4%E7%BB%99%E5%AE%9A%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<p>需求：</p>
+<ul>
+<li>查看给定目录下所有文件</li>
+<li>通过递归的方式删除给定文件及所有的子文件</li>
+</ul>
+<p>解决：</p>
+<ul>
+<li>递归</li>
+<li>File类，listFile() 方法、isDirectory() 方法、delete() 方法</li>
+</ul>
+<h1>查看所有文件</h1>
+<p>查看给定目录下的所有文件</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> JSONArray <span class="title">getLocalFiles</span><span class="params">(File dir)</span> </span>&#123;</span><br><span class="line">    JSONArray files = <span class="keyword">new</span> JSONArray();</span><br><span class="line">    <span class="keyword">if</span> (dir.isDirectory()) &#123;</span><br><span class="line">        File[] fs = dir.listFiles();</span><br><span class="line">        <span class="keyword">if</span> (fs != <span class="keyword">null</span> &amp;&amp; fs.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (File f : fs) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!f.isDirectory()) &#123;</span><br><span class="line">                    JSONObject file = <span class="keyword">new</span> JSONObject();</span><br><span class="line">                    file.put(<span class="string">&quot;name&quot;</span>, f.getName());</span><br><span class="line">                    file.put(<span class="string">&quot;size&quot;</span>, String.format(<span class="string">&quot;%.2f&quot;</span>, (<span class="keyword">float</span>) f.length() / <span class="number">1024</span>));</span><br><span class="line">                    files.add(file);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> files;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1>删除所有文件</h1>
+<p>通过递归，删除所有文件及子目录下的所有文件</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 递归删除目录下的所有文件及子目录下所有文件</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> dir 将要删除的文件目录</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> boolean Returns &quot;true&quot; if all deletions were successful.</span></span><br><span class="line"><span class="comment"> * If a deletion fails, the method stops attempting to</span></span><br><span class="line"><span class="comment"> * delete and returns &quot;false&quot;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deleteDir</span><span class="params">(File dir)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (dir.isDirectory()) &#123;</span><br><span class="line">        File[] children = dir.listFiles();</span><br><span class="line">        <span class="comment">//递归删除目录中的子目录下</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; children.length; i++) &#123;</span><br><span class="line">            <span class="keyword">boolean</span> success = deleteDir(children[i]);</span><br><span class="line">            <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 目录此时为空，可以删除</span></span><br><span class="line">    <span class="keyword">return</span> dir.delete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>项目</category>
+      </categories>
+      <tags>
+        <tag>项目</tag>
+      </tags>
+  </entry>
 </search>
