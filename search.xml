@@ -339,7 +339,7 @@
 <h1>JDBC</h1>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602153446084.png" alt="image-20210602153446084"></p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602153529380.png" alt="image-20210602153529380"></p>
-<h1>1.JDBC入门</h1>
+<h1>JDBC入门</h1>
 <p>什么是JDBC:</p>
 <ul>
 <li>java数据库连接，</li>
@@ -355,12 +355,12 @@
 <li>易于上手，容易上手，代码结构稳定</li>
 <li>功能强大，执行效率高，可以处理海量数据。</li>
 </ul>
-<h1>2.JDBC开发流程</h1>
+<h1>JDBC开发流程</h1>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602160414913.png" alt="image-20210602160414913"></p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210602173544564.png" alt="image-20210602173544564"></p>
-<h1>3.JDBC代码实现</h1>
+<h1>JDBC代码实现</h1>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">        Connection conn = <span class="keyword">null</span>;</span><br><span class="line">        Statement stmt = <span class="keyword">null</span>;</span><br><span class="line">        ResultSet rs = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 1.加载注册驱动</span></span><br><span class="line">            Class.forName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br><span class="line">            <span class="comment">// 2.创建数据库连接</span></span><br><span class="line">            String url = <span class="string">&quot;jdbc:mysql://localhost:3307/db_cy?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimerzone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true&quot;</span>;</span><br><span class="line">            conn = DriverManager.getConnection(url,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;123456&quot;</span>);</span><br><span class="line">            <span class="comment">// 3.创建Statement对象</span></span><br><span class="line">            stmt = conn.createStatement();</span><br><span class="line">            <span class="comment">// 结果集</span></span><br><span class="line">            rs = stmt.executeQuery(<span class="string">&quot;select * from counterdetail&quot;</span>);</span><br><span class="line">            <span class="comment">// 4.遍历查询结果</span></span><br><span class="line">            <span class="keyword">while</span> (rs.next())&#123;</span><br><span class="line">                Integer id = rs.getInt(<span class="number">1</span>);         <span class="comment">// JDBC中字段的索引是从1开始的，不是0</span></span><br><span class="line">                Integer ccounterid = rs.getInt(<span class="number">2</span>);</span><br><span class="line">                String cfoodname = rs.getString(<span class="number">3</span>);</span><br><span class="line">                String cnumber = rs.getString(<span class="number">4</span>);</span><br><span class="line">                Integer cprive = rs.getInt(<span class="number">5</span>);</span><br><span class="line">                System.out.println(id+<span class="string">&quot;-&quot;</span>+ccounterid+<span class="string">&quot;-&quot;</span>+cfoodname+<span class="string">&quot;-&quot;</span>+cnumber+<span class="string">&quot;-&quot;</span>+cprive);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException throwables) &#123;</span><br><span class="line">            throwables.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">// 5.关闭连接，释放资源</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (rs!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                    rs.close();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException throwables) &#123;</span><br><span class="line">                throwables.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (conn!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                    conn.close();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException throwables) &#123;</span><br><span class="line">                throwables.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span>(stmt!=<span class="keyword">null</span>&amp;&amp;!conn.isClosed())&#123;</span><br><span class="line">                    stmt.close();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException throwables) &#123;</span><br><span class="line">                throwables.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-<h1>4.JDBC的两种事务模型</h1>
+<h1>JDBC的两种事务模型</h1>
 <ul>
 <li>
 <p>自动提交事务模式：默认模式，没执行一次写操作SQL，自动提交事务。</p>
@@ -372,10 +372,10 @@
 </ul>
 <p>显示调用commit()he rollback()</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210607210239674.png" alt="image-20210607210239674"></p>
-<h1>5.Date日期对象处理</h1>
+<h1>Date日期对象处理</h1>
 <p>JDBC 中获取到的日期使用java.sql.Date，其继承自java.util.Date。所以二者可以兼容</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20210608105317030.png" alt="image-20210608105317030"></p>
-<h1>6.连接池和JDBC</h1>
+<h1>连接池和JDBC</h1>
 <p>什么是连接池？</p>
 <p>数据库连接是一种关键的有限的昂贵的资源,这一点在多用户的网页应用程序中体现的尤为突出.对数据库连接的管理能显著影响到整个应用程序的伸缩性和健壮性,影响到程序的性能指标.数据库连接池正式针对这个问题提出来的.数据库连接池负责分配,管理和释放数据库连接,它允许应用程序重复使用一个现有的数据库连接,而不是重新建立一个</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/20190214093729228.png" alt="img"></p>
@@ -995,8 +995,8 @@
     <content><![CDATA[<p><em>Git</em>（读音为/gɪt/）是一个开源的分布式版本控制系统，可以有效、高速地处理从很小到非常大的项目版本管理。在团队协作开发中起到了十分重要的作用。</p>
 <span id="more"></span>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111133705830.png" alt="image-20211111133705830"></p>
-<h2 id="1-版本控制">1. 版本控制</h2>
-<h3 id="1-1-版本控制工具应该具备的功能">1.1 版本控制工具应该具备的功能</h3>
+<h2 id="版本控制">版本控制</h2>
+<h3 id="版本控制工具应该具备的功能">版本控制工具应该具备的功能</h3>
 <ul>
 <li>协同修改：多个人并行的修改服务器的同一个文件。</li>
 <li>数据备份：不仅保存目录和文件的当前状态，还能够保存每一个提交的历史状态。</li>
@@ -1005,14 +1005,14 @@
 <li>历史记录。</li>
 <li>分支管理：允许开发团队在工作工程中多分支同时进行工作。</li>
 </ul>
-<h3 id="1-2-版本控制介绍">1.2 版本控制介绍</h3>
+<h3 id="版本控制介绍">版本控制介绍</h3>
 <p>版本控制工具：</p>
 <ul>
 <li>集中式版本控制工具：SVN。存在单点故障的问题。</li>
 <li>分布式版本控制工具：Git。<strong>可以避免单点故障。</strong></li>
 </ul>
-<h2 id="2-Git简介">2 .Git简介</h2>
-<h3 id="2-1-Git的优势">2.1 Git的优势</h3>
+<h2 id="Git简介">Git简介</h2>
+<h3 id="Git的优势">Git的优势</h3>
 <ul>
 <li>大部分操作都在本地运行，不需要联网。</li>
 <li>保证完整性（通过Hash值）。</li>
@@ -1020,19 +1020,19 @@
 <li>分支操作非常快捷流畅（内部通过快照操作）。</li>
 <li>与Linux命令全面兼容。</li>
 </ul>
-<h3 id="2-2-Git的结构">2.2 Git的结构</h3>
+<h3 id="Git的结构">Git的结构</h3>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111140409757.png" alt="image-20211111140409757"></p>
-<h3 id="2-3-Git和代码托管中心">2.3 Git和代码托管中心</h3>
+<h3 id="Git和代码托管中心">Git和代码托管中心</h3>
 <p>远程托管代码，将代码保存到远程库中。</p>
 <p>局域网：GitLab</p>
 <p>外网环境：GitHub，码云</p>
-<h3 id="2-4-本地库和远程库">2.4 本地库和远程库</h3>
+<h3 id="本地库和远程库">本地库和远程库</h3>
 <p>团队内协作：</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111141146749.png" alt="image-20211111141146749"></p>
 <p>团队外协作：</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111141435649.png" alt="image-20211111141435649"></p>
-<h3 id="2-5-Git的基本操作">2.5 Git的基本操作</h3>
-<h4 id="2-5-1-本地库初始化：">2.5.1.本地库初始化：</h4>
+<h3 id="Git的基本操作">Git的基本操作</h3>
+<h4 id="本地库初始化：">本地库初始化：</h4>
 <ul>
 <li>命令：git init</li>
 <li>效果：</li>
@@ -1041,7 +1041,7 @@
 <ul>
 <li>注意：.git/文件中存放的是本地库相关的子目录和文件，不要删除和修改。</li>
 </ul>
-<h4 id="2-5-2-设置签名">2.5.2.设置签名</h4>
+<h4 id="设置签名">设置签名</h4>
 <ul>
 <li>
 <p>形式：</p>
@@ -1076,11 +1076,11 @@
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111151240376.png" alt="image-20211111151240376"></p>
 </li>
 </ul>
-<h4 id="2-5-3-查看状态">2.5.3.查看状态</h4>
+<h4 id="查看状态">查看状态</h4>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
 <p>此时暂存区与本地库中都没有文件：</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111164356213.png" alt="image-20211111164356213"></p>
-<h4 id="2-5-4-提交文件到暂存区">2.5.4.提交文件到暂存区</h4>
+<h4 id="提交文件到暂存区">提交文件到暂存区</h4>
 <p>创造了一个文件（vim good.txt）：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim good.txt</span><br><span class="line"></span><br><span class="line">:wq</span><br></pre></td></tr></table></figure>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111164720978.png" alt="image-20211111164720978"></p>
@@ -1090,7 +1090,7 @@
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111165150226.png" alt="image-20211111165150226"></p>
 <p>从<strong>缓存区</strong>移除文件,工作区的文件不变：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git rm --cached good.txt</span><br></pre></td></tr></table></figure>
-<h4 id="2-5-5-提交文件到本地库">2.5.5.提交文件到本地库</h4>
+<h4 id="提交文件到本地库">提交文件到本地库</h4>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git commit good.txt</span><br></pre></td></tr></table></figure>
 <p>给本次提交添加注释（vim操作）：</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111165723660.png" alt=":"></p>
@@ -1105,7 +1105,7 @@
 <p>暂存区为空，工作树也是干净的。</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111170359958.png" alt="image-20211111170359958"></p>
 <p>如果修改了good.txt文件，需要重新执行add和commit操作。</p>
-<h4 id="2-5-6实现版本前进与后退">2.5.6实现版本前进与后退</h4>
+<h4 id="实现版本前进与后退">实现版本前进与后退</h4>
 <p><strong>1.查看版本信息</strong></p>
 <p>查看提交记录：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">多屏显示时的控制方法：</span><br><span class="line">空格向上翻页，</span><br><span class="line">b向下翻页</span><br><span class="line">q退出</span><br></pre></td></tr></table></figure>
@@ -1126,7 +1126,7 @@
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111203311151.png" alt="image-20211111203311151"></p>
 <p><strong>4.使用~符号【只能后退】</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">后退n步git reset --hard HEAD~n</span><br></pre></td></tr></table></figure>
-<h4 id="2-5-7-reset命令的三分参数比较">2.5.7 reset命令的三分参数比较</h4>
+<h4 id="reset命令的三分参数比较">reset命令的三分参数比较</h4>
 <ul>
 <li>–soft参数
 <ul>
@@ -1150,7 +1150,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="2-5-8-删除文件后找回">2.5.8 删除文件后找回</h4>
+<h4 id="删除文件后找回">删除文件后找回</h4>
 <p>前提：删除前，文件存在时的状态提交到本地</p>
 <p><strong>1.方式一：回退到之前的版本</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git reset --hard 索引值</span><br></pre></td></tr></table></figure>
@@ -1162,7 +1162,7 @@
 <li>删除操作已经提交到本地库：指针位置指向索引值</li>
 <li>未提交到本地库：指针位置使用HEAD</li>
 </ul>
-<h4 id="2-5-9-比较文件">2.5.9 比较文件</h4>
+<h4 id="比较文件">比较文件</h4>
 <p>比较文件是否发生了修改。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git diff apple.txt</span><br></pre></td></tr></table></figure>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111211416299.png" alt="image-20211111211416299"></p>
@@ -1172,26 +1172,26 @@
 <p>不指定文件名时，会比较工作区中的所有的文件：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git diff HEAD</span><br></pre></td></tr></table></figure>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111211859857.png" alt="image-20211111211859857"></p>
-<h3 id="2-6-分支管理">2.6 分支管理</h3>
-<h4 id="2-6-1-什么是分支">2.6.1 什么是分支</h4>
+<h3 id="分支管理">分支管理</h3>
+<h4 id="什么是分支">什么是分支</h4>
 <p>在版本控制的过程中，使用多条线同时推进。</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111212639622.png" alt="image-20211111212639622"></p>
-<h4 id="2-6-2-分支的好处">2.6.2 分支的好处</h4>
+<h4 id="分支的好处">分支的好处</h4>
 <ul>
 <li>同时并行推进多个功能开发，提高工作效率。</li>
 <li>各个分支在开发过程中，如果某一个分支开发失败了，不会对其他分支有任何的影响。失败的分支删除重新开始既可。</li>
 </ul>
-<h4 id="2-6-3-分支操作">2.6.3 分支操作</h4>
-<h5 id="1-查看拥有的所有分支">1.查看拥有的所有分支</h5>
+<h4 id="分支操作">分支操作</h4>
+<h5 id="查看拥有的所有分支">查看拥有的所有分支</h5>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git branch -v</span><br></pre></td></tr></table></figure>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111213147745.png" alt="image-20211111213147745"></p>
-<h5 id="2-创建分支">2.创建分支</h5>
+<h5 id="创建分支">创建分支</h5>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">创建一个名字叫hot_fix的分支$ git branch [分支名]</span><br></pre></td></tr></table></figure>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111213428937.png" alt="image-20211111213428937"></p>
-<h5 id="3-切换分支">3.切换分支</h5>
+<h5 id="切换分支">切换分支</h5>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git checkout [分支名]</span><br></pre></td></tr></table></figure>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211111213552432.png" alt="image-20211111213552432"></p>
-<h5 id="4-合并分支">4.合并分支</h5>
+<h5 id="合并分支">合并分支</h5>
 <ul>
 <li>
 <p>第一步：切换到接收修改的分支上</p>
@@ -1208,7 +1208,7 @@
 </ul>
 </li>
 </ul>
-<h5 id="5-解决冲突">5 解决冲突</h5>
+<h5 id="解决冲突">解决冲突</h5>
 <ul>
 <li>
 <p>冲突的表现：两个分支同时修改了同一个文件同一行中的数据。git不知道以哪一个为准。</p>
@@ -1227,8 +1227,8 @@
 </ul>
 </li>
 </ul>
-<h2 id="3-Git原理">3. Git原理</h2>
-<h3 id="3-1-Hash">3.1 Hash</h3>
+<h2 id="Git原理">Git原理</h2>
+<h3 id="Hash">Hash</h3>
 <p>是一种加密算法。</p>
 <p>Hash算法的特性：</p>
 <ul>
@@ -1239,12 +1239,12 @@
 </ul>
 <p>Git底层使用的是：SHA-1算法。</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112100441920.png" alt="image-20211112100441920"></p>
-<h3 id="3-2-Git保存版本的机制">3.2 Git保存版本的机制</h3>
+<h3 id="Git保存版本的机制">Git保存版本的机制</h3>
 <p>SVN的保存机制：增量式版本控制</p>
 <p>优点：节省空间</p>
 <p>Git：快照流。没有修改的文件通过指针指向上个版本中的文件。</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112112246132.png" alt="image-20211112112246132"></p>
-<h3 id="3-3-Git分支管理机制">3.3 Git分支管理机制</h3>
+<h3 id="Git分支管理机制">Git分支管理机制</h3>
 <p><strong>1.创建分支</strong></p>
 <p>创建一个分支指向已有的版本。而不是把原来的复制一遍</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112112938429.png" alt="image-20211112112938429"></p>
@@ -1255,27 +1255,27 @@
 <p><strong>3.修改数据</strong></p>
 <p>当分支对文佳进行修改时，就会创造一个新的分支。</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112113310025.png" alt="image-20211112113310025"></p>
-<h2 id="4-GitHub相关">4.GitHub相关</h2>
+<h2 id="GitHub相关">GitHub相关</h2>
 <p>账号注册：</p>
 <ul>
 <li>email：329129866@qq.com</li>
 <li>用户名：WenkAndZz</li>
 </ul>
-<h3 id="4-1创建本地库与远程库">4.1创建本地库与远程库</h3>
+<h3 id="创建本地库与远程库">创建本地库与远程库</h3>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">创建本地库文件夹</span><br><span class="line">mkdir [文件名]</span><br><span class="line"></span><br><span class="line">进入本地库</span><br><span class="line">cd [文件名]</span><br><span class="line"></span><br><span class="line">初始化</span><br><span class="line">git init</span><br><span class="line"></span><br><span class="line">创建一个txt文件</span><br><span class="line">vim [txt文件名].txt</span><br></pre></td></tr></table></figure>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112120434326.png" alt="image-20211112120434326"></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">创建远程库在GitHub上，选择repository</span><br></pre></td></tr></table></figure>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112161451631.png" alt="image-20211112161451631"></p>
 <p>创建完成之后，有一个HTTPS的地址</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112161645184.png" alt="image-20211112161645184"></p>
-<h3 id="4-2在本地创建远程仓库别名">4.2在本地创建远程仓库别名</h3>
+<h3 id="在本地创建远程仓库别名">在本地创建远程仓库别名</h3>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">创建别名，origin别名，后面是地址</span><br><span class="line">$ git remote add origin https://github.com/WenkAndZz/huashan.git</span><br><span class="line"></span><br><span class="line">查看历史数据</span><br><span class="line">$ git remote -v</span><br></pre></td></tr></table></figure>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112162053144.png" alt="image-20211112162053144"></p>
-<h3 id="4-3-推送数据">4.3 推送数据</h3>
+<h3 id="推送数据">推送数据</h3>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">推送数据</span><br><span class="line">$ git push [远程仓库别名] [分支名]</span><br><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112170659548.png" alt="image-20211112170659548"></p>
 <p>注：GitHub是一个国外网站，访问很慢。可以使用<strong>码云</strong>。</p>
-<h3 id="4-4-克隆操作">4.4 克隆操作</h3>
+<h3 id="克隆操作">克隆操作</h3>
 <p>更换目录：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd ..</span><br><span class="line">$ mkdir huashan_linghuchong</span><br><span class="line">$ cd huashan_linghuchong</span><br></pre></td></tr></table></figure>
 <p><strong>执行克隆操作：</strong></p>
@@ -1287,14 +1287,14 @@
 <li>创建origin远程地址别名。</li>
 <li>初始化本地库。</li>
 </ul>
-<h3 id="4-5-从远程库拉取">4.5 从远程库拉取</h3>
+<h3 id="从远程库拉取">从远程库拉取</h3>
 <p><strong>方法一：fetch(拉取)+merge(合并)</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">从远程库中拉取数据$ git fetch origin master此时本地库中的数据没有发生改变，远程库中的数据保存在origin/master中</span><br></pre></td></tr></table></figure>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">将本地的master跟远程库下载下来的进行合并$ git merge origin/master合并之后master中的数据就与远程库一致了</span><br></pre></td></tr></table></figure>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112173104034.png" alt="image-20211112173104034"></p>
 <p><strong>方法二：pull=fetch(拉取)+merge(合并)</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git pull origin master</span><br></pre></td></tr></table></figure>
-<h3 id="4-6协同合作时冲突的解决">4.6协同合作时冲突的解决</h3>
+<h3 id="协同合作时冲突的解决">协同合作时冲突的解决</h3>
 <ul>
 <li>要点：
 <ul>
@@ -1304,7 +1304,7 @@
 </li>
 </ul>
  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.先拉取，使当前变为最新版。</span><br><span class="line">git pull [远程库] [分支名]</span><br><span class="line">此时冲突文件会被合并。</span><br><span class="line"></span><br><span class="line">2.vim到冲突文件中，对冲突文件进行修改。</span><br><span class="line">vim [冲突文件]</span><br><span class="line"></span><br><span class="line">3.修改后再添加到暂存区</span><br><span class="line">git add [冲突文件]</span><br><span class="line"></span><br><span class="line">4.提交到本地库中。</span><br><span class="line">git commit [冲突文件]</span><br><span class="line"></span><br><span class="line">5.推送到远程仓库中</span><br><span class="line">git push [远程库] [分支名]</span><br></pre></td></tr></table></figure>
-<h3 id="4-7跨团队协作">4.7跨团队协作</h3>
+<h3 id="跨团队协作">跨团队协作</h3>
 <ol>
 <li>Fork项目</li>
 <li>克隆到本地 git clone</li>
@@ -1313,12 +1313,12 @@
 <li>本团队对这个request进行审核。审核成功就可以合并（merge）</li>
 </ol>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112214534482.png" alt="image-20211112214534482"></p>
-<h3 id="4-8-SSH免密登录">4.8 SSH免密登录</h3>
+<h3 id="SSH免密登录">SSH免密登录</h3>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.切换到根目录下：cd ~</span><br><span class="line"></span><br><span class="line">2.删除.ssh文件rm -r .shh/</span><br><span class="line"></span><br><span class="line">3.给当前邮箱号设置一个ssh加密</span><br><span class="line">$ ssh-keygen -t rsa -C 329129866@qq.com</span><br><span class="line"></span><br><span class="line">4.去.ssh/文件下，赋值id_rsa.pub中的内容$ cd .ssh/</span><br><span class="line"></span><br><span class="line">5.打开GitHub，在设置中找到ssh秘钥，把复制的内容添加到这里。</span><br></pre></td></tr></table></figure>
 <p>使用的时候，要使用ssh地址，才能免密登录。</p>
 <p><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/image-20211112220837890.png" alt="image-20211112220837890"></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.给远程仓库的ssh地址设置一个别名</span><br><span class="line">git remote add origin_ssh git@gitee.com:wenkailllll/huashan.git</span><br><span class="line"></span><br><span class="line">2.使用ssh去push文件</span><br><span class="line">git push origin_ssh master</span><br></pre></td></tr></table></figure>
-<h2 id="5-hexo-推送博客">5.hexo 推送博客</h2>
+<h2 id="hexo-推送博客">hexo 推送博客</h2>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//创建博客,创建完成的博客在E:\Blog\source\_posts目录下</span><br><span class="line">hexo new &quot;博客名&quot;</span><br><span class="line"></span><br><span class="line">//清除网页中的缓存</span><br><span class="line">hexo clean</span><br><span class="line"></span><br><span class="line">//生成静态网页</span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line">//开始部署</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
@@ -1659,26 +1659,26 @@
     <content><![CDATA[<p>MySQL是一个<a href="https://baike.baidu.com/item/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/696511">关系型数据库管理系统</a>，由瑞典[MySQL AB](<a href="https://baike.baidu.com/item/MySQL">https://baike.baidu.com/item/MySQL</a> AB/2620844) 公司开发，属于 <a href="https://baike.baidu.com/item/Oracle">Oracle</a> 旗下产品。MySQL 是最流行的<a href="https://baike.baidu.com/item/%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/696511">关系型数据库管理系统</a>之一，在 <a href="https://baike.baidu.com/item/WEB/150564">WEB</a> 应用方面，MySQL是最好的 <a href="https://baike.baidu.com/item/RDBMS/1048260">RDBMS</a> (Relational Database Management System，关系数据库管理系统) 应用软件之一。</p>
 <span id="more"></span>
 <h1>数据库概述</h1>
-<h2 id="1、使用数据库的优势">1、使用数据库的优势</h2>
+<h2 id="使用数据库的优势">使用数据库的优势</h2>
 <p>使用数据库有两个优势：</p>
 <ul>
 <li>持久化数据到本地。</li>
 <li>可以实现结构化查询，方便管理。</li>
 </ul>
-<h2 id="2、数据库相关概念">2、数据库相关概念</h2>
+<h2 id="数据库相关概念">数据库相关概念</h2>
 <p><strong>DB(Database)</strong>：数据库，保存一组有组织的数据的容器。</p>
 <p><strong>DBMS(Database Management System)</strong>：数据库管理系统，又称为数据库软件（产品），用于管理DB中的数据。</p>
 <p><strong>SQL(Structured Query Language)</strong>：结构化查询语言，用于和DBMS通信的语言，包括数据插入、查询、更新、删除，数据库模式创建和修改，以及数据访问控制。</p>
-<h2 id="3、SQL的语言分类">3、SQL的语言分类</h2>
+<h2 id="SQL的语言分类">SQL的语言分类</h2>
 <p><strong>DDL(Data Definition Language)</strong>：数据定义语言。允许用户<strong>定义</strong>数据，包括创建（create）、删除（drop）、修改（alter）这些操作。通常，DDL由数据库管理员执行。</p>
 <p><strong>DML(Data Manipulation Language</strong>)：数据操作语言。DML为用户提供添加（insert）、删除（delete）、更新数据（update）的能力，这些是应用程序对数据库的日常操作。</p>
 <p><strong>DQL(Data Query Language)</strong>：数据查询语言，执行查询（select）操作。<br>
 <strong>TCL(Transaction Control Language)</strong>：事务控制语言，执行commit、rollback等操作。</p>
 <h1>关系数据库</h1>
-<h2 id="1、什么是关系型数据库">1、什么是关系型数据库</h2>
+<h2 id="什么是关系型数据库">什么是关系型数据库</h2>
 <p><strong>RDBMS(Relational Database Management System)</strong>：关系型数据库管理系统，即基于关系模型的数据库。</p>
 <p><strong>关系模型</strong>把数据看作是一个二维表格，任何数据都可以通过行号和列号来唯一确定，它的数据模型看起来就是一个Excel表。</p>
-<h2 id="2、RDBMS存储数据的特点">2、RDBMS存储数据的特点</h2>
+<h2 id="RDBMS存储数据的特点">RDBMS存储数据的特点</h2>
 <p>RDBMS存储数据的特点：</p>
 <ul>
 <li>数据以表格的形式出现，每个表都有唯一的名字，用于标识自己。</li>
@@ -1687,14 +1687,14 @@
 <li>表中的<strong>列</strong>也称为<strong>字段（Column）</strong>。列类似于java 中的”属性”。</li>
 <li>表中的<strong>行</strong>称为<strong>记录（Record）</strong>，每一行是一组相关的数据。行类似于java中的“对象”。</li>
 </ul>
-<h2 id="3、常见的关系型数据库">3、常见的关系型数据库</h2>
+<h2 id="常见的关系型数据库">常见的关系型数据库</h2>
 <ul>
 <li>商用数据库，例如：<a href="https://www.oracle.com/">Oracle</a>，<a href="https://www.microsoft.com/sql-server/">SQL Server</a>，<a href="https://www.ibm.com/db2/">DB2</a>等；</li>
 <li>开源数据库，例如：<a href="https://www.mysql.com/">MySQL</a>，<a href="https://www.postgresql.org/">PostgreSQL</a>等；</li>
 <li>桌面数据库，以微软<a href="https://products.office.com/access">Access</a>为代表，适合桌面应用程序使用；</li>
 <li>嵌入式数据库，以<a href="https://sqlite.org/">Sqlite</a>为代表，适合手机应用和桌面程序。</li>
 </ul>
-<h2 id="4、NoSQL">4、NoSQL</h2>
+<h2 id="NoSQL">NoSQL</h2>
 <p>NoSQL数据库，也就是非SQL的数据库，包括MongoDB、Cassandra、Dynamo等等，它们都不是关系数据库。SQL数据库从始至终从未被取代过，NoSQL的发展历程：</p>
 <ul>
 <li>1970: NoSQL = We have no SQL</li>
@@ -1705,7 +1705,7 @@
 </ul>
 <p>今天，SQL数据库仍然承担了各种应用程序的核心数据存储，而NoSQL数据库作为SQL数据库的补充，两者不再是二选一的问题，而是主从关系。</p>
 <h1>MySQL</h1>
-<h2 id="1、MySQL介绍">1、MySQL介绍</h2>
+<h2 id="MySQL介绍">MySQL介绍</h2>
 <p>MySQL是目前应用最广泛的开源关系数据库。MySQL最早是由瑞典的MySQL AB公司开发，该公司在2008年被SUN公司收购，SUN公司在2009年被Oracle公司收购，所以MySQL最终就变成了Oracle旗下的产品。</p>
 <p>MySQL优势：</p>
 <ul>
@@ -1713,10 +1713,10 @@
 <li>性能高、移植性好</li>
 <li>体积小，便于安装</li>
 </ul>
-<h2 id="2、MySQL安装">2、MySQL安装</h2>
+<h2 id="MySQL安装">MySQL安装</h2>
 <p>MySQL属于c/s架构的软件，一般来讲只安装服务端。以下案例以 MySQL5.7 为例</p>
 <p>下载<a href="https://dev.mysql.com/downloads/mysql/">链接</a></p>
-<h2 id="3、MySQL服务的启动和停止">3、MySQL服务的启动和停止</h2>
+<h2 id="MySQL服务的启动和停止">MySQL服务的启动和停止</h2>
 <p>Windows下，MySQL启动和停止有两种方式：</p>
 <ul>
 <li>计算机—右击管理—服务，启动MySQL服务</li>
@@ -1727,7 +1727,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="4、MySQL服务的登录和退出">4、MySQL服务的登录和退出</h2>
+<h2 id="MySQL服务的登录和退出">MySQL服务的登录和退出</h2>
 <p>方式一：通过mysql自带的客户端（MySQL Line Client），只限于root用户</p>
 <p>方式二：通过windows的命令提示符，以管理员身份打开</p>
 <ul>
@@ -1745,7 +1745,7 @@
 </ul>
 <p>如下图：</p>
 <p><a href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_1.png"><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/mysql-basis_1.png" alt="img"></a></p>
-<h2 id="5、MySQL的常见命令">5、MySQL的常见命令</h2>
+<h2 id="MySQL的常见命令">MySQL的常见命令</h2>
 <p>查看当前所有的数据库:</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure>
 <p>打开指定的库:</p>
@@ -1771,7 +1771,7 @@
 <p>2、使用grant命令</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 比如给指定数据库比如student库，添加用户user，密码123,授予select权限</span><br><span class="line">grant select   # 指定授予的权限</span><br><span class="line">on student.*   # 指定数据库和表，*表示所有，这里表示student库所有表</span><br><span class="line">to &#x27;user&#x27;@&#x27;localhost&#x27;  # 指定用户名和登陆主机，localhost根据需求填写</span><br><span class="line">indentified by &#x27;123&#x27;;   # 指定登录密码。</span><br></pre></td></tr></table></figure>
 <p>grant指令更多内容，参考<a href="https://dev.mysql.com/doc/refman/8.0/en/grant.html#grant-overview">GRANT Statement</a></p>
-<h2 id="6、MySQL的语法规范">6、MySQL的语法规范</h2>
+<h2 id="MySQL的语法规范">MySQL的语法规范</h2>
 <p>MySQL中的命令有以下规范：</p>
 <ul>
 <li><strong>不区分大小写</strong>，建议关键字大写，表名和列名小写</li>
@@ -1961,7 +1961,7 @@
 <p><a href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_5.png"><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/mysql-basis_5.png" alt="img"></a></p>
 <p><code>locations</code>表：</p>
 <p><a href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_6.png"><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/mysql-basis_6.png" alt="img"></a></p>
-<h2 id="1、基础查询">1、基础查询</h2>
+<h2 id="基础查询">基础查询</h2>
 <p>语法：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT 查询内容 [FROM 表名];</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -1995,7 +1995,7 @@
 <li>任何数和<code>null</code>做加法运算，结果都是<code>null</code></li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select 100+90;  # 结果为190select &#x27;123&#x27;+90; # 结果为213select &#x27;john&#x27;+90; # 结果为90select null+10;  # 结果为null</span><br></pre></td></tr></table></figure>
-<h2 id="2、条件查询">2、条件查询</h2>
+<h2 id="条件查询">条件查询</h2>
 <p>语法：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select 要查询的字段|表达式|常量值|函数from 表where 筛选条件;  # where后面加筛选条件</span><br></pre></td></tr></table></figure>
 <p>根据筛选条件的不同，可以分为以下几种：</p>
@@ -2107,7 +2107,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#查询没有奖金的员工名和奖金率SELECT last_name,commission_pct FROM employeesWHERE commission_pct IS NULL;</span><br></pre></td></tr></table></figure>
 <p><code>&lt;=&gt;</code>既可以判断是否等于某个数值，也能用于判断是否为<code>null</code>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#案例1：查询没有奖金的员工名和奖金率SELECT last_name, commission_pctFROM employeesWHERE commission_pct &lt;=&gt;NULL;#案例2：查询工资为12000的员工名和工资SELECT last_name, salaryFROM employeesWHERE salary &lt;=&gt; 12000;</span><br></pre></td></tr></table></figure>
-<h2 id="3、排序查询">3、排序查询</h2>
+<h2 id="排序查询">排序查询</h2>
 <p>语法：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select 查询列表from 表名[where 筛选条件]order by 排序的字段|表达式|函数|别名 [asc|desc];  # 使用order by排序</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -2116,7 +2116,7 @@
 </blockquote>
 <p>案例：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#1、按单个字段排序SELECT * FROM employees ORDER BY salary DESC;#2、添加筛选条件再排序#查询部门编号&gt;=90的员工信息，并按员工编号降序SELECT * FROM employees WHERE department_id&gt;=90ORDER BY employee_id DESC;#3、按表达式排序#查询员工信息 按年薪降序SELECT *,salary*12*(1+IFNULL(commission_pct,0)) FROM employeesORDER BY salary*12*(1+IFNULL(commission_pct,0)) DESC;#4、按别名排序#查询员工信息 按年薪升序SELECT *,salary*12*(1+IFNULL(commission_pct,0)) 年薪FROM employeesORDER BY 年薪 ASC;#5、按函数排序#查询员工名，并且按名字的长度降序SELECT LENGTH(last_name),last_name FROM employeesORDER BY LENGTH(last_name) DESC;#6、按多个字段排序#案例：查询员工信息，要求先按工资降序，再按employee_id升序SELECT * FROM employeesORDER BY salary DESC,employee_id ASC;</span><br></pre></td></tr></table></figure>
-<h2 id="4、常见函数">4、常见函数</h2>
+<h2 id="常见函数">常见函数</h2>
 <p>MySQL中的函数类似于java中的方法，将一组逻辑语句封装在方法体中，对外暴露方法名。</p>
 <p>优势：提高代码重用性，隐藏了实现细节。</p>
 <p>调用函数的语法：</p>
@@ -2222,7 +2222,7 @@
 <p>和分组函数同时查询的字段，必须是group by后的字段，不然会出现错误结果。</p>
 <p>案例：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT SUM(salary) FROM employees;</span><br><span class="line">SELECT AVG(salary) FROM employees;# 与distinct搭配使用</span><br><span class="line"></span><br><span class="line">SELECT COUNT(DISTINCT salary),COUNT(salary) FROM employees;  </span><br><span class="line"># 57,107</span><br><span class="line"># 和分组函数一同查询的字段有限制</span><br><span class="line"># 下面这种，employee_id是无意义的，只有group by后的字段才能和分组函数一起查询</span><br><span class="line">SELECT AVG(salary),employee_id  FROM employees;</span><br></pre></td></tr></table></figure>
-<h2 id="5、分组查询">5、分组查询</h2>
+<h2 id="分组查询">分组查询</h2>
 <p>语法：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select 查询列表from 表[where 筛选条件]group by 分组的字段  # 使用group by进行分组[having 条件语句];</span><br></pre></td></tr></table></figure>
 <p>说明：</p>
@@ -2240,7 +2240,7 @@
 </ul>
 <p>案例：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#案例1：查询每个工种的员工平均工资</span><br><span class="line">SELECT AVG(salary),job_id  #和分组函数同时查询的字段，是用于分组的字段</span><br><span class="line">FROM employees</span><br><span class="line">GROUP BY job_id;</span><br><span class="line"></span><br><span class="line">#案例2：查询邮箱中包含a字符的每个部门的最高工资</span><br><span class="line">SELECT MAX(salary),department_id</span><br><span class="line">FROM employees</span><br><span class="line">WHERE email LIKE &#x27;%a%&#x27;</span><br><span class="line">GROUP BY department_id;</span><br><span class="line"></span><br><span class="line">#案例3：查询哪个部门的员工个数&gt;5</span><br><span class="line">SELECT COUNT(*),department_id</span><br><span class="line">FROM employees</span><br><span class="line">GROUP BY department_id  # 先查询每个部门员工个数</span><br><span class="line">HAVING COUNT(*)&gt;5;  # 然后选出个数&gt;5的</span><br><span class="line"></span><br><span class="line">#案例4：查询每个工种有奖金的员工的最高工资&gt;6000的工种编号和最高工资,按最高工资升序</span><br><span class="line">SELECT job_id,MAX(salary) m</span><br><span class="line">FROM employees</span><br><span class="line">WHERE commission_pct IS NOT NULL</span><br><span class="line">GROUP BY job_id</span><br><span class="line">HAVING m&gt;6000</span><br><span class="line">ORDER BY m;</span><br><span class="line"></span><br><span class="line">#按多个字段分组</span><br><span class="line">#案例5：查询每个查询每个工种每个部门的平均工资</span><br><span class="line">SELECT department_id, job_id,AVG(salary) FROM employees</span><br><span class="line">GROUP BY department_id,job_id; # 顺序可以颠倒</span><br><span class="line"># 这两种写法等价，每个A，每个B和每个B，每个A结果相同。</span><br><span class="line">SELECT department_id, job_id,AVG(salary) FROM employees</span><br><span class="line">GROUP BY job_id,department_id;</span><br></pre></td></tr></table></figure>
-<h2 id="6、多表连接查询">6、多表连接查询</h2>
+<h2 id="多表连接查询">多表连接查询</h2>
 <p>当查询的字段来自多个表时，就需要使用连接查询。</p>
 <p>如果不使用连接条件，或者连接条件无效，则多个表会按照笛卡儿乘积的形式连接，即查询的结果为m*n的表。</p>
 <p>解决这种现象就需要添加有效的连接条件。</p>
@@ -2288,7 +2288,7 @@
 <p><strong>总结</strong></p>
 <p>以集合关系来理解内连接和外连接：</p>
 <p><a href="https://cdn.jsdelivr.net/gh/kangshitao/BlogPicture@main/img/mysql-basis_7.png"><img src="https://gitee.com/wenkailllll/blog-img/raw/master/img/mysql-basis_7.png" alt="img"></a></p>
-<h2 id="7、子查询">7、子查询</h2>
+<h2 id="子查询">子查询</h2>
 <p>嵌套在其他语句内部的select语句称为<strong>子查询</strong>或<strong>内查询</strong>。外面的语句可以是insert、update、delete、select等，一般为select语句较多。</p>
 <p>如果外面的语句是select语句，则称其为<strong>主查询</strong>或<strong>外查询</strong>。</p>
 <p>子查询根据位置的不同和结果集的不同可以有以下分类。</p>
@@ -2334,7 +2334,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 嵌套子查询</span><br><span class="line"># 查询工资大于平均工资的员工信息</span><br><span class="line">/*</span><br><span class="line">平均工资是子查询，其不依赖于外查询</span><br><span class="line">*/</span><br><span class="line">SELECT * FROM employees</span><br><span class="line">WHERE salary&gt;( </span><br><span class="line">	SELECT AVG(salary) FROM employees</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"># 相关子查询</span><br><span class="line"># 查询每个部门的员工数量和部门信息</span><br><span class="line">/*</span><br><span class="line">可以使用子查询的方式，也可以使用外连接+分组查询的方式。</span><br><span class="line">查询员工数量时，需要将子查询和父查询根据部门id关联起来，</span><br><span class="line">先统计一个部门的数量，然后继续统计下一个部门数量,</span><br><span class="line">子查询和父查询二者交替执行</span><br><span class="line">*/</span><br><span class="line">SELECT d.*,(</span><br><span class="line">	SELECT COUNT(*) FROM employees e</span><br><span class="line">	WHERE e.`department_id`=d.`department_id`</span><br><span class="line">	) AS &#x27;NUMBER&#x27;</span><br><span class="line">FROM departments d;</span><br><span class="line"></span><br><span class="line"># exist也是相关子查询。能用exist的，也能使用in代替</span><br><span class="line"># 查询有员工的部门名</span><br><span class="line">SELECT department_name</span><br><span class="line">FROM departments d</span><br><span class="line">WHERE EXISTS(</span><br><span class="line">	SELECT *   </span><br><span class="line">	FROM employees e</span><br><span class="line">	WHERE d.`department_id`=e.`department_id`</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 <p>子查询案例：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># -------------用在where和having后使用子查询------------</span><br><span class="line">#案例1：查询最低工资大于50号部门最低工资的 部门id 和 其最低工资</span><br><span class="line">/*思路：</span><br><span class="line">1.先查出50号部门的最低工资</span><br><span class="line">2.然后查出每个部门的最低工资，</span><br><span class="line">3.根据前两步的结果筛选出最低工资大于50号部门最低工资的部门信息</span><br><span class="line">*/</span><br><span class="line">SELECT MIN(salary),department_id</span><br><span class="line">FROM employees</span><br><span class="line">GROUP BY department_id</span><br><span class="line">HAVING MIN(salary)&gt;(</span><br><span class="line">	SELECT  MIN(salary)</span><br><span class="line">	FROM employees</span><br><span class="line">	WHERE department_id = 50</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">#案例2：查询其它工种中，比‘IT_PROG’工种任一工资低的员工的 员工号、工种和薪资</span><br><span class="line">/*思路：</span><br><span class="line">1.查询‘IT_PROG’部门的任一工资</span><br><span class="line">2.查询员工信息，salary&lt;1的结果</span><br><span class="line">*/</span><br><span class="line">SELECT employee_id,job_id,salary</span><br><span class="line">FROM employees</span><br><span class="line">WHERE salary&lt;ANY(</span><br><span class="line">	SELECT DISTINCT salary</span><br><span class="line">	FROM employees</span><br><span class="line">	WHERE job_id = &#x27;IT_PROG&#x27;</span><br><span class="line">) AND job_id&lt;&gt;&#x27;IT_PROG&#x27;;</span><br><span class="line"></span><br><span class="line"># 小于any，只要比最大值小就可以，因此可以不用any</span><br><span class="line">SELECT employee_id,job_id,salary</span><br><span class="line">FROM employees</span><br><span class="line">WHERE salary&lt;(</span><br><span class="line">	SELECT MAX(salary) </span><br><span class="line">	FROM employees</span><br><span class="line">	WHERE job_id = &#x27;IT_PROG&#x27;</span><br><span class="line"></span><br><span class="line">) AND job_id&lt;&gt;&#x27;IT_PROG&#x27;;</span><br><span class="line"></span><br><span class="line"># -------------用在select后使用子查询------------</span><br><span class="line">#案例：查询每个部门的员工个数和部门信息</span><br><span class="line">SELECT d.*,(</span><br><span class="line">	SELECT COUNT(*)</span><br><span class="line">	FROM employees e</span><br><span class="line">	WHERE e.department_id = d.`department_id`</span><br><span class="line"> ) 个数</span><br><span class="line"> FROM departments d;</span><br><span class="line"> </span><br><span class="line"># -------------用在from后使用子查询------------</span><br><span class="line"># from后面的子查询结果作为一张表，必须起别名</span><br><span class="line"># 案例：查询每个部门的平均工资的工资等级</span><br><span class="line">/*思路：</span><br><span class="line">1.使用子查询，查询每个部门的平均工资</span><br><span class="line">2.根据平均工资查找工资等级</span><br><span class="line">*/</span><br><span class="line">SELECT  ag_dep.*,g.`grade_level`</span><br><span class="line">FROM (</span><br><span class="line">	SELECT AVG(salary) ag,department_id</span><br><span class="line">	FROM employees</span><br><span class="line">	GROUP BY department_id</span><br><span class="line">) ag_dep</span><br><span class="line">INNER JOIN job_grades g</span><br><span class="line">ON ag_dep.ag BETWEEN lowest_sal AND highest_sal;</span><br><span class="line"></span><br><span class="line"># -------------用在exists后使用子查询------------</span><br><span class="line"># 查询有员工的部门名</span><br><span class="line"># 使用 in</span><br><span class="line">SELECT department_name</span><br><span class="line">FROM departments d</span><br><span class="line">WHERE d.`department_id` IN(</span><br><span class="line">	SELECT department_id</span><br><span class="line">	FROM employees</span><br><span class="line">);</span><br><span class="line"># 使用外连接</span><br><span class="line">SELECT DISTINCT department_name</span><br><span class="line">FROM departments d</span><br><span class="line">INNER JOIN employees e</span><br><span class="line">ON d.`department_id`=e.`department_id`</span><br><span class="line">WHERE e.`employee_id` IS NOT NULL;</span><br><span class="line"></span><br><span class="line"># 使用exists</span><br><span class="line">SELECT department_name</span><br><span class="line">FROM departments d</span><br><span class="line">WHERE EXISTS(</span><br><span class="line">	SELECT *</span><br><span class="line">	FROM employees e</span><br><span class="line">	WHERE d.`department_id`=e.`department_id`</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<h2 id="8、分页查询">8、分页查询</h2>
+<h2 id="分页查询">分页查询</h2>
 <p>如果想要显示查询结果中的一部分，就需要使用分页查询，使用<code>limit</code>限制返回的结果开始位置和条数。</p>
 <p>分页查询通常用于实际web项目中，根据用户需求提交对应页数的查询结果。</p>
 <p>语法：</p>
@@ -2350,7 +2350,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#案例1：查询第11条到第25条信息</span><br><span class="line">SELECT * FROM  employees LIMIT 10,15;</span><br><span class="line"></span><br><span class="line">#案例2：查询有奖金的员工中，工资较高的前10名员工信息</span><br><span class="line">SELECT * FROM employees </span><br><span class="line">WHERE commission_pct IS NOT NULL </span><br><span class="line">ORDER BY salary DESC </span><br><span class="line">LIMIT 10;</span><br></pre></td></tr></table></figure>
 <p><strong>子查询经典案例，使用排序和分页组合求最值</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 1.查询工资最低的员工姓名和工资</span><br><span class="line">SELECT last_name,salary</span><br><span class="line">FROM employees</span><br><span class="line">WHERE salary = ( # 先使用子查询查找最低工资</span><br><span class="line">	SELECT MIN(salary) FROM employees</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"># 2.查询平均工资最低的部门信息</span><br><span class="line">/*思路：</span><br><span class="line">1.先查询每个部门的平均工资</span><br><span class="line">2.筛选出平均工资中最低的部门</span><br><span class="line">3.根据上一步的结果，查询出部门信息</span><br><span class="line">*/</span><br><span class="line"># 方式一：</span><br><span class="line">SELECT * FROM departments d # d.根据id，查询部门信息</span><br><span class="line">WHERE d.`department_id` = </span><br><span class="line">(</span><br><span class="line">	SELECT department_id # c.找出平均工资为最低平均工资的部门id</span><br><span class="line">	FROM employees</span><br><span class="line">	GROUP BY department_id</span><br><span class="line">	HAVING AVG(salary)=</span><br><span class="line">    ( </span><br><span class="line">		SELECT MIN(ag.a_s) # b.找出最低的平均工资</span><br><span class="line">		FROM( # a.查询出每个部门的平均工资和id</span><br><span class="line">			SELECT AVG(salary) a_s,department_id </span><br><span class="line">            FROM employees</span><br><span class="line">			GROUP BY department_id</span><br><span class="line">			) AS ag</span><br><span class="line">	)</span><br><span class="line">);</span><br><span class="line"># 方式二，使用limit，求出平均工资以后进行排序，就可以直接选出部门id</span><br><span class="line">SELECT * FROM departments d</span><br><span class="line">WHERE d.`department_id`= </span><br><span class="line">(</span><br><span class="line">	SELECT department_id </span><br><span class="line">	FROM employees</span><br><span class="line">	GROUP BY department_id</span><br><span class="line">	ORDER BY AVG(salary)</span><br><span class="line">	LIMIT 1   # 递增排序中的第一条就是要查询的部门</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"># 3.各个部门中 最高工资最低的部门的最低工资是多少</span><br><span class="line">SELECT MIN(salary) FROM employees</span><br><span class="line">WHERE department_id = ( # 子查询将排序和分页组合找出最值</span><br><span class="line">	SELECT department_id </span><br><span class="line">    FROM employees</span><br><span class="line">	GROUP BY department_id</span><br><span class="line">	ORDER BY MAX(salary) </span><br><span class="line">	LIMIT 1</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"># 4.查询平均工资最高的部门的manager信息</span><br><span class="line">SELECT last_name,department_id,email,salary</span><br><span class="line">FROM employees</span><br><span class="line">WHERE employee_id=</span><br><span class="line">( # b,根据部门id找出管理者id</span><br><span class="line">	SELECT manager_id FROM departments</span><br><span class="line">	WHERE department_id = </span><br><span class="line">    (  # a,找出平均工资最高的部门id</span><br><span class="line">		SELECT department_id FROM employees</span><br><span class="line">		GROUP BY department_id</span><br><span class="line">		ORDER BY AVG(salary) DESC</span><br><span class="line">		LIMIT 1</span><br><span class="line">	)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-<h2 id="9、联合查询">9、联合查询</h2>
+<h2 id="联合查询">联合查询</h2>
 <p>如果要查询的结果<strong>来自于多个表，且多个表没有直接的连接关系，但查询的信息一致时</strong>，可以使用<strong>联合查询</strong>。联合查询使用<code>union</code>将多次的查询结果合并成一个结果。</p>
 <p>语法：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 使用union将多个查询语句合并select xxxunion [all]select xxxunion [all].....select xxx</span><br></pre></td></tr></table></figure>
@@ -2368,7 +2368,7 @@
 <h1>DML语言</h1>
 <p>DML指数据操作语言。</p>
 <p>主要是对表格的添加（insert）、删除（delete）、修改（update）操作。</p>
-<h2 id="1、insert">1、insert</h2>
+<h2 id="insert">insert</h2>
 <p>向表格中插入数据有两种方式：</p>
 <p><strong>方式一</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">insert into 表名(字段1,字段2,...) values(值1,值2,...);</span><br></pre></td></tr></table></figure>
@@ -2393,12 +2393,12 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查询标量INSERT INTO employees(employee_id,last_name,salary)SELECT 123,&#x27;john&#x27;,&#x27;15000&#x27;;# 从表2中查询到的结果插入表1INSERT INTO employees(employee_id,last_name,salary)SELECT id,name,salaryFROM employees WHERE id&lt;3; </span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="2、update">2、update</h2>
+<h2 id="update">update</h2>
 <p><strong>修改单表的记录</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">update 表名 set 字段=新值,字段=新值...[where 条件];# 案例# 将90号部门的员工工资修改为15000update employeesset salary=15000where department_id90;</span><br></pre></td></tr></table></figure>
 <p><strong>修改多表记录</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># SQL 92语法</span><br><span class="line">update 表1 别名1,表2 别名2</span><br><span class="line">set 字段=新值，字段=新值...</span><br><span class="line">where 连接条件</span><br><span class="line">[and 筛选条件];</span><br><span class="line"></span><br><span class="line"># SQL 99语法，唯一不同的就是连接表的方式不同。其余相同</span><br><span class="line">update 表1 别名</span><br><span class="line">[inner]|left [outer]|right [outer] join 表2 别名</span><br><span class="line">on 连接条件</span><br><span class="line">set 列=值,...</span><br><span class="line">[where 筛选条件];</span><br></pre></td></tr></table></figure>
-<h2 id="3、delete">3、delete</h2>
+<h2 id="delete">delete</h2>
 <p>delete表示删除表中的一条或多条记录（一行或多行），有两种方式</p>
 <p><strong>方式1，使用delete</strong></p>
 <p>单表的删除：</p>
@@ -2419,7 +2419,7 @@
 </ul>
 <h1>DDL语句</h1>
 <p>DDL为数据定义语言。允许用户<strong>定义</strong>数据，包括创建（create）、删除（drop）、修改（alter）表和数据库，操作对象是<strong>表和数据库</strong>。通常，DDL由数据库管理员执行。</p>
-<h2 id="1、create">1、create</h2>
+<h2 id="create">create</h2>
 <p><strong>创建数据库</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create database [if not exists] 库名;</span><br></pre></td></tr></table></figure>
 <p><strong>创建表</strong>：</p>
@@ -2428,7 +2428,7 @@
 <p><strong>表的复制</strong></p>
 <p>将<code>create</code>和<code>select</code>语句结合，可以实现表的复制：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 仅复制表的结构</span><br><span class="line">create table 新表名 like 旧表</span><br><span class="line"></span><br><span class="line"># 复制表的字段和数据</span><br><span class="line">create table 新表名</span><br><span class="line">select 字段列表 from 旧表 [where 筛选条件];</span><br><span class="line"></span><br><span class="line">#仅仅复制某些字段</span><br><span class="line">create table 新表名</span><br><span class="line">select 字段列表 from 旧表 where false;</span><br></pre></td></tr></table></figure>
-<h2 id="2、alter">2、alter</h2>
+<h2 id="alter">alter</h2>
 <p>修改库/表使用<code>alter</code>语句</p>
 <p>修改数据库，一般很少对现有数据库进行修改：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#已废弃.现在需要去文件路径中重命名</span><br><span class="line">RENAME DATABASE books TO 新库名; </span><br><span class="line"># 更数据库字符集</span><br><span class="line">ALTER DATABASE books CHARACTER SET gbk;</span><br></pre></td></tr></table></figure>
@@ -2437,14 +2437,14 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 添加新的列，必须指定类型</span><br><span class="line"># 新列默认在表中的位置为最后，可以使用first或after参数指定位置</span><br><span class="line">alter table 表名 add column 列名 类型 [约束] [first|after 列名];</span><br><span class="line"></span><br><span class="line"># 删除某列（无法使用if exist进行判断）</span><br><span class="line">alter table 表名 drop column 列名;</span><br><span class="line"></span><br><span class="line"># 修改列名</span><br><span class="line">alter table 表名 change column 旧列名 新列名 类型;</span><br><span class="line"></span><br><span class="line"># 修改列的类型或约束</span><br><span class="line">alter table 表名 modify column 列名 类型 [约束];</span><br></pre></td></tr></table></figure>
 <p>修改表名：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 格式：</span><br><span class="line">alter table 表名 rename [to] 新表名;</span><br><span class="line"># 案例：</span><br><span class="line">ALTER TABLE author RENAME TO book_author;</span><br></pre></td></tr></table></figure>
-<h2 id="3、drop">3、drop</h2>
+<h2 id="drop">drop</h2>
 <p>删除数据库：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop database [if exists] 库名;</span><br></pre></td></tr></table></figure>
 <p>删除表：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop table [if exists] 表名;</span><br></pre></td></tr></table></figure>
 <p>同样地，删除数据库/表的时候，可以使用<code>if exists</code>判断是否存在，避免报错。</p>
 <h1>约束和标识列</h1>
-<h2 id="1、约束">1、约束</h2>
+<h2 id="约束">约束</h2>
 <p>约束指的是一种限制，用于限制表中的数据，为了保证表中的数据的准确和可靠性。</p>
 <p>主要有以下六大约束：</p>
 <ul>
@@ -2506,7 +2506,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <p>删除外键的时候，同名索引如果没被删，MYSQL认为外键仍然存在，MYSQL会在show keys命令里继续显示外键，当drop table时，MYSQL会提示Can’t DROP ‘xxx’; check that column/key exists”<br>
 如果再次想删除外键的时候，会报1091错误，提示外键名错误，因为实际上外键已经不存在了。因此MySQL中需要先将对应的索引删除，再删除外键。</p>
 </blockquote>
-<h2 id="2、标识列">2、标识列</h2>
+<h2 id="标识列">标识列</h2>
 <p><strong>标识列</strong>又称为<strong>自增长列</strong>，可以不用手动的插入值，系统提供默认的序列值，默认从1开始。</p>
 <p><strong>格式</strong>：在key的约束后面加上<code>auto_increment</code>即可。</p>
 <p><strong>用法</strong>：添加数据时，标识列可以填<code>null</code>，或者不赋值，系统都会自动在已有的基础上+1。也可以手动指定值。</p>
@@ -2522,7 +2522,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 创建表时设置标识列CREATE TABLE tab_identity(	id INT,	NAME FLOAT UNIQUE AUTO_INCREMENT,	seat INT );# 修改表时设置标识列ALTER TABLE tab_identity MODIFY COLUMN id INT PRIMARY KEY AUTO_INCREMENT;#三、修改表时删除标识列ALTER TABLE tab_identity MODIFY COLUMN id INT;</span><br></pre></td></tr></table></figure>
 <h1>数据库事务</h1>
 <p><strong>TCL（Transaction Control Language）</strong>： 事务控制语言</p>
-<h2 id="1、事务概述">1、事务概述</h2>
+<h2 id="事务概述">事务概述</h2>
 <p><strong>事务</strong>：一个或一组SQL语句（一般是DML语句）组成的一个<strong>执行单元</strong>，这个执行单元要么全部执行，要么全部不执行。</p>
 <p>DDL语句不支持事务，可以认为DDL语句执行完自动提交，因此也无法回滚。</p>
 <p><strong>事务的四大特性（ACID）</strong>：</p>
@@ -2537,7 +2537,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <li><strong>隐式事务</strong>：没有明显的开启和结束的标记，本身就是一个事务。对于单条SQL语句，数据库系统自动将其作为一个事务执行，这种事务被称为隐式事务。<strong>隐式事务系统会自动提交</strong>。</li>
 <li><strong>显式事务</strong>：具有明显的开启和结束的标记，即手动开启事务。显式事务必须保证系统的自动提交功能被禁用，实际上，MySQL中显示开启事务时，自动提交是无效的，不需要手动设置。</li>
 </ul>
-<h2 id="2、事务的开启">2、事务的开启</h2>
+<h2 id="事务的开启">事务的开启</h2>
 <p>一个完整的事务包括以下执行流程：开启事务→执行事务语句→提交或回滚。</p>
 <p>事务的执行结果要么是提交，要么是回滚。</p>
 <p><strong>步骤一：开启事务</strong></p>
@@ -2575,7 +2575,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <li>当表被truncate后，这个表和索引所占用的空间会<strong>恢复到初始大小</strong>，并且标识列也从1重新开始计数；delete操作不会减少表或索引所占用的空间，标识列还是从断点处计数。drop语句将表所占用的空间全释放掉。</li>
 <li>速度上：drop&gt;truncate&gt;delete</li>
 </ul>
-<h2 id="3、事务的隔离级别">3、事务的隔离级别</h2>
+<h2 id="事务的隔离级别">事务的隔离级别</h2>
 <p>当多个事务同时操作同一个数据库的相同数据时，容易导致并发问题，包括以下问题：</p>
 <p><strong>脏写（丢失修改）</strong>：一个事务修改了其他事务还没有提交的数据，如果其他事务回滚，导致当前事务的修改丢失。事务B去修改了事务A修改过的值，但是此时事务A还没提交，所以事务A随时会回滚，导致事务B修改的值也没了。<br>
 <strong>脏读</strong>：一个事务读取到了其他事务未提交（一般指<strong>数据修改</strong>）的数据。事务B去查询了事务A修改过的数据，但是此时事务A还没提交，所以事务A随时会回滚，导致事务B再次查询就读不到刚才事务A修改的数据了。</p>
@@ -2627,7 +2627,7 @@ d.有可能会提升数据库表的查询效率。</p>
 </tbody>
 </table>
 <p>上述四种隔离级别，MySQL全部支持，Oracle只支持<code>read committed</code>和<code>serializable</code>。</p>
-<h2 id="4、设置隔离级别">4、设置隔离级别</h2>
+<h2 id="设置隔离级别">设置隔离级别</h2>
 <p>事务的隔离级别包括<strong>全局级别</strong>和<strong>会话级别</strong>：</p>
 <ul>
 <li>全局级别：对后续新的所有会话连接有效，对已经存在的会话连接无效。</li>
@@ -2637,7 +2637,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 设置全局隔离级别set global transaction isolation level 隔离级别名;# 设置当前会话连接的隔离级别set [session] transaction isolation level 隔离级别名;</span><br></pre></td></tr></table></figure>
 <p>查看隔离级别：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#查看当前会话隔离级别</span><br><span class="line">select @@tx_isolation;</span><br><span class="line">#查看全局隔离级别</span><br><span class="line">select @@global.tx_isolation;</span><br></pre></td></tr></table></figure>
-<h2 id="5、MyISAM引擎和InnoDB引擎对比">5、MyISAM引擎和InnoDB引擎对比</h2>
+<h2 id="MyISAM引擎和InnoDB引擎对比">MyISAM引擎和InnoDB引擎对比</h2>
 <p>InnoDB引擎是MySQL5.5开始引入的。InnoDB和MyISAM引擎的对比：</p>
 <ul>
 <li><strong>是否支持行级锁</strong>。MyISAM只支持表锁，而InnoDB支持表锁和行锁，且默认为行锁。</li>
@@ -2651,25 +2651,25 @@ d.有可能会提升数据库表的查询效率。</p>
 <p>3、InnoDB引擎使用<strong>锁机制</strong>、<strong>MVCC</strong>等手段保证事务的<strong>隔离性</strong></p>
 <p>4、保证了上述三个特性后，<strong>一致性</strong>才得以保障。</p>
 <h1>视图</h1>
-<h2 id="1、概述">1、概述</h2>
+<h2 id="概述">概述</h2>
 <p>视图是MySQL 5.1的新特性。视图是一张<strong>虚拟的表</strong>，它的数据来自于表，通过执行时动态生成。视图的用法和表相同。视图只保存了SQL逻辑，没有保存查询结果，因此其几乎不占用物理空间，视图一般仅用于查询，仅仅少数情况下才能修改数据。</p>
 <p>视图的优势：</p>
 <ul>
 <li>提高SQL语句的重用性，简化了复杂的SQL操作，提高了效率</li>
 <li>和表实现了分离，提高了安全性</li>
 </ul>
-<h2 id="2、创建视图">2、创建视图</h2>
+<h2 id="创建视图">创建视图</h2>
 <p>创建视图：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create [or replace] view 视图名 as 查询语句;# 使用or replace还可以用于视图的修改</span><br></pre></td></tr></table></figure>
 <p>使用案例：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 使用视图，查询各部门的平均工资级别# 1.创建视图查看每个部门的平均工资CREATE VIEW myview ASSELECT AVG(salary) ag,department_idFROM employeesGROUP BY department_id;# 2.使用创建的视图查询SELECT myview.`ag`,g.grade_levelFROM myviewJOIN job_grades gON myview.`ag` BETWEEN g.`lowest_sal` AND g.`highest_sal`;</span><br></pre></td></tr></table></figure>
-<h2 id="3、删除视图">3、删除视图</h2>
+<h2 id="删除视图">删除视图</h2>
 <p>删除视图：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop view 视图名,视图名,...;  # 可以一次删除多个视图#案例：删除myv1，myv2，myv3三个视图DROP VIEW myv1,myv2,myv3;</span><br></pre></td></tr></table></figure>
-<h2 id="4、查看视图">4、查看视图</h2>
+<h2 id="查看视图">查看视图</h2>
 <p>查看视图有两种方式：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#方式一：</span><br><span class="line">DESC 视图名;</span><br><span class="line"></span><br><span class="line">#方式二：</span><br><span class="line">SHOW CREATE VIEW 视图名;</span><br></pre></td></tr></table></figure>
-<h2 id="5、更新视图">5、更新视图</h2>
+<h2 id="更新视图">更新视图</h2>
 <p>和修改表相似，更新视图包括修改视图本身，和修改视图中的内容两部分。</p>
 <p><strong>修改视图本身</strong>：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#方式一：可用于修改和创建视图</span><br><span class="line">create or replace view  视图名</span><br><span class="line">as 查询语句;</span><br><span class="line"></span><br><span class="line"># 方式二：</span><br><span class="line">alter view 视图名</span><br><span class="line">as 查询语句;</span><br></pre></td></tr></table></figure>
@@ -2700,7 +2700,7 @@ d.有可能会提升数据库表的查询效率。</p>
 </ul>
 </li>
 </ul>
-<h2 id="1、系统变量">1、系统变量</h2>
+<h2 id="系统变量">系统变量</h2>
 <p><strong>系统变量</strong>：变量由系统定义，不是用户定义，属于服务器层面。必须拥有super权限才能修改系统变量。</p>
 <p>系统变量分为<strong>全局变量</strong>和<strong>会话变量</strong>。全局变量需要添加global关键字，会话变量需要添加session关键字，如果不写，默认为会话级别。</p>
 <p><strong>全局变量</strong></p>
@@ -2715,7 +2715,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看所有会话变量</span><br><span class="line">SHOW [SESSION] VARIABLES;</span><br><span class="line"></span><br><span class="line"># 查看满足条件的部分会话变量</span><br><span class="line">SHOW [SESSION] VARIABLES LIKE &#x27;xxx&#x27;;</span><br><span class="line"></span><br><span class="line"># 查看指定的会话变量的值</span><br><span class="line">#SELECT @@[session.]变量名;</span><br><span class="line"># 例：</span><br><span class="line">SELECT @@autocommit;</span><br><span class="line"># 或写成</span><br><span class="line">SELECT @@session.autocommit;</span><br></pre></td></tr></table></figure>
 <p>设置会话变量：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SET @@session.变量名=值;SET [SESSION] 变量名=值;</span><br></pre></td></tr></table></figure>
-<h2 id="2、自定义变量">2、自定义变量</h2>
+<h2 id="自定义变量">自定义变量</h2>
 <p><strong>自定义变量</strong>是由用户自定义，而不是系统提供的。其分为<strong>用户变量</strong>和<strong>局部变量</strong>。</p>
 <p>自定义变量的使用一般都有<strong>声明、赋值、使用</strong>（查看、比较、运算等）三个步骤。</p>
 <p><strong>用户变量</strong></p>
@@ -2744,7 +2744,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <li>提高了数据处理的效率</li>
 <li>减少数据在数据库和应用服务器之间的传输次数</li>
 </ul>
-<h2 id="1、存储过程">1、存储过程</h2>
+<h2 id="存储过程">存储过程</h2>
 <p><strong>创建存储过程</strong></p>
 <p>语法：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create procedure 存储过程名(参数模式 参数名 参数类型,...)begin	存储过程体(一条或多条合法的SQL语句);end 结束符</span><br></pre></td></tr></table></figure>
@@ -2767,7 +2767,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SHOW CREATE PROCEDURE 存储过程名;</span><br></pre></td></tr></table></figure>
 <p>例：创建存储过程，输入员工id，输出其管理者的id和名字</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/* 声明存储结构</span><br><span class="line">*/</span><br><span class="line">DELIMITER @@  # 设置结束符为@@</span><br><span class="line"># 确保存储过程能正确创建，如果已经存在，删除原有的</span><br><span class="line">DROP PROCEDURE IF EXISTS `myp`@@</span><br><span class="line">CREATE PROCEDURE myp(IN id INT,</span><br><span class="line">                     OUT managerId INT,</span><br><span class="line">                     OUT managerName VARCHAR(20))</span><br><span class="line">BEGIN</span><br><span class="line">	# 将查询的结果值赋给输出变量，这里参数为局部变量</span><br><span class="line">	SELECT m.`employee_id`,m.`last_name` INTO managerId,managerName</span><br><span class="line">	FROM employees m </span><br><span class="line">	INNER JOIN employees e</span><br><span class="line">	ON m.`employee_id`=e.`manager_id`</span><br><span class="line">	WHERE e.`employee_id`=id;</span><br><span class="line">END @@  # end后面要加设置的结束符</span><br><span class="line">DELIMITER ;  # 将结束符改回分号</span><br><span class="line"></span><br><span class="line">/*调用存储结构</span><br><span class="line">in模式参数直接传入值，</span><br><span class="line">out模式的参数要先声明，或者传入的时候指定名字</span><br><span class="line">*/</span><br><span class="line">CALL myp (110,@mid,@mname);  # 调用存储结构，传入参数</span><br><span class="line">SELECT @mid,@mname;  # 查看结果值</span><br></pre></td></tr></table></figure>
-<h2 id="2、函数">2、函数</h2>
+<h2 id="函数">函数</h2>
 <p>函数和存储过程相似，唯一的区别是，<strong>存储过程可以有0个返回值</strong>，也可以有多个返回，适合做批量插入、批量更新；而<strong>函数有且仅有1个返回值</strong>，适合做处理数据后返回一个结果的情况。</p>
 <p><strong>创建函数</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE FUNCTION 函数名(参数名 参数类型,...) RETURNS 返回类型BEGIN	函数体;	RETURN xx;  #必须有返回值END 结束符</span><br></pre></td></tr></table></figure>
@@ -2787,7 +2787,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <li>分支结构：程序从两条或多条路径中选择一条去执行，比如<code>if</code>、<code>case</code>结构</li>
 <li>循环结构：程序在满足一定条件的基础上，重复执行一段代码，比如<code>while</code>、<code>loop</code>、<code>repeat</code></li>
 </ul>
-<h2 id="1、分支结构">1、分支结构</h2>
+<h2 id="分支结构">分支结构</h2>
 <p>分支结构包括<code>if结构</code>和<code>case结构</code>，只能用于<code>begin end</code>中，要和<code>if函数</code>、<code>case函数</code>区分开，<a href="https://kangshitao.github.io/2021/04/26/mysql-basis/#refer2">流程控制函数</a>既可以用在<code>begin end</code>里面，也可以用在外面。<code>if函数</code>适用于简单双分支，而<code>if结构</code>适用于区间判断的多分支，<code>case</code>适用于等值判断。</p>
 <p><strong>if结构</strong></p>
 <p>语法：</p>
@@ -2798,7 +2798,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <p><strong>分支结构使用案例</strong></p>
 <p>创建函数，实现传入成绩返回等级的功能。如果成绩&gt;90，返回A，如果成绩&gt;80，返回B，如果成绩&gt;60，返回C，否则返回D。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 方式一：使用if结构</span><br><span class="line">DELIMITER @@   # 先将分隔符设置为@@</span><br><span class="line">DROP FUNCTION IF EXISTS `myf_if`@@</span><br><span class="line">CREATE FUNCTION myf_if(score FLOAT) RETURNS CHAR</span><br><span class="line">BEGIN</span><br><span class="line">	# 设置局部变量保存结果</span><br><span class="line">	DECLARE ch CHAR DEFAULT &#x27;A&#x27;;</span><br><span class="line">	IF score&gt;90 THEN SET ch=&#x27;A&#x27;;</span><br><span class="line">	ELSEIF score&gt;80 THEN SET ch=&#x27;B&#x27;;</span><br><span class="line">	ELSEIF score&gt;60 THEN SET ch=&#x27;C&#x27;;</span><br><span class="line">	ELSE ch=&#x27;D&#x27;;</span><br><span class="line">	END IF;</span><br><span class="line">	RETURN ch;</span><br><span class="line">END @@</span><br><span class="line">DELIMITER ;</span><br><span class="line">#调用函数</span><br><span class="line">SELECT myf_if(87);</span><br><span class="line"></span><br><span class="line"># 方式二：使用case结构</span><br><span class="line">DELIMITER @@   # 先将分隔符设置为@@</span><br><span class="line">DROP FUNCTION IF EXISTS `myf_case`@@</span><br><span class="line">CREATE FUNCTION myf_case(score FLOAT) RETURNS CHAR</span><br><span class="line">BEGIN </span><br><span class="line">	#设置局部变量保存结果</span><br><span class="line">	DECLARE ch CHAR DEFAULT &#x27;A&#x27;;</span><br><span class="line">	CASE </span><br><span class="line">	WHEN score&gt;90 THEN SET ch=&#x27;A&#x27;;</span><br><span class="line">	WHEN score&gt;80 THEN SET ch=&#x27;B&#x27;;</span><br><span class="line">	WHEN score&gt;60 THEN SET ch=&#x27;C&#x27;;</span><br><span class="line">	ELSE SET ch=&#x27;D&#x27;;</span><br><span class="line">	END CASE;</span><br><span class="line">	RETURN ch;</span><br><span class="line">END @@</span><br><span class="line">DELIMITER ;</span><br><span class="line">#调用函数</span><br><span class="line">SELECT myf_case(56);</span><br></pre></td></tr></table></figure>
-<h2 id="2、循环结构">2、循环结构</h2>
+<h2 id="循环结构">循环结构</h2>
 <p>循环结构包括<code>while</code>，<code>loop</code>，<code>repeat</code>三种。</p>
 <p>同样，循环结构只能在<code>begin end</code>中使用。</p>
 <p>循环结构中，包括两个循环控制语句：</p>
@@ -2945,11 +2945,11 @@ d.有可能会提升数据库表的查询效率。</p>
     <content><![CDATA[<p>消息队列（MQ，Message Queue）本质是一个队列，队列中存放的内容是message，是一种跨进程的通信机制，用于上下游传递消息。RabbitMQ是一个消息中间件，它接受、存储、转发消息数据。</p>
 <span id="more"></span> 
 <h1>消息队列</h1>
-<h2 id="1-1-MQ相关概念">1.1 MQ相关概念</h2>
-<h3 id="1-1-1-什么是MQ">1.1.1 什么是MQ</h3>
+<h2 id="MQ相关概念">MQ相关概念</h2>
+<h3 id="什么是MQ">什么是MQ</h3>
 <p>消息队列（MQ，Message Queue）本质是一个队列，队列中存放的内容是message，是一种跨进程的通信机制，用于上下游传递消息。</p>
 <p>使用MQ以后，消息发送上游只需要依赖MQ，不用依赖其他服务。</p>
-<h3 id="1-1-2-MQ的作用">1.1.2 MQ的作用</h3>
+<h3 id="MQ的作用">MQ的作用</h3>
 <ul>
 <li>
 <p>流量削峰</p>
@@ -2969,8 +2969,8 @@ d.有可能会提升数据库表的查询效率。</p>
 <li>RocketMQ：出自阿里巴巴，单机吞吐量十万级，消息0丢失，支持10亿级别的消息堆积。适合金融互联网。</li>
 <li>RabbitMQ：由Erlang语言开发，在AMQP（高级消息队列协议）基础上完成，当前最流行的MQ。吞吐量万级，支持多种语言。适合数据量不是特别大的中小型公司。</li>
 </ul>
-<h2 id="1-2-RabbitMQ">1.2 RabbitMQ</h2>
-<h3 id="1-2-1-核心概念">1.2.1 核心概念</h3>
+<h2 id="RabbitMQ">RabbitMQ</h2>
+<h3 id="核心概念">核心概念</h3>
 <p><strong>RabbitMQ</strong></p>
 <p>RabbitMQ是一个消息中间件，它接受、存储、转发消息数据。</p>
 <p><strong>生产者（Producer）</strong></p>
@@ -2981,7 +2981,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <p>队列是RabbitMQ内部使用的一种数据结构。消息只能存储在队列中，队列仅受主机的内存和磁盘限制的约束，本质上是一个大的消息缓冲区。许多生产者可以将消息发送到一个队列，许多消费者也可以尝试从一个队列接收数据。</p>
 <p><strong>消费者（Consumer）</strong></p>
 <p>消费者指的是等待接受消息的程序。同一个应用程序既可以是生产者也可以是消费者。</p>
-<h3 id="1-2-2-安装">1.2.2 安装</h3>
+<h3 id="安装">安装</h3>
 <p>RabbitMQ官方文档：<a href="https://www.rabbitmq.com/documentation.html">Docs</a></p>
 <p>RabbitMQ基于Erlang环境，因此需要先安装Erlang。</p>
 <p>安装之前需要确保RabbitMQ和Erlang的版本要对应：<a href="https://www.rabbitmq.com/which-erlang.html">RabbitMQ Erlang Version Requirements</a></p>
@@ -3020,7 +3020,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
 <p>设置用户权限：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rabbitmqctl set_permissions -p <span class="string">&quot;/&quot;</span> admin <span class="string">&quot;.*&quot;</span> <span class="string">&quot;.*&quot;</span> <span class="string">&quot;.*&quot;</span></span><br></pre></td></tr></table></figure>
-<h3 id="1-2-3-原理和工作模式">1.2.3 原理和工作模式</h3>
+<h3 id="原理和工作模式">原理和工作模式</h3>
 <p><strong>工作原理</strong></p>
 <p>RabbitMQ的工作原理如图所示：</p>
 <p><img src="C:%5CUsers%5CKangshitao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211015214425680.png" alt="image-20211015214425680"></p>
@@ -3039,13 +3039,13 @@ d.有可能会提升数据库表的查询效率。</p>
 <p>RabbitMQ一共有7种工作模式，参考<a href="https://www.rabbitmq.com/getstarted.html">Get Started</a>：</p>
 <p><img src="C:%5CUsers%5CKangshitao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211015222337420.png" alt="image-20211015222337420"></p>
 <h1>Hello World</h1>
-<h2 id="2-1-介绍">2.1 介绍</h2>
+<h2 id="介绍">介绍</h2>
 <p><a href="https://www.rabbitmq.com/tutorials/tutorial-one-java.html">Hello World</a>模式是RabbitMQ最简单的一个模式。下图中的P表示生产者，C是消费者，中间框是一个队列，是RabbitMQ代表消费者保存的消息缓冲区。</p>
 <p><img src="C:%5CUsers%5CKangshitao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211015222548402.png" alt="Hello World模式"></p>
-<h2 id="2-2-实现">2.2 实现</h2>
+<h2 id="实现">实现</h2>
 <p><strong>1、在IDEA中创建Maven项目，然后引入依赖：</strong></p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span>    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.rabbitmq<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>amqp-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>        <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.8.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span>    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span>        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-io<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-io<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span>    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><strong>2、编写生产者的代码</strong></p>
+<p><strong>编写生产者的代码</strong></p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span> </span>&#123;    <span class="comment">// 队列名称    public static final String QUEUE_NAME = &quot;hello&quot;;    //发消息    public static void main(String[] args) throws IOException, TimeoutException &#123;        //创建一个连接工厂        ConnectionFactory factory = new ConnectionFactory();        //设置工厂的ip，连接队列        factory.setHost(&quot;192.168.198.198&quot;); //RabbitMQ服务主机的ip        //设置用户名和密码        factory.setUsername(&quot;admin&quot;);        factory.setPassword(&quot;admin&quot;);        //创建连接，每个连接有多个channel，channel是用来发消息的。        Connection connection = factory.newConnection();        //获取channel        Channel channel = connection.createChannel();        //生成一个队列用于通信，简单起见，使用默认的交换机        channel.queueDeclare(QUEUE_NAME, false, false, false, null);        //发消息        String message = &quot;hello, world&quot;;        channel.basicPublish(&quot;&quot;, QUEUE_NAME, null, message.getBytes());        System.out.println(&quot;消息发送完毕！&quot;);    &#125;&#125;</span></span><br></pre></td></tr></table></figure>
 <p>其中关键方法的说明：</p>
 <ul>
@@ -3084,7 +3084,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <h1>Work Queues</h1>
 <p><a href="https://www.rabbitmq.com/tutorials/tutorial-two-java.html">Work Queues</a>模式的主要思想是避免因立即执行资源密集型任务而不得不等待它完成。在这个模式中，我们将任务封装为消息，并将其发送到队列。当有多个工作线程时，这些工作线程将一起处理这些任务。</p>
 <p><img src="C:%5CUsers%5CKangshitao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211016200456597.png" alt="Work Queues"></p>
-<h2 id="3-1-轮询分发消息">3.1 轮询分发消息</h2>
+<h2 id="轮询分发消息">轮询分发消息</h2>
 <p>Work Queues模式下使用的轮询分发的机制，对于多个消费者线程，会轮流分发任务。</p>
 <p>下面我们以一个生产者，两个消费者线程来模拟。</p>
 <p><strong>抽取工具类</strong></p>
@@ -3100,7 +3100,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <p><strong>运行</strong></p>
 <p>生产者发送消息，消费者1和消费者2会轮流处理消息。</p>
 <p>比如生产者发送1、2、3、4、5、6，消费者1接收到1、3、5，消费者2接收到2、4、6。</p>
-<h2 id="3-2-消息应答">3.2 消息应答</h2>
+<h2 id="消息应答">消息应答</h2>
 <p><strong>概念</strong></p>
 <p>消费者完成一个任务需要耗费一定的时间，RabbitMQ一旦向消费者发送消息后，会将此消息标记为删除，这种情况下，如果消费者处理任务的过程中出现故障，会导致任务丢失。<strong>为了保证消息不会丢失，RabbitMQ引入了消息应答机制</strong>。</p>
 <p><strong>消息应答（Message acknowledgment）</strong>：消费者在接收到消息并且处理完该消息之后，告诉RabbitMQ此消息已经被处理，RabbitMQ可以将该消息删除。这样就保证当某一个消费者线程故障后，消息会被重新发送给其他消费者，确保消息不会丢失（前提是RabbitMQ无故障）。</p>
@@ -3115,7 +3115,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <p>其中<code>basicAck()</code>方法的第二个参数表示是否批量化应答。如果是<strong>批量化应答(Multiple)</strong>，则每次会应答一个批次的消息。</p>
 <p><strong>手动应答的好处就是可以批量应答并且减少网络拥堵</strong>。</p>
 <p><strong>消息重新入队</strong>：如果某个消费者由于某些原因失去连接（或发生故障），导致消息未发送ACK确认，RabbitMQ将了解到消息未完全处理，并将其重新排队发送给其他消费者。这样，即使某个消费者偶尔死亡，也可以确保不丢失消息。</p>
-<h2 id="3-3-RabbitMQ持久化">3.3 RabbitMQ持久化</h2>
+<h2 id="RabbitMQ持久化">RabbitMQ持久化</h2>
 <p><strong>消息应答</strong>能够确保消费者线程故障后，消息不会丢失，如何保障当RabbitMQ服务停掉以后消息也不丢失？</p>
 <p>这就<strong>需要将队列和消息都标记为持久化。</strong></p>
 <p><strong>队列持久化</strong></p>
@@ -3144,7 +3144,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <h1>发布确认</h1>
 <p>如果想要确保消息一定不会丢失，除了上面提到的<strong>队列持久化</strong>和<strong>消息持久化</strong>，还需要使用<strong>发布确认（Publisher confirm）</strong>。这三种设置保证了消息不会丢失。</p>
 <p>官方文档：<a href="https://www.rabbitmq.com/tutorials/tutorial-seven-java.html">Publisher Confirms</a></p>
-<h2 id="4-1-发布确认原理">4.1 发布确认原理</h2>
+<h2 id="发布确认原理">发布确认原理</h2>
 <p>生产者将channel设置为confirm模式，一旦channel进入<strong>confirm模式</strong>，<strong>所有在该channel上面发布的消息都会被指派一个唯一的ID（从1开始）</strong>。一旦消息被投递到所有匹配的队列之后，broker会发送一个确认给生产者。</p>
 <p>生产者得知消息已经正确到达目的队列后，如果消息和队列是可持久化的，确认消息会在消息写入磁盘后发出。</p>
 <blockquote>
@@ -3153,24 +3153,24 @@ d.有可能会提升数据库表的查询效率。</p>
 <p>消息应答（Message acknowledgment）是消费者处理完消息发送给broker的ack确认。</p>
 </blockquote>
 <p><strong>confirm模式</strong>的好处在于它是异步的，发布一条消息后，生产者可以边等确认消息边发送下一条消息。消息得到确认或者丢失，生产者都会通过相应的回调方法进行处理。</p>
-<h2 id="4-2-发布确认策略">4.2 发布确认策略</h2>
-<h3 id="4-2-1-开启发布确认">4.2.1 开启发布确认</h3>
+<h2 id="发布确认策略">发布确认策略</h2>
+<h3 id="开启发布确认">开启发布确认</h3>
 <p>生产者创建信道后，调用<code>confirmSelect()</code>方法即可开启发布确认模式。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">channel.confirmSelect();</span><br></pre></td></tr></table></figure>
 <p>发布确认可以有单个确认、批量确认、异步确认三种方式。</p>
-<h3 id="4-2-2-单个确认发布">4.2.2 单个确认发布</h3>
+<h3 id="单个确认发布">单个确认发布</h3>
 <p>单个确认发布，即对每一条消息进行同步确认，生产者发布一条消息后只有它被确认发布后，后续的消息才能继续发布。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">publishMessageIndividually</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;    Channel channel = RabbitMqUtils.getChannel();    <span class="comment">//信道名字使用随机的UUID    String queueName = UUID.randomUUID().toString();    channel.queueDeclare(queueName,true,false,false,null);    //开启发布确认    channel.confirmSelect();    long start = System.currentTimeMillis();    //批量发消息    for(int i=0;i&lt;1000;i++)&#123;        String message = i+&quot;&quot;;        channel.basicPublish(&quot;&quot;,queueName,null,message.getBytes());        //单个消息马上确认        boolean flag = channel.waitForConfirms();        if(flag)&#123;            System.out.println(&quot;第&quot;+i+&quot;条消息发送成功&quot;);        &#125;    &#125;    long end = System.currentTimeMillis();    System.out.println(&quot;发布1000个单独确认消息，耗时&quot;+(end-start)+&quot;ms&quot;);&#125;</span></span><br></pre></td></tr></table></figure>
 <p>单个确认发布的速度是最慢的，因为要每条消息都确认一次。</p>
-<h3 id="4-2-3-批量确认发布">4.2.3 批量确认发布</h3>
+<h3 id="批量确认发布">批量确认发布</h3>
 <p>批量确认发布是指根据批次大小确认发布，这种方式的缺点是当发生故障导致发布出现问题时，不知道哪个消息出问题。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//批量发布确认public static void publishMessageBatch() throws Exception&#123;    Channel channel = RabbitMqUtils.getChannel();    //信道名字使用随机的UUID    String queueName = UUID.randomUUID().toString();    channel.queueDeclare(queueName,true,false,false,null);    //开启发布确认    channel.confirmSelect();    long start = System.currentTimeMillis();    //批量发消息，并批量确认消息    int batchSize = 100; //每100条确认一次    for(int i=0;i&lt;1000;i++)&#123;        String message = i+&quot;&quot;;        channel.basicPublish(&quot;&quot;,queueName,null,message.getBytes());        if((i+1)%batchSize==0)&#123; //每100条消息确认一次            boolean flag = channel.waitForConfirms();            if(flag)&#123;                System.out.println(&quot;确认前&quot;+i+&quot;条数据&quot;);            &#125;        &#125;    &#125;    long end = System.currentTimeMillis();    System.out.println(&quot;发布1000个批量确认消息，耗时&quot;+(end-start)+&quot;ms&quot;);&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="4-2-4-异步确认发布">4.2.4 异步确认发布</h3>
+<h3 id="异步确认发布">异步确认发布</h3>
 <p>异步确认发布是效率和可靠性最高的。对于已确认消息和未确认消息，异步确认方式都能够处理。</p>
 <p>异步确认发布主要是通过<code>addConfirmListener</code>方法监听确认和未确认的消息，使用哈希表记录所有发布的消息，对于成功确认的消息从哈希表中删除，剩下的是未确认的消息。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//异步批量确认public static void publishMessageAsync() throws Exception&#123;    Channel channel = RabbitMqUtils.getChannel();    //信道名字使用随机的UUID    String queueName = UUID.randomUUID().toString();    channel.queueDeclare(queueName,true,false,false,null);    //开启发布确认    channel.confirmSelect();    //使用哈希表记录所有消息，便于多个线程进行消息的添加和删除    /*线程安全的哈希表，适用于高并发的情况。    1.哈希表能够轻松的将序号和消息进行关联。    2.可以轻松地批量删除条目，只需要知道序号    3.支持高并发（多线程）    */    ConcurrentSkipListMap&lt;Long,String&gt; map = new ConcurrentSkipListMap&lt;&gt;();        long start = System.currentTimeMillis();    //创建消息的监听器，监听哪些消息成功了，哪些消息失败了。    //消息确认成功 回调函数    /*参数：1. 消息的标记（序号）2.是否为批量确认*/    ConfirmCallback ackCallback = (deliveryTag, multiple) -&gt;&#123;        //2.删除掉已经确认的消息，剩下的就是未确认的消息        if(multiple)&#123; //默认multiple是true，即批量确认的            //如果是批量确认的，则找到所有小于当前序号的值，并清除。这样剩下的就是未确认的消息            //headMap方法就是返回所有小于指定序号的值的map，第二个参数表示是否找出等于序号的。            ConcurrentNavigableMap&lt;Long, String&gt; navigableMap = map.headMap(deliveryTag, true);            navigableMap.clear();        &#125;else&#123;//如果不是批量确认，则只删除当前已经确认的消息即可。            map.remove(deliveryTag);        &#125;        System.out.println(&quot;确认的消息：&quot;+deliveryTag);    &#125;;    //监听确认失败的消息    ConfirmCallback nackCallback = (deliveryTag, multiple) -&gt;&#123;        //3.打印未确认的消息        System.out.println(&quot;未确认的消息：&quot;+deliveryTag);    &#125;;    /*参数：1.监听确认成功的消息 2. 监听确认失败的消息*/    channel.addConfirmListener(ackCallback,nackCallback);    //批量发消息，异步确认消息    int batchSize = 100; //每100条确认一次    for (int i = 0; i &lt; 1000; i++) &#123;        String message = &quot;消息&quot; + i;        //1.记录下所有要发送的消息        map.put(channel.getNextPublishSeqNo(),message);        //发布消息        channel.basicPublish(&quot;&quot;,queueName,null,message.getBytes());    &#125;    long end = System.currentTimeMillis();    System.out.println(&quot;发布&quot;+MESSAGE_COUNT+&quot;个异步确认消息，耗时&quot;+(end-start)+&quot;ms&quot;);&#125;</span></span><br></pre></td></tr></table></figure>
 <h1>交换机</h1>
-<h2 id="5-1-相关概念">5.1 相关概念</h2>
+<h2 id="相关概念">相关概念</h2>
 <p>生产者生产的消息不会直接发送到队列，只能将消息发送到<strong>交换机（exchange）</strong>，然后由交换机发送到队列。</p>
 <p><strong>交换机</strong>的功能：①接收来自生产者的消息。②将消息推入队列。</p>
 <p>交换机主要的三个类型：</p>
@@ -3185,7 +3185,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <p><strong>绑定（bindings）</strong></p>
 <p>binding是指exchange和queue之间的关系，将exchange和queue进行绑定。</p>
 <p>其中一个交换机和一个队列之间可以有多个binding key</p>
-<h2 id="5-2-Publish-Subscribe">5.2 Publish/Subscribe</h2>
+<h2 id="Publish-Subscribe">Publish/Subscribe</h2>
 <p><a href="https://www.rabbitmq.com/tutorials/tutorial-three-java.html">发布订阅模式</a>是使用的扇出（fanout）类型的交换机。</p>
 <p>交换机会<strong>将消息推送至所有和他绑定的队列，不会匹配Routing Key</strong>。无论绑定的Routing Key是什么值，都会发送到所有和其绑定的队列中。</p>
 <p><img src="C:%5CUsers%5CKangshitao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211019201626154.png" alt="Publish/Subscribe"></p>
@@ -3197,7 +3197,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReceiveLogs01</span> </span>&#123;    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;        Channel channel = RabbitMqUtils.getChannel();        <span class="comment">/*声明临时队列        临时队列的队列名称是随机的        当消费者断开与队列的连接后，队列会被自动删除。         */</span>        String queueName = channel.queueDeclare().getQueue();        <span class="comment">/*        将队列和交换机绑定 binding，routingKey为空         */</span>        channel.queueBind(queueName,EXCHANGE_NAME,<span class="string">&quot;&quot;</span>);        DeliverCallback deliverCallback = (consumerTag, message)-&gt;&#123;            System.out.println(<span class="string">&quot;消费者1控制台打印接收到的消息：&quot;</span>+<span class="keyword">new</span> String(message.getBody(),<span class="string">&quot;UTF-8&quot;</span>));        &#125;;        CancelCallback cancelCallback = consumerTag-&gt;&#123;&#125;;        channel.basicConsume(queueName,deliverCallback,cancelCallback);    &#125;&#125;</span><br></pre></td></tr></table></figure>
 <p>消费者2的代码和消费者1相同，会生成另一个随机名称的临时队列。</p>
 <p>这样，当生产者每次发送一条消息，消费者1和消费者2都能接收到。</p>
-<h2 id="5-3-Routing">5.3 Routing</h2>
+<h2 id="Routing">Routing</h2>
 <p><a href="https://www.rabbitmq.com/tutorials/tutorial-four-java.html">Routing模式</a>使用的是direct类型交换机，这种模式下，交换机需要精准匹配Routing Key，只将消息转发到指定Routing Key的队列中。</p>
 <p><img src="C:%5CUsers%5CKangshitao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211019204129471.png" alt="Routing"></p>
 <p>如图，交换机X绑定了Q1和Q2两个队列，其中和Q1之间的Binding Key为<code>orange</code>，和Q2的Binding Key包括<code>black</code>和<code>green</code>两个。</p>
@@ -3213,7 +3213,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <p>消费者2和消费者1类似，不同的是有两个Bingding：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//多重绑定，一个channel和交换机有两个绑定,两个不同的routing keychannel.queueBind(&quot;Q2&quot;,&quot;X&quot;,&quot;black&quot;);channel.queueBind(&quot;Q2&quot;,&quot;X&quot;,&quot;green&quot;);</span></span><br></pre></td></tr></table></figure>
 <p>这样，当发送消息的Routing Key为<code>orange</code>时，消息会被推送到Q1，Routing Key为<code>black</code>或<code>green</code>时，消息被推送到Q2。</p>
-<h2 id="5-4-Topics">5.4 Topics</h2>
+<h2 id="Topics">Topics</h2>
 <p><a href="https://www.rabbitmq.com/tutorials/tutorial-five-java.html">Topics</a>模式使用的是Topic类型的交换机，队列可以匹配一定规则的多个Routing Key。</p>
 <p>Topic模式的Routing Key必须符合一定的要求：<strong>必须是一个单词列表，以<code>.</code>号分开</strong>，单词可以是任意的，比如<code>stock.usd.nyse</code>, <code>nyse.vmw</code>, <code>quick.orange.rabbit</code>等。单词列表最多为255个字节。</p>
 <p><code>*</code>号可以代替一个单词。</p>
@@ -3318,48 +3318,46 @@ d.有可能会提升数据库表的查询效率。</p>
     <title>项目总结</title>
     <url>/2021/10/04/%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p>总结项目经验，介绍项目的亮点</p>
-<span id="more"></span>
-<h1>项目总结</h1>
-<h2 id="导入依赖">导入依赖</h2>
-<h3 id="1-MyBatis">1.MyBatis</h3>
+<h1>导入依赖</h1>
+<h2 id="MyBatis">MyBatis</h2>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="2-mysql">2.mysql</h3>
+<h2 id="mysql">mysql</h2>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="3-thymeleaf：前后端交互">3.thymeleaf：前后端交互</h3>
+<h2 id="thymeleaf：前后端交互">thymeleaf：前后端交互</h2>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="4-邮件">4.邮件</h3>
+<h2 id="邮件">邮件</h2>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-mail<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="5-redis">5.redis</h3>
+<h2 id="redis">redis</h2>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="6-commons-lang3：字符串相关操作">6.commons-lang3：字符串相关操作</h3>
+<h2 id="commons-lang3：字符串相关操作">commons-lang3：字符串相关操作</h2>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-lang3<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="7-kapcha">7.kapcha</h3>
+<h2 id="kapcha">kapcha</h2>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">生成随机的验证码</span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.penggle<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>kaptcha<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="8-json">8.json</h3>
+<h2 id="json">json</h2>
 <p>json前后端交互</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.78<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="9-面向切面编程">9.面向切面编程</h3>
+<h2 id="AOP面向切面编程">AOP面向切面编程</h2>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.aspectj<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>aspectjweaver<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-aop<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="10-swagger">10.swagger</h3>
+<h2 id="swagger">swagger</h2>
 <p>接口管理文档</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="MD5加密">MD5加密</h2>
-<h3 id="功能介绍">功能介绍</h3>
+<h1>MD5加密</h1>
+<h2 id="功能介绍">功能介绍</h2>
 <p>在项目中使用MD5对密码进行加密。</p>
 <p>md5加密算法是对称加密算法，即相同的字符串加密之后的结果是相同的。因此，为了保证加密结果的安全性，我们使用 “md5（密码+长度为5的随机字符串）”的形式进行加密。</p>
-<h3 id="代码实现">代码实现</h3>
+<h2 id="代码实现">代码实现</h2>
 <p><strong>生成随机字符串与MD5加密</strong>的代码如下。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommunityUtil</span> </span>&#123;</span><br><span class="line">    <span class="comment">//生成随机字符串</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">generateUUID</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//s随机生成的字符串是由字母和‘-’生成的，我们不想要‘-’，使用空字符串进行替换</span></span><br><span class="line">        <span class="keyword">return</span> UUID.randomUUID().toString().replaceAll(<span class="string">&quot;-&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//MD5加密</span></span><br><span class="line">    <span class="comment">//只能加密，但是不能解密</span></span><br><span class="line">    <span class="comment">//MD5对称加密是，加密之后的结果是一样的，我们通过使用在 原字符串后+随机字符串 的方式进行加密。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">md5</span><span class="params">(String key)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isEmpty(key))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//加密成16位的字符串。输入要求是byte。</span></span><br><span class="line">        <span class="keyword">return</span> DigestUtils.md5DigestAsHex(key.getBytes(StandardCharsets.UTF_8));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>字符串拼接成功后，进行md5加密：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">CommunityUtil.generateUUID().substring(<span class="number">0</span>,<span class="number">5</span>);   <span class="comment">//设置一个长度为5的随机字符串</span></span><br><span class="line">CommunityUtil.md5(user.getPassword()+user.getSalt());   <span class="comment">//加密</span></span><br></pre></td></tr></table></figure>
-<h2 id="发送邮件">发送邮件</h2>
-<h3 id="功能介绍-2">功能介绍</h3>
+<h1>发送邮件</h1>
+<h2 id="功能介绍-2">功能介绍</h2>
 <p>用户点击注册之后，用户的账号处于一个未激活的状态。此时会给用户发送一封邮件，邮件中包含了一个激活链接，只有用户点击激活链接，用户账号正式激活。</p>
-<h3 id="代码实现-2">代码实现</h3>
+<h2 id="代码实现-2">代码实现</h2>
 <p>注入实现发送邮件的依赖：</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-mail<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="1-service层">1.service层</h4>
+<h3 id="service层">service层</h3>
 <p>配置发送邮件的信息：</p>
 <figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment"># MailProperties 发送邮件控制</span></span><br><span class="line"><span class="meta">spring.mail.host</span>=<span class="string">smtp.sina.com</span></span><br><span class="line"><span class="meta">spring.mail.port</span>=<span class="string">465</span></span><br><span class="line"><span class="meta">spring.mail.username</span>=<span class="string">wenk207@sina.com</span></span><br><span class="line"><span class="meta">spring.mail.password</span>=<span class="string">1de57d8716fc8e2e</span></span><br><span class="line"><span class="meta">spring.mail.protocol</span>=<span class="string">smtps</span></span><br><span class="line"><span class="meta">spring.mail.properties.mail.smtp.ssl.enable</span>=<span class="string">true</span></span><br></pre></td></tr></table></figure>
 <p>自动注入要实现的类。</p>
@@ -3368,11 +3366,11 @@ d.有可能会提升数据库表的查询效率。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//激活邮件</span></span><br><span class="line">Context context = <span class="keyword">new</span> Context();</span><br><span class="line">context.setVariable(<span class="string">&quot;email&quot;</span>,user.getEmail());</span><br><span class="line"><span class="comment">//拼接激活地址：http://localhost:8080/community/activation/101/code</span></span><br><span class="line">String url = domain + contextPath + <span class="string">&quot;/activation/&quot;</span> +</span><br><span class="line">        user.getId() + <span class="string">&quot;/&quot;</span> + user.getActivationCode();</span><br><span class="line">context.setVariable(<span class="string">&quot;url&quot;</span>,url);</span><br><span class="line">String content = templateEngine.process(<span class="string">&quot;/mail/activation&quot;</span>,context);</span><br><span class="line">mailClient.sendMail(user.getEmail(),<span class="string">&quot;激活邮件&quot;</span>,content);</span><br></pre></td></tr></table></figure>
 <p>通过邮箱中的激活链接进行激活</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 通过邮箱里面的激活链接点击激活</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">activation</span><span class="params">(<span class="keyword">int</span> userId,String code)</span></span>&#123;</span><br><span class="line">    User user = userDao.selectById(userId);</span><br><span class="line">    <span class="keyword">if</span> (user.getStatus() == <span class="number">1</span>)&#123;     <span class="comment">//status初始化为0，等于1说明已经激活</span></span><br><span class="line">        <span class="keyword">return</span> ACTIVATION_REPEAT;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (user.getActivationCode().equals(code))&#123;     <span class="comment">//激活</span></span><br><span class="line">        userDao.updateStatus(userId,<span class="number">1</span>);      <span class="comment">//更新用户的状态。</span></span><br><span class="line">        clearCache(userId);</span><br><span class="line">        <span class="keyword">return</span> ACTIVATION_SUCCESS;</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> ACTIVATION_FAILURE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-controller层">2.controller层</h4>
+<h3 id="controller层">controller层</h3>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 访问注册页面</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> model</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> user</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RequestMapping(path = &quot;/register&quot;,method = RequestMethod.POST)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">register</span><span class="params">(Model model, User user)</span></span>&#123;</span><br><span class="line">    <span class="comment">//调用注册功能，返回的map中存放错误信息。</span></span><br><span class="line">    Map&lt;String, Object&gt; map = userService.register(user);</span><br><span class="line">    <span class="keyword">if</span> (map == <span class="keyword">null</span> || map.isEmpty())&#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;msg&quot;</span>,<span class="string">&quot;注册成功，我们已经向您发送了一封激活邮件，请尽快激活！&quot;</span>);</span><br><span class="line">        model.addAttribute(<span class="string">&quot;target&quot;</span>,<span class="string">&quot;/index&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>  <span class="string">&quot;/site/operate-result&quot;</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;usernameMsg&quot;</span>,map.get(<span class="string">&quot;usernameMsg&quot;</span>));</span><br><span class="line">        model.addAttribute(<span class="string">&quot;emailMsg&quot;</span>,map.get(<span class="string">&quot;emailMsg&quot;</span>));</span><br><span class="line">        model.addAttribute(<span class="string">&quot;passwordMsg&quot;</span>,map.get(<span class="string">&quot;passwordMsg&quot;</span>));</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;/site/register&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 访问激活地址：http://localhost:8080/community/activation/101/code</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RequestMapping(path = &quot;activation/&#123;userId&#125;/&#123;code&#125;&quot;,method = RequestMethod.GET)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">activation</span><span class="params">(Model model, <span class="meta">@PathVariable(&quot;userId&quot;)</span> <span class="keyword">int</span> userId,</span></span></span><br><span class="line"><span class="params"><span class="function">                         <span class="meta">@PathVariable(&quot;code&quot;)</span> String code)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = userService.activation(userId,code);</span><br><span class="line">    <span class="keyword">if</span> (result == ACTIVATION_SUCCESS)&#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;msg&quot;</span>,<span class="string">&quot;激活成功，您的账号已经可以正常使用了！&quot;</span>);</span><br><span class="line">        model.addAttribute(<span class="string">&quot;target&quot;</span>,<span class="string">&quot;/login&quot;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (result == ACTIVATION_REPEAT)&#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;msg&quot;</span>,<span class="string">&quot;无效操作，该账号已经激活过了!&quot;</span>);</span><br><span class="line">        model.addAttribute(<span class="string">&quot;target&quot;</span>,<span class="string">&quot;/index&quot;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;msg&quot;</span>,<span class="string">&quot;激活失败，提供的激活码不正确！&quot;</span>);</span><br><span class="line">        model.addAttribute(<span class="string">&quot;target&quot;</span>,<span class="string">&quot;/index&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span>  <span class="string">&quot;/site/operate-result&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>代码管理</category>
+        <category>项目</category>
       </categories>
       <tags>
         <tag>项目</tag>
