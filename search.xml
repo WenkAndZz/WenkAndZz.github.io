@@ -3666,4 +3666,271 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
         <tag>flink</tag>
       </tags>
   </entry>
+  <entry>
+    <title>kubesphere对k8s原生的多租户改进</title>
+    <url>/2022/02/15/kubesphere%E5%AF%B9k8s%E5%8E%9F%E7%94%9F%E7%9A%84%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%94%B9%E8%BF%9B/</url>
+    <content><![CDATA[<h1>Kubernetes多租户</h1>
+<p>租户：不仅包括集群中的用户，同时也包括计算，网络，存储等资源组成的工作负载集合。</p>
+<p>多租户是一种常见的软件架构，简单概括就是<strong>在多用户环境下实现资源共享，并保证各用户间数据的隔离性</strong>。在多租户集群环境中，集群管理员需要最大程度地避免恶意租户对其他租户的攻击，公平地分配集群资源。</p>
+<p>无论企业的多租户形态如何，多租户都无法避免以下两个层面的问题：<strong>逻辑层面的资源隔离；物理资源的隔离。</strong></p>
+<p>隔离的安全程度分为软隔离(Soft Multi-tenancy)和硬隔离（Hard Multi-tenancy）。</p>
+<ul>
+<li>软隔离更多面向企业内部的多租需求，该形态下默认不存在恶意租户，隔离是为了内部团队间的业务保护和对可能的安全攻击进行防护。</li>
+<li>硬隔离更多面向对外提供服务的服务供应商，由于该业务形态下无法保证不同租户中业务使用者的安全背景，默认租户之间以及租户与K8s系统之间是存在互相攻击的可能，因此也需要更严格的隔离作为安全保障。</li>
+</ul>
+<h1>通过RBAC和命名空间实现多租户</h1>
+<h2 id="逻辑层面的资源隔离">逻辑层面的资源隔离</h2>
+<p>逻辑层面的资源隔离主要包括 API 的访问控制，针对用户的权限控制。Kubernetes 中的 <strong>RBAC</strong>和<strong>命名空间</strong> (namespace) 提供了基本的逻辑隔离能力</p>
+<p>通过namespace隔离：</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/multi-tenant-design-considerations-for-amazon-eks-clusters1.jpg" alt="img"></p>
+<p>基于角色（Role）的访问控制（RBAC）是一种基于组织中用户的角色来调节控制对 计算机或网络资源的访问的方法。<strong>通过设置–authorization-mode=RBAC，启用RABC</strong>。使用Role绑定某个命名空间，ClusterRole绑定某个集群。</p>
+<p>在RABC API中，通过如下的步骤进行授权：1）定义角色：在定义角色时会指定此角色对于资源的访问控制的规则；2）绑定角色：将主体与角色进行绑定，对用户进行访问授权。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image.png" alt="img"></p>
+<h3 id="Kubernetes-用户">Kubernetes 用户</h3>
+<p>RBAC API 声明了四种 Kubernetes 对象：<em>Role</em>、<em>ClusterRole</em>、 <em>RoleBinding</em>和<em>ClusterRoleBinding</em>。</p>
+<h4 id="Role和ClusterRole">Role和ClusterRole</h4>
+<p><strong>基于 RBAC 的权限管理方式：RBAC用于定义谁能够在Kubernetes API上执行的操作</strong>。这种授权机制可以通过ClusterRole作用于整个集群（集群作用域），也可以通过Role作用于某个命名空间（命名空间作用域；创建Role时，必须指定所属的命名空间）。</p>
+<p>Role实例：</p>
+<p>配置pod-reader用户，设置对default命名空间内的pods的读访问权限。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Role</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">pod-reader</span></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiGroups:</span> [<span class="string">&quot;&quot;</span>] <span class="comment"># &quot;&quot; 标明 core API 组</span></span><br><span class="line">  <span class="attr">resources:</span> [<span class="string">&quot;pods&quot;</span>]</span><br><span class="line">  <span class="attr">verbs:</span> [<span class="string">&quot;get&quot;</span>, <span class="string">&quot;watch&quot;</span>, <span class="string">&quot;list&quot;</span>]</span><br></pre></td></tr></table></figure>
+<p>ClusterRole 示例:</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ClusterRole</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="comment"># &quot;namespace&quot; 被忽略，因为 ClusterRoles 不受名字空间限制</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">secret-reader</span>    <span class="comment">#ClusterRole的名称</span></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiGroups:</span> [<span class="string">&quot;&quot;</span>]</span><br><span class="line">  <span class="comment"># 在 HTTP 层面，用来访问 Secret 对象的资源的名称为 &quot;secrets&quot;</span></span><br><span class="line">  <span class="attr">resources:</span> [<span class="string">&quot;secrets&quot;</span>]          <span class="comment">#获取对secrets的操作权限。</span></span><br><span class="line">  <span class="attr">verbs:</span> [<span class="string">&quot;get&quot;</span>, <span class="string">&quot;watch&quot;</span>, <span class="string">&quot;list&quot;</span>]      <span class="comment">#权限</span></span><br></pre></td></tr></table></figure>
+<h4 id="相关参数">相关参数</h4>
+<ul>
+<li>Role、ClsuterRole <code>verbs</code>可配置参数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;, &quot;create&quot;, &quot;update&quot;, &quot;patch&quot;, &quot;delete&quot;, &quot;exec&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Role、ClsuterRole <code>resource</code>可配置参数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;services&quot;, &quot;endpoints&quot;, &quot;pods&quot;, &quot;secrets&quot;, &quot;configmaps&quot;, &quot;crontabs&quot;, &quot;deployments&quot;, </span><br><span class="line">&quot;jobs&quot;, &quot;nodes&quot;, &quot;rolebindings&quot;, &quot;clusterroles&quot;, &quot;daemonsets&quot;, &quot;replicasets&quot;, </span><br><span class="line">&quot;statefulsets&quot;, &quot;horizontalpodautoscalers&quot;,&quot;replicationcontrollers&quot;,&quot;cronjobs&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>Role、ClsuterRole <strong>APIGroup</strong>可配置参数</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;&quot;,&quot;apps&quot;, &quot;autoscaling&quot;, &quot;batch&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="RoleBinding-和-ClusterRoleBinding">RoleBinding 和 ClusterRoleBinding</h4>
+<p>角色绑定：<strong>是将Role中定义的权限赋予一个或者一组用户</strong>。</p>
+<ul>
+<li>RoleBinding 在指定的名字空间中执行授权，一个 RoleBinding 可以引用同一的namespace中的任何 Role。</li>
+<li>一个RoleBinding 可以引用某 ClusterRole 并将该 ClusterRole 绑定到 RoleBinding 所在的名字空间。</li>
+</ul>
+<p>ClusterRoleBinding：是在集群范围执行授权。如果需要将某 ClusterRole 绑定到集群中所有名字空间，使用 ClusterRoleBinding。</p>
+<p><strong>RoleBinding实例：</strong></p>
+<p>RoleBinding 将 “pod-reader” Role 授予在 “default” 名字空间中的用户 “jane”。 这样，用户 “jane” 就具有了读取 “default” 名字空间中 pods 的权限。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="comment"># 此角色绑定允许 &quot;jane&quot; 读取 &quot;default&quot; 名字空间中的 Pods</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">RoleBinding</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">read-pods</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">subjects:</span></span><br><span class="line"><span class="comment"># 你可以指定不止一个“subject（主体）”</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">kind:</span> <span class="string">User</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">jane</span> <span class="comment"># &quot;name&quot; 是区分大小写的</span></span><br><span class="line">  <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line"><span class="attr">roleRef:</span></span><br><span class="line">  <span class="comment"># &quot;roleRef&quot; 指定与某 Role 或 ClusterRole 的绑定关系</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">Role</span> <span class="comment"># 此字段必须是 Role 或 ClusterRole</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">pod-reader</span>     <span class="comment"># 此字段必须与你要绑定的 Role 或 ClusterRole 的名称匹配（pod-reader是在role实例中创建的）</span></span><br><span class="line">  <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br></pre></td></tr></table></figure>
+<p><strong>ClusterRoleBinding实例：</strong></p>
+<p>要跨整个集群完成访问权限的授予，可以使用一个 ClusterRoleBinding。 下面的 ClusterRoleBinding 允许 “manager” 组内的所有用户访问任何名字空间中的 Secrets。</p>
+<p>被绑定的secret-reader（ClusterRole角色）拥有访问所有命名空间中的Secrets的权限。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="comment"># 此集群角色绑定允许 “manager” 组中的任何人访问任何名字空间中的 secrets</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ClusterRoleBinding</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">read-secrets-global</span></span><br><span class="line"><span class="attr">subjects:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">kind:</span> <span class="string">Group</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">manager</span> <span class="comment"># &#x27;name&#x27; 是区分大小写的</span></span><br><span class="line">  <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line"><span class="attr">roleRef:</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">ClusterRole</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">secret-reader</span></span><br><span class="line">  <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<p>创建了绑定之后，<strong>不能再修改绑定对象所引用的 Role 或 ClusterRole</strong>。 试图改变绑定对象的 <code>roleRef</code> 将导致合法性检查错误。 如果想要改变现有绑定对象中 <code>roleRef</code> 字段的内容，必须删除重新创建绑定对象。</p>
+<h2 id="物理资源的隔离">物理资源的隔离</h2>
+<p>物理资源的隔离主要包括节点、网络的隔离，当然也包括容器运行时安全。可以通过 NetworkPolicy 对网络进行划分，ResourceQuota对资源配额进行设置。</p>
+<h3 id="设置资源配额">设置资源配额</h3>
+<p><strong>限制使用并确保租户之间的公平性</strong>。</p>
+<p>由<code>ResourceQuota</code>对象定义的资源配额提供限制每个命名空间的聚合资源消耗的约束。</p>
+<p>实例：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ResourceQuota</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">mem-cpu-demo</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">namespace1</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">hard:</span></span><br><span class="line">    <span class="attr">requests.cpu:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">    <span class="attr">requests.memory:</span> <span class="string">1Gi</span></span><br><span class="line">    <span class="attr">limits.cpu:</span> <span class="string">&quot;2&quot;</span></span><br><span class="line">    <span class="attr">limits.memory:</span> <span class="string">2Gi</span></span><br></pre></td></tr></table></figure>
+<p>使用资源配额，可以为工作负载分配有限的资源，防止租户之间相互干扰。还可以通过Limit Ranges定义每个Pod甚至是容器的默认、最小与最大请求及其限制条件。</p>
+<p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>资源名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>limits.cpu</code></td>
+<td>在所有处于非终端状态的 Pod 中，CPU 限制的总和不能超过此值。</td>
+</tr>
+<tr>
+<td><code>limits.memory</code></td>
+<td>在所有处于非终端状态的 Pod 中，内存限制的总和不能超过此值。</td>
+</tr>
+<tr>
+<td><code>requests.cpu</code></td>
+<td>在所有处于非终端状态的 Pod 中，CPU 请求的总和不能超过这个值。</td>
+</tr>
+<tr>
+<td><code>requests.memory</code></td>
+<td>在所有处于非终端状态的 Pod 中，内存请求的总和不能超过这个值。</td>
+</tr>
+<tr>
+<td><code>hugepages-&lt;size&gt;</code></td>
+<td>在所有处于非终端状态的 Pod 中，指定大小的大页面请求数不能超过该值。</td>
+</tr>
+<tr>
+<td><code>cpu</code></td>
+<td>与…一样<code>requests.cpu</code></td>
+</tr>
+<tr>
+<td><code>memory</code></td>
+<td>与…一样<code>requests.memory</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="网络隔离">网络隔离</h3>
+<p><strong>防止跨租户的网络流量</strong></p>
+<p>在默认情况下，<strong>Pod可以在同一集群的网络上跨不同的命名空间实现通信。</strong></p>
+<p>NetworkPolicy可以对网络流量进行划分。假设需要根据命名空间对各个租户进行隔离，则可以<strong>使用以下网络策略确保各租户只能在所在命名空间namespace1之内进行网络通信</strong>（换句话说，拒绝该集群之内不同命名空间之间的相互通信）：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion: networking.k8s.io/v1kind: NetworkPolicymetadata:  name: default-np-ns1  namespace: namespace1spec:  podSelector:</span> &#123;&#125;  <span class="attr">policyTypes:  - Ingress  - Egress  ingress:  - from:    - namespaceSelector:        matchLabels:          nsname: namespace1  egress:  - to:    - namespaceSelector:        matchLabels:          nsname:</span> <span class="string">namespace1</span></span><br></pre></td></tr></table></figure>
+<h3 id="存储隔离">存储隔离</h3>
+<p>在使用共享集群时，不同的租户可能需要不同的存储资源类型。Kubernetes提供不同的工具用于管理存储资源。其中最重要的是<strong>Volume</strong>，它能够以持久性形式将存储资源接入Pod并管理存储资源的整个生命周期。不建议直接挂载由节点提供的存储卷（最好在配合PSP的多租户设计中直接禁用掉对本地存储卷的访问）。</p>
+<p>PersistentVolume(PV)子系统的一些关键功能及其与<em>PersistentVolumeClaim</em> (PVC)的关系。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/multi-tenant-design-considerations-for-amazon-eks-clusters2.jpg" alt="img"></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion: v1kind: ResourceQuotametadata:  name: storage-ns1  namespace: namespace1spec:  hard:    storagens2.storageclass.storage.k8s.io/requests.storage:</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>资源名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>requests.storage</code></td>
+<td>在所有持久卷声明中，存储请求的总和不能超过此值。</td>
+</tr>
+<tr>
+<td><code>persistentvolumeclaims</code></td>
+<td>命名空间中可以存在的<a href="https://v1-21.docs.kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims">PersistentVolumeClaims</a>总数。</td>
+</tr>
+<tr>
+<td><code>&lt;storage-class-name&gt;.storageclass.storage.k8s.io/requests.storage</code></td>
+<td>在与 关联的所有持久卷声明中<code>&lt;storage-class-name&gt;</code>，存储请求的总和不能超过此值。</td>
+</tr>
+<tr>
+<td><code>&lt;storage-class-name&gt;.storageclass.storage.k8s.io/persistentvolumeclaims</code></td>
+<td>在与 storage-class-name 关联的所有持久卷声明中，可以存在于命名空间中的<a href="https://v1-21.docs.kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims">持久卷声明</a>的总数。</td>
+</tr>
+</tbody>
+</table>
+<h1>KubeSphere平台实现多租户</h1>
+<h2 id="逻辑层面的资源隔离-2">逻辑层面的资源隔离</h2>
+<p>KubeSphere 的多租户系统分<strong>三个层级，即集群、企业空间和项目</strong>。KubeSphere 中的项目等同于 Kubernetes 的命名空间。</p>
+<p>与 Kubernetes 相同，KubeSphere 通过 RBAC 对用户的权限加以控制，实现逻辑层面的资源隔离。</p>
+<p>下图是一个KubeSphere多租户的一个实例：</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/k8s%E5%A4%9A%E7%A7%9F%E6%88%B7.png" alt="尚硅谷KubeSphere逻辑图"></p>
+<h3 id="用户角色">用户角色</h3>
+<ul>
+<li>平台角色：主要控制用户对平台资源的访问权限，如集群的管理、企业空间的管理、平台用户的管理等。</li>
+<li>企业空间角色：主要控制企业空间成员在企业空间下的资源访问权限，如企业空间下项目、DevOps 项目的管理等。</li>
+<li>项目角色：主要控制项目下资源的访问权限，如工作负载的管理、流水线的管理等。</li>
+</ul>
+<h4 id="平台角色">平台角色</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">内置角色</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>workspaces-manager</code></td>
+<td style="text-align:left">企业空间管理员，管理平台所有企业空间。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>users-manager</code></td>
+<td style="text-align:left">用户管理员，管理平台所有用户。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>platform-regular</code></td>
+<td style="text-align:left">平台普通用户，在被邀请加入企业空间或集群之前没有任何资源操作权限。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>platform-admin</code></td>
+<td style="text-align:left">平台管理员，可以管理平台内的所有资源。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="企业空间角色">企业空间角色</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">角色</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>workspace-admin</code></td>
+<td style="text-align:left">管理指定企业空间中的所有资源（在此示例中，此帐户用于邀请新成员加入企业空间）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>workspace-self-provisioner</code></td>
+<td style="text-align:left">创建和管理项目以及 DevOps 项目，并邀请新成员加入项目。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>workspace-viewer</code></td>
+<td style="text-align:left"><code>project-regular</code> 将由 <code>project-admin</code> 邀请至项目或 DevOps 项目。该帐户将用于在指定项目中创建工作负载、流水线和其他资源。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>workspace-regular</code></td>
+<td style="text-align:left">在指定项目中创建负载、流水线和其他的资源</td>
+</tr>
+</tbody>
+</table>
+<h4 id="项目角色">项目角色</h4>
+<ul>
+<li>admin</li>
+<li>operator</li>
+<li>viewer</li>
+</ul>
+<h2 id="kubesphere对k8s原生的多租户改进">kubesphere对k8s原生的多租户改进</h2>
+<ul>
+<li><strong>多租户</strong>：它提供了基于角色的细粒度身份验证和三层授权的系统。</li>
+<li><strong>统一认证</strong>：KubeSphere 与 LDAP 或 AD 协议的中央身份验证系统兼容。还支持单点登录 (SSO)，以实现租户身份的统一身份验证。</li>
+<li><strong>授权系统</strong>：它分为三个级别：集群，企业空间和项目。 KubeSphere 确保可以共享资源，同时完全隔离多个级别的不同角色以确保资源安全。</li>
+</ul>
+<h3 id="k8s原生的多租户存在的问题">k8s原生的多租户存在的问题</h3>
+<p>Kubernetes 中的 RBAC和命名空间 (namespace) 提供了基本的逻辑隔离能力，但在大部分企业环境中并不适用。企业中的租户往往需要跨多个命名空间甚至是多个集群进行资源管理。除此之外，针对用户的行为审计、租户隔离的日志、事件查询也是不可或缺的能力。</p>
+<h3 id="KubeSphere-中的多租户改进">KubeSphere 中的多租户改进</h3>
+<p>在 KubeSphere 中企业空间是最小的租户单元，企业空间提供了跨集群、跨项目（即 Kubernetes 中的命名空间）共享资源的能力。企业空间中的成员可以在授权集群中创建项目，并通过邀请授权的方式参与项目协同。</p>
+<p><strong>多级的权限控制和资源配额限制是 KubeSphere 中资源隔离的基础</strong>，奠定了多租户最基本的形态。</p>
+<h4 id="逻辑隔离">逻辑隔离</h4>
+<p>与 Kubernetes 相同，KubeSphere 通过 RBAC 对用户的权限加以控制，实现逻辑层面的资源隔离。</p>
+<p>KubeSphere 中的权限控制分为平台、企业空间、项目三个层级，通过角色来控制用户在不同层级的资源访问权限。</p>
+<h4 id="网络隔离-2">网络隔离</h4>
+<p>KubeSphere 中还可以针对企业空间和项目设置网络隔离策略。</p>
+<p>从 3.0.0 版本开始，用户可以在 KubeSphere 中配置原生 Kubernetes 的网络策略。网络策略是一种以应用为中心的结构，使您能够指定如何允许容器组通过网络与各种网络实体进行通信。通过网络策略，用户可以在同一集群内实现网络隔离，这意味着可以在某些实例（容器组）之间设置防火墙。</p>
+<p>在cluster-configuration.yaml配置文件中，修改配置。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">network:  networkpolicy:    enabled:</span> <span class="literal">true</span> <span class="comment"># 将“false”更改为“true”。</span></span><br></pre></td></tr></table></figure>
+<h4 id="操作审计">操作审计</h4>
+<p>KubeSphere 审计日志系统提供了一套与安全相关并按时间顺序排列的记录，按顺序记录了与单个用户、管理人员或系统其他组件相关的活动。对 KubeSphere 的每个请求都会生成一个事件，然后写入 Webhook，并根据一定的规则进行处理。</p>
+<p>启动审查功能：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">auditing:  enabled:</span> <span class="literal">true</span> <span class="comment"># 将“false”更改为“true”。</span></span><br></pre></td></tr></table></figure>
+<p>默认情况下，如果启用了审计功能，将安装内置 Elasticsearch。对于生产环境，如果您想启用审计功能，强烈建议在该 YAML 文件中设置以下值：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">es:</span>  <span class="comment"># Storage backend for logging, tracing, events and auditing.</span></span><br><span class="line">  <span class="attr">elasticsearchMasterReplicas:</span> <span class="number">1</span>  <span class="comment"># The total number of master nodes. Even numbers are not allowed.</span></span><br><span class="line">  <span class="attr">elasticsearchDataReplicas:</span> <span class="number">1</span>     <span class="comment"># The total number of data nodes.</span></span><br><span class="line">  <span class="attr">elasticsearchMasterVolumeSize:</span> <span class="string">4Gi</span>  <span class="comment"># The volume size of Elasticsearch master nodes.</span></span><br><span class="line">  <span class="attr">elasticsearchDataVolumeSize:</span> <span class="string">20Gi</span>   <span class="comment"># The volume size of Elasticsearch data nodes.</span></span><br><span class="line">  <span class="attr">logMaxAge:</span> <span class="number">7</span> <span class="comment"># Log retention day in built-in Elasticsearch. It is 7 days by default.</span></span><br><span class="line">  <span class="attr">elkPrefix:</span> <span class="string">logstash</span>    <span class="comment"># The string making up index names. The index name will be formatted as ks-&lt;elk_prefix&gt;-log.</span></span><br><span class="line">  <span class="attr">externalElasticsearchUrl:</span> <span class="comment"># The Host of external Elasticsearch.</span></span><br><span class="line">  <span class="attr">externalElasticsearchPort:</span> <span class="comment"># The port of external Elasticsearch.</span></span><br></pre></td></tr></table></figure>
+<h4 id="认证鉴权">认证鉴权</h4>
+<p>KubeSphere 完整的认证鉴权链路如下图所示，可以通过 OPA 拓展 Kubernetes 的 RBAC 规则。KubeSphere 团队计划集成 Gatekeeper 以支持更为丰富的安全管控策略。</p>
+<p>OPA（open policy agent）:</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/request-chain.jpg" alt="request-chain"></p>
+<h1>参考文献：</h1>
+<p>K8S中RBAC：<a href="https://kubernetes.io/zh/docs/reference/access-authn-authz/rbac/">https://kubernetes.io/zh/docs/reference/access-authn-authz/rbac/</a></p>
+<p>Kubernetes的租户模型：<a href="https://v1-21.docs.kubernetes.io/blog/2021/04/15/three-tenancy-models-for-kubernetes/">https://v1-21.docs.kubernetes.io/blog/2021/04/15/three-tenancy-models-for-kubernetes/</a></p>
+<p>网络隔离中的相关配置：<a href="https://docs.aws.amazon.com/eks/latest/userguide/calico.html">https://docs.aws.amazon.com/eks/latest/userguide/calico.html</a></p>
+<p>资源配额设置：<a href="https://v1-21.docs.kubernetes.io/docs/concepts/policy/resource-quotas/">https://v1-21.docs.kubernetes.io/docs/concepts/policy/resource-quotas/</a></p>
+<p>多租户实例：<a href="https://www.cnblogs.com/dream397/p/15011693.html">https://www.cnblogs.com/dream397/p/15011693.html</a></p>
+<p>KubeSphere：<a href="https://kubesphere.io/zh/docs/quick-start/create-workspace-and-project/">https://kubesphere.io/zh/docs/quick-start/create-workspace-and-project/</a></p>
+<p>KubeSphere3.0配置网络策略：<a href="https://kubesphere.io/zh/docs/pluggable-components/network-policy/">https://kubesphere.io/zh/docs/pluggable-components/network-policy/</a></p>
+<p>多租户配置实例：<a href="https://gitee.com/watching/KubeCube/tree/main/config/rbac">https://gitee.com/watching/KubeCube/tree/main/config/rbac</a></p>
+]]></content>
+      <categories>
+        <category>调研</category>
+      </categories>
+      <tags>
+        <tag>k8s</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>g</title>
+    <url>/2022/01/18/g/</url>
+    <content><![CDATA[]]></content>
+  </entry>
 </search>
