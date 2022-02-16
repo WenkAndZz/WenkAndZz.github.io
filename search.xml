@@ -4070,9 +4070,9 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/shallow&amp;deep-copy.64ee0760.png" alt="img"></p>
 <h2 id="异常">异常</h2>
 <p>在 Java 中，所有的异常都有一个共同的祖先 <code>java.lang</code> 包中的 <code>Throwable</code> 类。<code>Throwable</code> 类有两个重要的子类 <code>Exception</code>（异常）和 <code>Error</code>（错误）。<code>Exception</code> 能被程序本身处理(<code>try-catch</code>)， <code>Error</code> 是无法处理的(只能尽量避免)。</p>
-<p><img src="https://guide-blog-images.oss-cn-shenzhen.aliyuncs.com/2020-12/Java%E5%BC%82%E5%B8%B8%E7%B1%BB%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="img"></p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220216150741705.png" alt="image-20220216150741705"></p>
 <p>异常可以分为：</p>
-<p>受检查的异常：编译阶段，没有被catch/throw包裹的话会报错。例如IO异常等。</p>
+<p>受检查的异常：编译阶段，没有被try/catch/throw包裹的话会报错。例如IO异常等。</p>
 <p>不受检查的异常：编译阶段不会报错，运行阶段会出现错误。，例如：<code>NullPointerException</code>、<code>NumberFormatException</code>（字符串转换为数字）、<code>ArrayIndexOutOfBoundsException</code>（数组越界）、<code>ClassCastException</code>（类型转换错误）、<code>ArithmeticException</code>（算术错误）等。</p>
 <h2 id="IO流">IO流</h2>
 <ul>
@@ -4085,7 +4085,7 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <li>InputStream/Reader: 所有的输入流的基类，前者是字节输入流，后者是字符输入流。</li>
 <li>OutputStream/Writer: 所有输出流的基类，前者是字节输出流，后者是字符输出流。</li>
 </ul>
-<p><img src="https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-6/IO-%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F%E5%88%86%E7%B1%BB.png" alt="img"></p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/zzz.png" alt="zzz"></p>
 <h2 id="值传递和引用传递">值传递和引用传递</h2>
 <ul>
 <li><strong>值传递</strong> ：方法接收的是实参值的拷贝，会创建副本。</li>
@@ -4139,7 +4139,7 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 </ul>
 <h3 id="底层实现">底层实现</h3>
 <p>List：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ArrayList                --Object[]数组Vector                   --Object[]数组，加synchronize锁，所以是线程安全的LinkedList               --双向链表</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ArrayList                --Object[]数组</span><br><span class="line">Vector                   --Object[]数组，加synchronize锁，所以是线程安全的</span><br><span class="line">LinkedList               --双向链表</span><br></pre></td></tr></table></figure>
 <p>Set：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">HashSet(无序，唯一): 基于 HashMap 实现的，底层采用 HashMap 来保存元素</span><br><span class="line">LinkedHashSet: LinkedHashSet 是 HashSet 的子类，并且其内部是通过 LinkedHashMap 来实现的</span><br><span class="line">TreeSet：红黑树实现</span><br></pre></td></tr></table></figure>
 <p>Queue：</p>
@@ -4157,7 +4157,7 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <ul>
 <li><strong>是否保证线程安全：</strong> <code>ArrayList</code> 和 <code>LinkedList</code> 都是不同步的，也就是不保证线程安全；</li>
 <li><strong>底层数据结构：</strong> <code>Arraylist</code> 底层使用的是 <strong><code>Object</code> 数组</strong>；<code>LinkedList</code> 底层使用的是 <strong>双向链表</strong> 数据结构</li>
-<li>**插入和删除是否受元素位置的影响：**ArrayList插入删除受位置影响，LinkedList底层是双向链表，所以不受位置影响。</li>
+<li>插入和删除是否受元素位置的影响：ArrayList插入删除受位置影响，LinkedList底层是双向链表，所以不受位置影响。</li>
 <li><strong>是否支持快速随机访问：</strong> <code>LinkedList</code> 不支持高效的随机元素访问，而 <code>ArrayList</code> 支持。快速随机访问就是通过元素的序号快速获取元素对象(对应于<code>get(int index)</code>方法)。</li>
 <li><strong>内存空间占用：</strong> ArrayList 的空间浪费主要体现在在 list 列表的结尾会预留一定的容量空间，而 LinkedList 的空间花费则体现在它的每一个元素都需要消耗比 ArrayList 更多的空间（因为要存放直接后继和直接前驱以及数据）。</li>
 </ul>
@@ -4219,7 +4219,7 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <li>实现线程安全的方式（重要）：ConcurrentHashMap通过Synchronize加CAS的方式进行操作。HashTable只加了一把Synchronize锁，效率十分低下。</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">① 在 JDK1.7 的时候，ConcurrentHashMap（分段锁）对整个桶数组进行了分割分段(Segment)，每一把锁只锁容器其中一部分数据，多线程访问容器里不同数据段的数据，就不会存在锁竞争，提高并发访问率。 到了 JDK1.8 的时候已经摒弃了Segment的概念，而是直接用 Node 数组+链表+红黑树的数据结构来实现，并发控制使用 synchronized 和 CAS 来操作。② Hashtable(同一把锁):使用 synchronized 来保证线程安全，效率非常低下。当一个线程访问同步方法时，其他线程也访问同步方法，可能会进入阻塞或轮询状态，如使用 put 添加元素，另一个线程不能使用 put 添加元素，也不能使用 get，竞争会越来越激烈效率越低。</span><br></pre></td></tr></table></figure>
-<p><img src="https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-6/HashTable%E5%85%A8%E8%A1%A8%E9%94%81.png" alt="img"></p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220216153346780.png" alt="image-20220216153346780"></p>
 <p>ConcurrentHashMap(1.8):</p>
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/java8_concurrenthashmap.772ed191.png" alt="Java8 ConcurrentHashMap 存储结构（图片来自 javadoop）"></p>
 <p>JDK1.8 的 <code>ConcurrentHashMap</code> 不再是 <strong>Segment 数组 + HashEntry 数组 + 链表</strong>，而是 <strong>Node 数组 + 链表 / 红黑树</strong>。不过，Node 只能用于链表的情况，红黑树的情况需要使用 <strong><code>TreeNode</code></strong>。当冲突链表达到一定长度时，链表会转换成红黑树。</p>
@@ -4230,7 +4230,7 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <h2 id="什么是线程和进程">什么是线程和进程</h2>
 <p><strong>进程</strong>：进程是程序的一次执行过程，是系统运行程序的基本单位，因此进程是动态的。系统运行就是进程从创建、运行、销毁的过程。</p>
 <p><strong>线程</strong>：线程是比进程更小的资源。一个进程中可能会包含多个线程，多个线程共享进程的堆和方法区中的资源，但是每个线程都有自己的程序计数器，本地方法栈和虚拟机栈。</p>
-<p><img src="https://javaguide.cn/assets/img/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9FJDK1.8.5c3da749.png" alt="img"></p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220216153648466.png" alt="image-20220216153648466"></p>
 <p><strong>总结：</strong> 线程是进程划分成的更小的运行单位。线程和进程最大的不同在于基本上各进程是独立的，而各线程则不一定，因为同一进程中的线程极有可能会相互影响。线程执行开销小，但不利于资源的管理和保护；而进程正相反。</p>
 <h2 id="线程间通信">线程间通信</h2>
 <p>线程通信主要可以分为三种方式，分别为<strong>共享内存</strong>、<strong>消息传递</strong>和<strong>管道流</strong>。每种方式有不同的方法来实现。</p>
@@ -4268,7 +4268,7 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <h2 id="多线程可能存在的问题">多线程可能存在的问题</h2>
 <p>并发编程的目的就是为了能提高程序的执行效率提高程序运行速度，但是并发编程并不总是能提高程序运行速度的，而且并发编程可能会遇到很多问题，比如：<strong>内存泄漏、死锁、线程不安全</strong>等等。</p>
 <h2 id="线程的生命周期和状态">线程的生命周期和状态?</h2>
-<p><img src="https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/19-1-29/Java%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81.png" alt="Java 线程的状态 "></p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220216154311065.png" alt="image-20220216154311065"></p>
 <p>线程在生命周期中并不是固定处于某一个状态而是随着代码的执行在不同状态之间切换。</p>
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220206172846942.png" alt="image-20220206172846942"></p>
 <p>WAITING：等待状态，调用了wait（）方法</p>
@@ -4397,7 +4397,7 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <p>AQS 的全称为（<code>AbstractQueuedSynchronizer</code>），这个类在<code>java.util.concurrent.locks</code>包下面。</p>
 <p>AQS 是一个用来构建锁和同步器的框架，使用 AQS 能简单且高效地构造出大量应用广泛的同步器 <code>ReentrantLock</code>，<code>Semaphore</code>是基于 AQS 的。</p>
 <p>AQS 核心思想是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并且将共享资源设置为锁定状态。如果被请求的共享资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制 AQS 是用 CLH 队列锁实现的，即将暂时获取不到锁的线程加入到队列中</p>
-<p><img src="https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-6/AQS%E5%8E%9F%E7%90%86%E5%9B%BE.png" alt="AQS原理图"></p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220216160218745.png" alt="image-20220216160218745"></p>
 <p>aqs中定义共享资源的两种方式：</p>
 <ol>
 <li>独占。</li>
@@ -4412,14 +4412,14 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <h1>JVM</h1>
 <h2 id="Java内存区域">Java内存区域</h2>
 <h3 id="运行时数据区">运行时数据区</h3>
-<p><img src="https://javaguide.cn/assets/img/Java%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9FJDK1.8.5c3da749.png" alt="img"></p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220216160523936.png" alt="image-20220216160523936"></p>
 <p><strong>线程私有的：</strong></p>
 <ul>
 <li>
 <p>程序计数器：最小的一块内存，但是运行的效率最快，相当于字节码运行的行号解释器。**字节码解释器工作时通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等功能都需要依赖这个计数器来完成。**程序计数器是Java内存中唯一一个不会出现OutOfMemory的区域，因为它随着线程的创建而创建，随着线程的结束而死亡。</p>
 </li>
 <li>
-<p>虚拟机栈：**描述的是 Java 方法执行的内存模型，每次方法调用的数据都是通过栈传递的。**Java内存可以粗略的分为堆内存和栈内存，其中栈内存指的就是虚拟机栈。Java 虚拟机栈是由一个个栈帧组成，而每个栈帧中都拥有：局部变量表、操作数栈、动态链接、方法出口信息。<strong>Java 虚拟机栈会出现两种错误：<code>StackOverFlowError</code> 和 <code>OutOfMemoryError</code>。</strong></p>
+<p>虚拟机栈：描述的是 Java 方法执行的内存模型，每次方法调用的数据都是通过栈传递的。Java内存可以粗略的分为堆内存和栈内存，其中栈内存指的就是虚拟机栈。Java 虚拟机栈是由一个个栈帧组成，而每个栈帧中都拥有：局部变量表、操作数栈、动态链接、方法出口信息。Java 虚拟机栈会出现两种错误：<code>StackOverFlowError</code> 和 <code>OutOfMemoryError</code>。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Java 栈可以类比数据结构中栈，Java 栈中保存的主要内容是栈帧，每一次函数调用都会有一个对应的栈帧被压入 </span><br><span class="line">Java 栈，每一个函数调用结束后，都会有一个栈帧被弹出。</span><br><span class="line">Java 方法有两种返回方式： return 语句; 抛出异常。 不管哪种返回方式都会导致栈帧被弹出。</span><br></pre></td></tr></table></figure>
 </li>
 <li>
@@ -4566,6 +4566,25 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <li>MySQL InnoDB 引擎通过 <strong>锁机制</strong>、<strong>MVCC</strong> 等手段来保证事务的隔离性（ 默认支持的隔离级别是 <strong><code>REPEATABLE-READ</code></strong> ）。</li>
 <li>保证了事务的持久性、原子性、隔离性之后，一致性才能得到保障。</li>
 </ul>
+<h3 id="MVCC实现的原理">MVCC实现的原理</h3>
+<p>数据库并发的场景：</p>
+<ul>
+<li><code>读-读</code>：不存在任何问题，也不需要并发控制</li>
+<li><code>读-写</code>：有线程安全问题，可能会造成事务隔离性问题，可能遇到脏读，幻读，不可重复读</li>
+<li><code>写-写</code>：有线程安全问题，可能会存在更新丢失问题，比如第一类更新丢失，第二类更新丢失</li>
+</ul>
+<p>MVCC能解决<strong>读-写</strong>的线程安全问题，想要彻底解决就需要MVCC+锁机制</p>
+<p><strong>原理：</strong></p>
+<p>MVCC的目的就是多版本并发控制，在数据库中的实现，就是为了解决<code>读写冲突</code>，它的实现原理主要是依赖记录中的 <code>3个隐式字段</code>，<code>undo日志</code> ，<code>Read View</code> 来实现的。</p>
+<p>三个隐藏字段：</p>
+<ul>
+<li><code>DB_TRX_ID</code><br>
+6byte，最近修改(<code>修改/插入</code>)事务ID：记录创建这条记录/最后一次修改该记录的事务ID</li>
+<li><code>DB_ROLL_PTR</code><br>
+7byte，回滚指针，指向这条记录的上一个版本（存储于rollback segment里）</li>
+<li><code>DB_ROW_ID</code><br>
+6byte，隐含的自增ID（隐藏主键），如果数据表没有主键，InnoDB会自动以<code>DB_ROW_ID</code>产生一个聚簇索引</li>
+</ul>
 <h3 id="并发事务带来哪些问题">并发事务带来哪些问题?</h3>
 <ul>
 <li><strong>脏读（Dirty read）:</strong> 当一个事务正在访问数据并且对数据进行了修改，而这种修改还没有提交到数据库中，这时另外一个事务也访问了这个数据，然后使用了这个数据。因为这个数据是还没有提交的数据，那么另外一个事务读到的这个数据是“脏数据”，依据“脏数据”所做的操作可能是不正确的。</li>
@@ -4574,7 +4593,7 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <li><strong>幻读（Phantom read）:</strong> 幻读与不可重复读类似。它发生在一个事务（T1）读取了几行数据，接着另一个并发事务（T2）插入了一些数据时。在随后的查询中，第一个事务（T1）就会发现多了一些原本不存在的记录，就好像发生了幻觉一样，所以称为幻读。</li>
 </ul>
 <p><strong>不可重复读和幻读区别：</strong></p>
-<p>不可重复读的重点是==修改==，比如多次读取一条记录发现其中某些列的值被修改；幻读的重点在于==新增或者删除==，比如多次读取一条记录发现记录增多或减少了</p>
+<p>不可重复读的重点是<strong>修改</strong>，比如多次读取一条记录发现其中某些列的值被修改；幻读的重点在于<strong>新增或者删除</strong>，比如多次读取一条记录发现记录增多或减少了</p>
 <h3 id="事务隔离级别有哪些">事务隔离级别有哪些?</h3>
 <p>MySQL数据库的默认隔离级别是：可重复读</p>
 <ul>
@@ -4724,6 +4743,19 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <ol>
 <li>设置不同的失效时间比如随机设置缓存的失效时间。</li>
 <li>缓存永不失效。</li>
+</ol>
+<h3 id="Redis为什么快">Redis为什么快</h3>
+<ol>
+<li>
+<p>Redis具有缓存功能，缓存就是直接操作内存，内存的读写速度极快。</p>
+</li>
+<li>
+<p>Redis采用单线程,避免了不必要的上下文切换和竞争。</p>
+</li>
+<li>
+<p>Redis使用非阻塞的I/O多路复用技术，可以处理并发的连接。redis使用非阻塞I/O；</p>
+<p><code>IO</code>多路复用程序会同时监听多个<code>socket</code>，当被监听的<code>socket</code>准备好执行<code>accept</code>、<code>read</code>、<code>write</code>、<code>close</code>等操作时，与这些操作相对应的文件事件就会产生。<code>IO</code>多路复用程序会把所有产生事件的<code>socket</code>压入一个队列中，然后有序地每次仅一个<code>socket</code>的方式传送给文件事件分派器，文件事件分派器接收到<code>socket</code>之后会根据<code>socket</code>产生的事件类型调用对应的事件处理器进行处理。</p>
+</li>
 </ol>
 <h1>框架</h1>
 <h2 id="Spring-IOC-AOP">Spring IOC &amp; AOP</h2>
