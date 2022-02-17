@@ -4393,6 +4393,19 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <p><strong><code>ThreadPoolExecutor.DiscardOldestPolicy</code>：</strong> 此策略将丢弃最早的未处理的任务请求。</p>
 <h3 id="线程池的运行原理">线程池的运行原理</h3>
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220209155822709.png" alt="image-20220209155822709"></p>
+<h3 id="Thread类和线程池的区别">Thread类和线程池的区别</h3>
+<p>Thread类的弊端：</p>
+<ul>
+<li>每次new Thread新建对象性能差。</li>
+<li>线程缺乏统一管理，可能无限制新建线程，相互之间竞争，及可能占用过多系统资源导致死机或oom。</li>
+<li>缺乏更多功能，如定时执行、定期执行、线程中断。</li>
+</ul>
+<p>使用线程池的好处：</p>
+<ul>
+<li>重用存在的线程，减少对象创建、消亡的开销，性能佳。</li>
+<li>可有效控制最大并发线程数，提高系统资源的使用率，同时避免过多资源竞争，避免堵塞。</li>
+<li>提供定时执行、定期执行、单线程、并发数控制等功能。</li>
+</ul>
 <h2 id="抽象队列同步器AQS">抽象队列同步器AQS</h2>
 <p>AQS 的全称为（<code>AbstractQueuedSynchronizer</code>），这个类在<code>java.util.concurrent.locks</code>包下面。</p>
 <p>AQS 是一个用来构建锁和同步器的框架，使用 AQS 能简单且高效地构造出大量应用广泛的同步器 <code>ReentrantLock</code>，<code>Semaphore</code>是基于 AQS 的。</p>
@@ -4540,6 +4553,29 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <li><strong>数据库的运行和维护</strong> : 系统的运行与数据库的日常维护。</li>
 </ol>
 <h2 id="MySQL数据库">MySQL数据库</h2>
+<h3 id="Char和VarChar的区别">Char和VarChar的区别</h3>
+<ol>
+<li>
+<p>最大长度：</p>
+<p>char最大长度是255字符，varchar最大长度是65535个字节。</p>
+</li>
+<li>
+<p>定长：</p>
+<p>char是定长的，不足的部分用隐藏空格填充，varchar是不定长的。</p>
+</li>
+<li>
+<p>空间使用：</p>
+<p>char会浪费空间，varchar会更加节省空间。</p>
+</li>
+<li>
+<p>查找效率：</p>
+<p>char查找效率会很高，varchar查找效率会更低。</p>
+</li>
+<li>
+<p>尾部空格：</p>
+<p>char插入时可省略，vaechar插入时不会省略，查找时省略。</p>
+</li>
+</ol>
 <h3 id="存储引擎">存储引擎</h3>
 <p>5.5版本之前 ：MyISAM。</p>
 <p>5.5版本之后 ： InnoDB。</p>
@@ -4638,6 +4674,9 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 </tr>
 </tbody>
 </table>
+<h3 id="牛客网项目中，私信功能的数据表格式">牛客网项目中，私信功能的数据表格式</h3>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220217101951936.png" alt="image-20220217101951936"></p>
+<p>主要包括主键id；发送方id；接收方id；为了方便查找消息，将发送方id与接收方id做了一个拼接，以后想要找到聊天信息的话，直接查询这个字段就可以了；发送内容content；状态：已读，未读，删除；创建的时间。</p>
 <h2 id="MySQL索引">MySQL索引</h2>
 <p><strong>索引是一种用于快速查询和检索数据的数据结构。常见的索引结构有: B 树， B+树和 Hash</strong></p>
 <h3 id="索引的优缺点">索引的优缺点</h3>
@@ -4660,6 +4699,12 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <li>B+树的检索效率就很稳定了，任何查找都是从根节点到叶子节点的过程，叶子节点的顺序检索很明显。</li>
 </ul>
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/20210420165409106.png" alt="img"></p>
+<h3 id="索引的最左匹配">索引的最左匹配</h3>
+<p>在MySQL建立联合索引时会遵守最左前缀匹配原则，即最左优先，在检索数据时从联合索引的最左边开始匹配。</p>
+<h3 id="查看是否使用索引">查看是否使用索引</h3>
+<p>通过explain命令查看。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/v2-767c9106f588ed86ed775306784db9fe_r.jpg" alt="preview"></p>
+<p>在最后一个字段extra中，会标注有没有使用索引。rows是查询结果的字段数量。filtered是过滤掉的字段数量。</p>
 <h3 id="聚集索引与非聚集索引">聚集索引与非聚集索引</h3>
 <ul>
 <li>聚集索引即索引结构和数据一起存放的索引。主键索引属于聚集索引。</li>
@@ -4667,10 +4712,11 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 </ul>
 <p>主键索引：叶子节点存放的是data。</p>
 <p>二级索引/辅助索引：叶子节点存放的是主键。</p>
+<h3 id="MySQL回表查询">MySQL回表查询</h3>
+<p>回表：<strong>先定位主键值key，再通过主键值找到data，相当于发生了两次查询操作</strong>。非聚集索引和辅助索引都会发生回表操作。</p>
 <h3 id="创建索引的注意事项">创建索引的注意事项</h3>
 <ol>
-<li>
-<p>选择合适创建索引的字段</p>
+<li>选择合适创建索引的字段
 <ul>
 <li><strong>不为 NULL 的字段</strong> ：索引字段的数据应该尽量不为 NULL，因为对于数据为 NULL 的字段，数据库较难优化。如果字段频繁被查询，但又避免不了为 NULL，建议使用 0,1,true,false 这样语义较为清晰的短值或短字符作为替代。</li>
 <li><strong>被频繁查询的字段</strong> ：我们创建索引的字段应该是查询操作非常频繁的字段。</li>
@@ -4679,20 +4725,46 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <li><strong>被经常频繁用于连接的字段</strong> ：经常用于连接的字段可能是一些外键列，对于外键列并不一定要建立外键，只是说该列涉及到表与表的关系。对于频繁被连接查询的字段，可以考虑建立索引，提高多表连接查询的效率。</li>
 </ul>
 </li>
-<li>
-<p><strong>被频繁更新的字段应该慎重建立索引。</strong></p>
-</li>
-<li>
-<p>尽可能的考虑建立联合索引而不是单列索引。</p>
+<li><strong>被频繁更新的字段应该慎重建立索引。</strong></li>
+<li>尽可能的考虑建立联合索引而不是单列索引。
 <ul>
 <li>因为索引是需要占用磁盘空间的，可以简单理解为每个索引都对应着一颗 B+树。如果一个表的字段过多，索引过多，那么当这个表的数据达到一个体量后，索引占用的空间也是很多的，且修改索引时，耗费的时间也是较多的。如果是联合索引，多个字段在一个索引上，那么将会节约很大磁盘空间，且修改数据的操作效率也会提升。</li>
 </ul>
 </li>
+<li><strong>注意避免冗余索引</strong> 。</li>
+<li><strong>考虑在字符串类型的字段上使用前缀索引代替普通索引。</strong></li>
+</ol>
+<h3 id="索引失效的情况">索引失效的情况</h3>
+<ol>
 <li>
-<p><strong>注意避免冗余索引</strong> 。</p>
+<p>where语句中包含or时，可能会导致索引失效。如果or的两边是相同的索引的话，可以命中。</p>
 </li>
 <li>
-<p><strong>考虑在字符串类型的字段上使用前缀索引代替普通索引。</strong></p>
+<p>where语句中索引列使用了负向查询，可能会导致索引失效。负向查询包括：NOT、!=、&lt;&gt;、!&lt;、!&gt;、NOT IN、NOT LIKE等</p>
+</li>
+<li>
+<p>索引字段可以为null，使用is null或is not null时，可能会导致索引失效</p>
+</li>
+<li>
+<p><strong>在索引列上使用内置函数，一定会导致索引失效</strong></p>
+</li>
+<li>
+<p><strong>对索引列进行运算，一定会导致索引失效</strong>。select<code> </code>* <code>from` ````user``` </code>where<code> </code>age - 1 = 10;</p>
+</li>
+<li>
+<p><strong>like通配符可能会导致索引失效</strong>。可以使用覆盖索引来命中，覆盖索引是指select后加索引字段名。</p>
+</li>
+<li>
+<p><strong>联合索引中，where中索引列违背最左匹配原则，一定会导致索引失效</strong></p>
+</li>
+<li>
+<p><strong>MySQL优化器的最终选择，不走索引</strong></p>
+<p>即使完全符合索引生效的场景，考虑到实际数据量等原因，最终是否使用索引还要看MySQL优化器的判断。当然你也可以在sql语句中写明强制走某个索引。</p>
+<p>索引优化的建议：</p>
+<ul>
+<li>禁止在更新十分频繁、区分度不高的属性上建立索引</li>
+<li>建立组合索引，必须把区分度高的字段放在前面。</li>
+</ul>
 </li>
 </ol>
 <h2 id="Redis数据库">Redis数据库</h2>
@@ -4799,7 +4871,33 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <p><code>IO</code>多路复用程序会同时监听多个<code>socket</code>，当被监听的<code>socket</code>准备好执行<code>accept</code>、<code>read</code>、<code>write</code>、<code>close</code>等操作时，与这些操作相对应的文件事件就会产生。<code>IO</code>多路复用程序会把所有产生事件的<code>socket</code>压入一个队列中，然后有序地每次仅一个<code>socket</code>的方式传送给文件事件分派器，文件事件分派器接收到<code>socket</code>之后会根据<code>socket</code>产生的事件类型调用对应的事件处理器进行处理。</p>
 </li>
 </ol>
-<h1>框架</h1>
+<h3 id="Redis集群的三种模式">Redis集群的三种模式</h3>
+<ul>
+<li><strong>主从复制模式</strong>：主从模式是三种模式中最简单的，在主从复制中，数据库分为两类：主数据库(master)和从数据库(slave)。数据写入到master上，然后复制到slave中。</li>
+<li><strong>哨兵模式</strong>：主从模式的弊端就是不具备高可用性，当master挂掉以后，Redis将不能再对外提供写入操作，因此sentinel应运而生。sentinel中文含义为哨兵，顾名思义，它的作用就是监控redis集群的运行状况。当master宕机之后，会自动选举一个slave作为master</li>
+<li><strong>集群模式</strong>：sentinel模式基本可以满足一般生产的需求，具备高可用性。但是当数据量过大到一台服务器存放不下的情况时，主从模式或sentinel模式就不能满足需求了，这个时候需要对存储的数据进行分片，将数据存储到多个Redis实例中。cluster模式的出现就是为了解决单机Redis容量有限的问题，将Redis的数据根据一定的规则分配到多台机器。</li>
+</ul>
+<h3 id="哨兵模式下，slave的选举成master的规则">哨兵模式下，slave的选举成master的规则</h3>
+<p>选点的依据依次是：网络连接正常-&gt;5秒内回复过INFO命令-&gt;10*down-after-milliseconds内与主连接过的-&gt;从服务器优先级-&gt;复制偏移量-&gt;运行id较小的。</p>
+<p>选出之后通过slaveif no ont将该从服务器升为新master。</p>
+<h3 id="redis集群模式下，数据是怎么知道要分配到那个集群上的">redis集群模式下，数据是怎么知道要分配到那个集群上的</h3>
+<ol>
+<li>
+<p>节点取余</p>
+<p>假设有三个节点，因为redis中的数据是key-value存放的，所以先计算hash（key），再对其根据节点数取余。</p>
+<p>缺点：<strong>不支持扩展，增、删缓存服务器时，缓存失效</strong>。</p>
+</li>
+<li>
+<p>一致性hash法</p>
+<p>用Hash算法<strong>根据服务器IP</strong>或hostname得出这三台服务器的<strong>Hash值</strong>。然后把他映射到<strong>0-2的32次方减一</strong>上。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220217094042065.png" alt="image-20220217094042065"></p>
+<p>然后，计算key的hash值，通过顺指针的方式，先指向哪个节点，就存放到哪里。</p>
+</li>
+<li>
+<p>hash槽</p>
+<p>Hash槽共有**16384(2的14次方)**个槽，每台服务器分管一部分。先计算数据的hash值，然后通过取余操作，查看其放在哪个Hash槽上，就能知道分配到哪个集群上。</p>
+</li>
+</ol>
 <h2 id="Spring-IOC-AOP">Spring IOC &amp; AOP</h2>
 <p><strong>IoC（Inverse of Control:控制反转）</strong> 是一种设计思想，而不是一个具体的技术实现。IoC 的思想就是将原本在程序中手动创建对象的控制权，交由 Spring 框架来管理。不过， IoC 并非 Spirng 特有，在其他语言中也有应用。 –</p>
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/frc-365faceb5697f04f31399937c059c162.png" alt="img"></p>
@@ -4910,6 +5008,8 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <li>对称加密：密钥只有一个，加密解密为同一个密码，且加解密速度快，典型的对称加密算法有 DES、AES 等；</li>
 <li>非对称加密：密钥成对出现（且根据公钥无法推知私钥，根据私钥也无法推知公钥），加密解密使用不同密钥（公钥加密需要私钥解密，私钥加密需要公钥解密），相对对称加密速度较慢，典型的非对称加密算法有 RSA、DSA 等。</li>
 </ul>
+<h1>设计模式</h1>
+<h2 id="适配器模式">适配器模式</h2>
 ]]></content>
       <tags>
         <tag>面试</tag>
