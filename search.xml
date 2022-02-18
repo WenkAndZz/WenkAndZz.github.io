@@ -4212,6 +4212,17 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <p>JDK1.8 之后 <code>HashMap</code> 底层是 <strong>数组、链表和红黑树</strong> 。</p>
 <p>HashMap 通过 key 的 hashCode 经过hash函数处理过后得到 hash 值，然后通过 (n - 1) &amp; hash 判断当前元素存放的位置（这里的 n 指的是数组的长度），如果当前位置存在元素的话，就判断该元素与要存入的元素的 hash 值以及 key 是否相同，如果相同的话，直接覆盖；不相同就通过链表法解决冲突（链表法插入时是尾部插入），当链表长度到达一定程度时，链表会变为红黑树。</p>
 <p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220113103039649.png" alt="image-20220113103039649"></p>
+<h3 id="红黑树">红黑树</h3>
+<p>红黑树是一棵自平衡的二叉查找树。</p>
+<p>性质：</p>
+<ol>
+<li>每个节点或者是黑色，或者是红色。</li>
+<li>根节点是黑色。</li>
+<li>每个叶子节点（NIL）是黑色。 [注意：这里叶子节点，是指为空(NIL或NULL)的叶子节点！]</li>
+<li>如果一个节点是红色的，则它的子节点必须是黑色的。</li>
+<li>从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点。</li>
+</ol>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/251730074203156.jpg" alt="img"></p>
 <h3 id="ConcurrentHashMap-和-Hashtable-的区别">ConcurrentHashMap 和 Hashtable 的区别</h3>
 <p><code>ConcurrentHashMap</code> 和 <code>Hashtable</code> 的区别主要体现在实现线程安全的方式上不同。</p>
 <ul>
@@ -4560,6 +4571,33 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <li>G1 收集器：G1 (Garbage-First) 是一款面向服务器的垃圾收集器,主要针对配备多颗处理器及大容量内存的机器. 以极高概率满足 GC 停顿时间要求的同时,还具备高吞吐量性能特征.</li>
 </ul>
 <h2 id="类加载">类加载</h2>
+<h3 id="类的声明周期">类的声明周期</h3>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220218152504496.png" alt="image-20220218152504496"></p>
+<h3 id="类加载的过程">类加载的过程</h3>
+<p>Class 文件需要加载到虚拟机中之后才能运行和使用，那么虚拟机是如何加载这些 Class 文件呢？</p>
+<p>系统加载 Class 类型的文件主要三步：<strong>加载-&gt;连接-&gt;初始化</strong>。连接过程又可分为三步：<strong>验证-&gt;准备-&gt;解析</strong></p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220218152615647.png" alt="image-20220218152615647"></p>
+<p><strong>加载：</strong></p>
+<ol>
+<li>通过全类名获取定义此类的二进制字节流</li>
+<li>将字节流所代表的静态存储结构转换为方法区的运行时数据结构</li>
+<li>在内存中生成一个代表该类的 <code>Class</code> 对象，作为方法区这些数据的访问入口</li>
+</ol>
+<p><strong>验证</strong>：</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220218152807924.png" alt="image-20220218152807924"></p>
+<p><strong>准备</strong>：</p>
+<p>准备阶段是正式为类变量分配内存并设置类变量初始值的阶段</p>
+<p><strong>解析：</strong></p>
+<p>把常量池中的符号引用替换成直接引用</p>
+<p><strong>初始化</strong>：</p>
+<p>初始化阶段是执行初始化方法 <code>&lt;clinit&gt; ()</code>方法的过程</p>
+<h3 id="双亲委派模型">双亲委派模型</h3>
+<p>每一个类都有一个对应它的类加载器。系统中的 ClassLoader 在协同工作的时候会默认使用 <strong>双亲委派模型</strong> 。即在类加载的时候，系统会首先判断当前类是否被加载过。已经被加载的类会直接返回，否则才会尝试加载。加载的时候，首先会把该请求委派给父类加载器的 <code>loadClass()</code> 处理，因此所有的请求最终都应该传送到顶层的启动类加载器 <code>BootstrapClassLoader</code> 中。当父类加载器无法处理时，才由自己来处理。当父类加载器为 null 时，会使用启动类加载器 <code>BootstrapClassLoader</code> 作为父类加载器。</p>
+<p><img src="https://gitee.com/wenkaiLLLLL/blog-img/raw/master/img/image-20220218153040495.png" alt="image-20220218153040495"></p>
+<p><strong>好处</strong>：</p>
+<p>双亲委派模型保证了 Java 程序的稳定运行，可以避免类的重复加载（JVM 区分不同类的方式不仅仅根据类名，相同的类文件被不同的类加载器加载产生的是两个不同的类），也保证了 Java 的核心 API 不被篡改。如果没有使用双亲委派模型，而是每个类加载器加载自己的话就会出现一些问题，比如我们编写一个称为 <code>java.lang.Object</code> 类的话，那么程序运行的时候，系统就会出现多个不同的 <code>Object</code> 类。</p>
+<h3 id="如何打破双亲委派机制">如何打破双亲委派机制</h3>
+<p>自定义加载器的话，需要继承 <code>ClassLoader</code> 。如果我们不想打破双亲委派模型，就重写 <code>ClassLoader</code> 类中的 <code>findClass()</code> 方法即可，无法被父类加载器加载的类最终会通过这个方法被加载。但是，<strong>如果想打破双亲委派模型则需要重写 <code>loadClass()</code> 方法</strong></p>
 <h1>数据库</h1>
 <h2 id="基础知识">基础知识</h2>
 <h3 id="数据库范式了解吗">数据库范式了解吗?</h3>
@@ -4927,6 +4965,7 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 </ol>
 <p>你也可以通过 <a href="https://redis.io/commands/discard"><code>DISCARD</code>  (opens new window)</a> 命令取消一个事务，它会清空事务队列中保存的所有命令。</p>
 <p><a href="https://redis.io/commands/watch"><code>WATCH</code> (opens new window)</a>命令用于监听指定的键，当调用 <code>EXEC</code> 命令执行事务时，如果一个被 <code>WATCH</code> 命令监视的键被修改的话，整个事务都不会执行，直接返回失败。</p>
+<p><strong>Redis不支持原子性</strong>：<strong>Redis不支持事务回滚机制</strong>(rollback)， 即使事务队列中的某个命令在执行期间出现了错误，整个事务也会继续执行下去，直到将事务队列中的所有命令都执行完毕为止。</p>
 <h3 id="缓存穿透和缓存雪崩">缓存穿透和缓存雪崩</h3>
 <p><strong>缓存穿透</strong>：缓存穿透说简单点就是大量请求的 key 根本不存在于缓存中，导致请求直接到了数据库上，根本没有经过缓存这一层。</p>
 <p>解决方法：</p>
@@ -5099,6 +5138,14 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <ul>
 <li>对称加密：密钥只有一个，加密解密为同一个密码，且加解密速度快，典型的对称加密算法有 DES、AES 等；</li>
 <li>非对称加密：密钥成对出现（且根据公钥无法推知私钥，根据私钥也无法推知公钥），加密解密使用不同密钥（公钥加密需要私钥解密，私钥加密需要公钥解密），相对对称加密速度较慢，典型的非对称加密算法有 RSA、DSA 等。</li>
+</ul>
+<h3 id="Http中get和post的区别">Http中get和post的区别</h3>
+<ul>
+<li>post更安全（不会作为url的一部分，不会被缓存、保存在服务器日志、以及浏览器浏览记录中）</li>
+<li>post发送的数据更大（get有url长度限制）</li>
+<li>post能发送更多的数据类型（get只能发送ASCII字符）</li>
+<li>post比get慢</li>
+<li>post用于修改和写入数据，get一般用于搜索排序和筛选之类的操作（淘宝，支付宝的搜索查询都是get提交），目的是资源的获取，读取数据</li>
 </ul>
 <h1>设计模式</h1>
 <h2 id="适配器模式">适配器模式</h2>
