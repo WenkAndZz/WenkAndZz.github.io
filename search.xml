@@ -5453,6 +5453,13 @@ AOF持久化以日志的形式记录服务器所处理的每一个写、删除�
 <h2 id="总结-2">总结</h2>
 <p>此时，如果正常启动的话，就可以对镜像进行测试了。</p>
 <p>如果需要修改，就挂载镜像进行修改。</p>
+<h1>参考</h1>
+<p>镜像制作相关：</p>
+<p><a href="https://note.youdao.com/ynoteshare/index.html?id=34457456628877ed53ae6f3b8364c439&amp;type=note&amp;_time=1639647582378">https://note.youdao.com/ynoteshare/index.html?id=34457456628877ed53ae6f3b8364c439&amp;type=note&amp;_time=1639647582378</a></p>
+<p><a href="http://wenk207.top/2021/12/25/%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C/">http://wenk207.top/2021/12/25/镜像制作/</a></p>
+<p>自定义服务：</p>
+<p><a href="https://note.youdao.com/ynoteshare/index.html?id=c4aeaafdd9f9f599a964e26a61454f46&amp;type=note&amp;_time=1645608396089">https://note.youdao.com/ynoteshare/index.html?id=c4aeaafdd9f9f599a964e26a61454f46&amp;type=note&amp;_time=1645608396089</a></p>
+<p><a href="https://note.youdao.com/ynoteshare/index.html?id=ddfc37e9709b20663199b6cf4a5c59e9&amp;type=note&amp;_time=1645608444212">https://note.youdao.com/ynoteshare/index.html?id=ddfc37e9709b20663199b6cf4a5c59e9&amp;type=note&amp;_time=1645608444212</a></p>
 ]]></content>
       <tags>
         <tag>镜像</tag>
