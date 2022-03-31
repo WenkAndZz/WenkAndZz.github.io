@@ -4426,6 +4426,68 @@ d.有可能会提升数据库表的查询效率。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// person对象没有实现Comparable接口，所以必须实现，这样才不会出错，才可以使treemap中的数据按顺序排列</span></span><br><span class="line"><span class="comment">// 前面一个例子的String类已经默认实现了Comparable接口，详细可以查看String类的API文档，另外其他</span></span><br><span class="line"><span class="comment">// 像Integer类等都已经实现了Comparable接口，所以不需要另外实现了</span></span><br><span class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Person</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * T重写compareTo方法实现按年龄来排序</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Person o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.age &gt; o.getAge()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.age &lt; o.getAge()) &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Comparator 定制排序服务</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Collections.sort(arrayList, <span class="keyword">new</span> Comparator&lt;Integer&gt;() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Integer o1, Integer o2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> o2.compareTo(o1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="接口与抽象类的区别">接口与抽象类的区别</h2>
+<p><strong>共同点</strong> ：</p>
+<ul>
+<li>都不能被实例化。</li>
+<li>都可以包含抽象方法。</li>
+<li>都可以有默认实现的方法（Java 8 可以用 <code>default</code> 关键在接口中定义默认方法）。</li>
+</ul>
+<p><strong>区别</strong> ：</p>
+<ul>
+<li>接口主要用于对类的行为进行约束，你实现了某个接口就具有了对应的行为。抽象类主要用于代码复用，强调的是所属关系（比如说我们抽象了一个发送短信的抽象类，）。</li>
+<li>一个类只能继承一个类，但是可以实现多个接口。</li>
+<li>接口中的成员变量只能是 <code>public static final</code> 类型的，不能被修改且必须有初始值，而抽象类的成员变量默认 default，可在子类中被重新定义，也可被重新赋值。</li>
+</ul>
+<h2 id="Java中访问修饰符的范围">Java中访问修饰符的范围</h2>
+<p>public、private、protect、default访问范围如下所示：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>同一个类</strong></th>
+<th><strong>同一个包</strong></th>
+<th><strong>不同包的子类</strong></th>
+<th><strong>不同包的非子类</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://so.csdn.net/so/search?q=Private&amp;spm=1001.2101.3001.7020">Private</a></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Default</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Protected</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>Public</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>public： Java语言中访问限制最宽的修饰符，一般称之为“公共的”。被其修饰的类、属性以及方法不仅可以跨类访问，而且允许跨包（package）访问。</li>
+<li>private: Java语言中对访问权限限制的最窄的修饰符，一般称之为“私有的”。被其修饰的类、属性以及方法只能被该类的对象访问，其子类不能访问，更不能允许跨包访问。</li>
+<li>protect: 介于public 和 private 之间的一种访问修饰符，一般称之为“保护形”。被其修饰的类、属性以及方法只能被类本身的方法及子类访问，即使子类在不同的包中也可以访问。</li>
+<li>default：即不加任何访问修饰符，通常称为“默认访问模式“。该模式下，只允许在同一个包中进行访问。</li>
+</ul>
 <h2 id="Java-8新特性">Java 8新特性</h2>
 <h3 id="Lambda-表达式">Lambda 表达式</h3>
 <p>Lambda 允许把函数作为一个方法的参数（函数作为参数传递到方法中）</p>
