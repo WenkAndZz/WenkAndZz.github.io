@@ -449,6 +449,33 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.新建文件夹</span><br><span class="line">mkdir fileName</span><br><span class="line"></span><br><span class="line">2.删除文件名</span><br><span class="line">rm -f fileName</span><br><span class="line"></span><br><span class="line">3.目录操作</span><br><span class="line">mv         重命名、移动文件夹</span><br><span class="line"></span><br><span class="line">cp         复制文件</span><br><span class="line"></span><br><span class="line">find       查找                     find / -name file1    从根目录开始搜索文件</span><br><span class="line"></span><br><span class="line">cat        文件查看</span><br><span class="line"></span><br><span class="line">vi|vim     文件修改           i：插入模式      esc：退出到命令模式      ：wq   保存退出</span><br><span class="line"></span><br><span class="line">4.查看文件前两行</span><br><span class="line">head -2 filename       </span><br><span class="line"></span><br><span class="line">5.查看文件后两行</span><br><span class="line">tail -2 filename       </span><br><span class="line"></span><br><span class="line">6.将hello.txt⽂件中的s1替换成s2</span><br><span class="line">sed &#x27;s/s1/s2/g&#x27; hello.txt</span><br><span class="line"></span><br><span class="line">7.合并文件夹</span><br><span class="line">paste file1 file2 </span><br><span class="line"></span><br><span class="line">8.比较两个文件之间的内容</span><br><span class="line">comm -1 file1 file2      去除文件1中的所有内容</span><br><span class="line">comm -2 file1 file2      去除文件2中的所有内容</span><br><span class="line">comm -3 file1 file2      去除两个文件共有的部分</span><br></pre></td></tr></table></figure>
 <h2 id="打包和压缩">打包和压缩</h2>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.zip打包，解压</span><br><span class="line">zip  unzip</span><br><span class="line"></span><br><span class="line">2.tar</span><br><span class="line">tar -cvf xxx.tar file     创建压缩文件</span><br><span class="line">tar -xvf xxx.tar          解压</span><br></pre></td></tr></table></figure>
+<p>zip的常用参数</p>
+<table>
+<thead>
+<tr>
+<th>-m</th>
+<th>将文件压缩后，删除原文件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-o</td>
+<td>将压缩文件内的所有文件的最新变动时间设为压缩的时间</td>
+</tr>
+<tr>
+<td>-q</td>
+<td>安静模式，在压缩的时候不显示指令执行的过程</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>递归压缩，将自定目录下的所有子文件以及文件一起处理</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>”文件列表“，压缩时排除文件列表中的文件</td>
+</tr>
+</tbody>
+</table>
 <h2 id="yum包管理">yum包管理</h2>
 <img src="http://r9jy0okua.bkt.clouddn.com/img/image-20211222110156561.png" style="zoom:150%;" />
 ]]></content>
@@ -4332,11 +4359,11 @@ d.有可能会提升数据库表的查询效率。</p>
 <p>散列表存储的是键值对(key-value)，它的特点是：<strong>能根据“键”快速的检索出对应的“值”。这其中就利用到了散列码！（可以快速找到所需要的对象）</strong></p>
 <p>HashCode和equals需要搭配使用，通过HashCode找到key所在的位置，然后通过equals比较value是否相等。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如果两个对象的hashCode 值相等，那这两个对象不一定相等（哈希碰撞）。</span><br><span class="line"></span><br><span class="line">如果两个对象的hashCode 值相等并且equals()方法返回 true，我们才认为这两个对象相等。</span><br><span class="line"></span><br><span class="line">如果两个对象的hashCode 值不相等，我们就可以直接认为这两个对象不相等。</span><br></pre></td></tr></table></figure>
-<p><strong>为什么重写 equals() 时必须重写 hashCode() 方法？</strong></p>
-<p>因为两个相等的对象的 <code>hashCode</code> 值必须是相等。也就是说如果 <code>equals</code> 方法判断两个对象是相等的，那这两个对象的 <code>hashCode</code> 值也要相等。</p>
-<p>如果重写 <code>equals()</code> 时没有重写 <code>hashCode()</code> 方法的话就可能会导致 <code>equals</code> 方法判断是相等的两个对象，<code>hashCode</code> 值却不相等。</p>
-<p><strong>重写 <code>equals()</code> 时没有重写 <code>hashCode()</code> 方法的话，使用 <code>HashMap</code> 可能会出现什么问题。</strong></p>
-<p>可能会两个相同的key，hashcode为其分配的位置是不同的，从而查找到的数据也是不同的。</p>
+<p>hashmap正常使用的前提：**如果equals判断相等的两个对象，他们要具有相同的hash值。**如果两个方法都没有重写，则equals比较的是两个对象的内存地址，hashcode根据内存地址计算hash值。</p>
+<p><strong>重写equals但是没重写hashcode：</strong></p>
+<p>此时，equals（）方法根据两个对象的属性判断对象是否相等，而不是根据内存地址，但是因为hashcode没有被重写，他还是根据内存地址计算哈希值的。因此会导致equals判断相等的两个对象，他们的哈希值就不相等。</p>
+<p><strong>重写hashcode但是没有重写equals：</strong></p>
+<p>hashcode是根据对象的属性计算哈希值，equals根据内存地址判断对象是否相等。equals判断相等的两个对象，他们的hashcode不相等。</p>
 <h2 id="重载与重写">重载与重写</h2>
 <p>相同点：都是多态的体现。</p>
 <p>不同点：重载是同一个类中，方法名相同，但是参数列表不同。重写出现在子类继承父类时，重写父类中的方法。</p>
@@ -4385,6 +4412,8 @@ d.有可能会提升数据库表的查询效率。</p>
 <li>InputStream/Reader: 所有的输入流的基类，前者是字节输入流，后者是字符输入流。</li>
 <li>OutputStream/Writer: 所有输出流的基类，前者是字节输出流，后者是字符输出流。</li>
 </ul>
+<p>字符流：以Unicode字符为单位，一个字符占两个字节，适合处理中文文本数据。</p>
+<p>字节流：一字节为传输单位。适合处理图片，歌曲，视频等文件。</p>
 <p><img src="http://r9jy0okua.bkt.clouddn.com/img/zzz.png" alt="zzz"></p>
 <h2 id="值传递和引用传递">值传递和引用传递</h2>
 <ul>
@@ -4438,6 +4467,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <li>接口主要用于对类的行为进行约束，你实现了某个接口就具有了对应的行为。抽象类主要用于代码复用，强调的是所属关系（比如说我们抽象了一个发送短信的抽象类，）。</li>
 <li>一个类只能继承一个类，但是可以实现多个接口。</li>
 <li>接口中的成员变量只能是 <code>public static final</code> 类型的，不能被修改且必须有初始值，而抽象类的成员变量默认 default，可在子类中被重新定义，也可被重新赋值。</li>
+<li>抽象类中可以有普通方法，也可以有抽象方法；接口中不能存在普通方法。</li>
 </ul>
 <h2 id="Java中访问修饰符的范围">Java中访问修饰符的范围</h2>
 <p>public、private、protect、default访问范围如下所示：</p>
@@ -5514,6 +5544,243 @@ d.有可能会提升数据库表的查询效率。</p>
 </ol>
 <h3 id="HTTP状态码">HTTP状态码</h3>
 <p><img src="http://r9jy0okua.bkt.clouddn.com/img/image-20220216172255179.png" alt="image-20220216172255179"></p>
+<p>HTTP状态码列表:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">状态码</th>
+<th style="text-align:left">状态码英文名称</th>
+<th style="text-align:left">中文描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">100</td>
+<td style="text-align:left">Continue</td>
+<td style="text-align:left">继续。客户端应继续其请求</td>
+</tr>
+<tr>
+<td style="text-align:left">101</td>
+<td style="text-align:left">Switching Protocols</td>
+<td style="text-align:left">切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">200</td>
+<td style="text-align:left">OK</td>
+<td style="text-align:left">请求成功。一般用于GET与POST请求</td>
+</tr>
+<tr>
+<td style="text-align:left">201</td>
+<td style="text-align:left">Created</td>
+<td style="text-align:left">已创建。成功请求并创建了新的资源</td>
+</tr>
+<tr>
+<td style="text-align:left">202</td>
+<td style="text-align:left">Accepted</td>
+<td style="text-align:left">已接受。已经接受请求，但未处理完成</td>
+</tr>
+<tr>
+<td style="text-align:left">203</td>
+<td style="text-align:left">Non-Authoritative Information</td>
+<td style="text-align:left">非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本</td>
+</tr>
+<tr>
+<td style="text-align:left">204</td>
+<td style="text-align:left">No Content</td>
+<td style="text-align:left">无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</td>
+</tr>
+<tr>
+<td style="text-align:left">205</td>
+<td style="text-align:left">Reset Content</td>
+<td style="text-align:left">重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域</td>
+</tr>
+<tr>
+<td style="text-align:left">206</td>
+<td style="text-align:left">Partial Content</td>
+<td style="text-align:left">部分内容。服务器成功处理了部分GET请求</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">300</td>
+<td style="text-align:left">Multiple Choices</td>
+<td style="text-align:left">多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择</td>
+</tr>
+<tr>
+<td style="text-align:left">301</td>
+<td style="text-align:left">Moved Permanently</td>
+<td style="text-align:left">永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</td>
+</tr>
+<tr>
+<td style="text-align:left">302</td>
+<td style="text-align:left">Found</td>
+<td style="text-align:left">临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI</td>
+</tr>
+<tr>
+<td style="text-align:left">303</td>
+<td style="text-align:left">See Other</td>
+<td style="text-align:left">查看其它地址。与301类似。使用GET和POST请求查看</td>
+</tr>
+<tr>
+<td style="text-align:left">304</td>
+<td style="text-align:left">Not Modified</td>
+<td style="text-align:left">未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源</td>
+</tr>
+<tr>
+<td style="text-align:left">305</td>
+<td style="text-align:left">Use Proxy</td>
+<td style="text-align:left">使用代理。所请求的资源必须通过代理访问</td>
+</tr>
+<tr>
+<td style="text-align:left">306</td>
+<td style="text-align:left">Unused</td>
+<td style="text-align:left">已经被废弃的HTTP状态码</td>
+</tr>
+<tr>
+<td style="text-align:left">307</td>
+<td style="text-align:left">Temporary Redirect</td>
+<td style="text-align:left">临时重定向。与302类似。使用GET请求重定向</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">400</td>
+<td style="text-align:left">Bad Request</td>
+<td style="text-align:left">客户端请求的语法错误，服务器无法理解</td>
+</tr>
+<tr>
+<td style="text-align:left">401</td>
+<td style="text-align:left">Unauthorized</td>
+<td style="text-align:left">请求要求用户的身份认证</td>
+</tr>
+<tr>
+<td style="text-align:left">402</td>
+<td style="text-align:left">Payment Required</td>
+<td style="text-align:left">保留，将来使用</td>
+</tr>
+<tr>
+<td style="text-align:left">403</td>
+<td style="text-align:left">Forbidden</td>
+<td style="text-align:left">服务器理解请求客户端的请求，但是拒绝执行此请求</td>
+</tr>
+<tr>
+<td style="text-align:left">404</td>
+<td style="text-align:left">Not Found</td>
+<td style="text-align:left">服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置&quot;您所请求的资源无法找到&quot;的个性页面</td>
+</tr>
+<tr>
+<td style="text-align:left">405</td>
+<td style="text-align:left">Method Not Allowed</td>
+<td style="text-align:left">客户端请求中的方法被禁止</td>
+</tr>
+<tr>
+<td style="text-align:left">406</td>
+<td style="text-align:left">Not Acceptable</td>
+<td style="text-align:left">服务器无法根据客户端请求的内容特性完成请求</td>
+</tr>
+<tr>
+<td style="text-align:left">407</td>
+<td style="text-align:left">Proxy Authentication Required</td>
+<td style="text-align:left">请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权</td>
+</tr>
+<tr>
+<td style="text-align:left">408</td>
+<td style="text-align:left">Request Time-out</td>
+<td style="text-align:left">服务器等待客户端发送的请求时间过长，超时</td>
+</tr>
+<tr>
+<td style="text-align:left">409</td>
+<td style="text-align:left">Conflict</td>
+<td style="text-align:left">服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突</td>
+</tr>
+<tr>
+<td style="text-align:left">410</td>
+<td style="text-align:left">Gone</td>
+<td style="text-align:left">客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置</td>
+</tr>
+<tr>
+<td style="text-align:left">411</td>
+<td style="text-align:left">Length Required</td>
+<td style="text-align:left">服务器无法处理客户端发送的不带Content-Length的请求信息</td>
+</tr>
+<tr>
+<td style="text-align:left">412</td>
+<td style="text-align:left">Precondition Failed</td>
+<td style="text-align:left">客户端请求信息的先决条件错误</td>
+</tr>
+<tr>
+<td style="text-align:left">413</td>
+<td style="text-align:left">Request Entity Too Large</td>
+<td style="text-align:left">由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息</td>
+</tr>
+<tr>
+<td style="text-align:left">414</td>
+<td style="text-align:left">Request-URI Too Large</td>
+<td style="text-align:left">请求的URI过长（URI通常为网址），服务器无法处理</td>
+</tr>
+<tr>
+<td style="text-align:left">415</td>
+<td style="text-align:left">Unsupported Media Type</td>
+<td style="text-align:left">服务器无法处理请求附带的媒体格式</td>
+</tr>
+<tr>
+<td style="text-align:left">416</td>
+<td style="text-align:left">Requested range not satisfiable</td>
+<td style="text-align:left">客户端请求的范围无效</td>
+</tr>
+<tr>
+<td style="text-align:left">417</td>
+<td style="text-align:left">Expectation Failed</td>
+<td style="text-align:left">服务器无法满足Expect的请求头信息</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">500</td>
+<td style="text-align:left">Internal Server Error</td>
+<td style="text-align:left">服务器内部错误，无法完成请求</td>
+</tr>
+<tr>
+<td style="text-align:left">501</td>
+<td style="text-align:left">Not Implemented</td>
+<td style="text-align:left">服务器不支持请求的功能，无法完成请求</td>
+</tr>
+<tr>
+<td style="text-align:left">502</td>
+<td style="text-align:left">Bad Gateway</td>
+<td style="text-align:left">作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应</td>
+</tr>
+<tr>
+<td style="text-align:left">503</td>
+<td style="text-align:left">Service Unavailable</td>
+<td style="text-align:left">由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中</td>
+</tr>
+<tr>
+<td style="text-align:left">504</td>
+<td style="text-align:left">Gateway Time-out</td>
+<td style="text-align:left">充当网关或代理的服务器，未及时从远端服务器获取请求</td>
+</tr>
+<tr>
+<td style="text-align:left">505</td>
+<td style="text-align:left">HTTP Version not supported</td>
+<td style="text-align:left">服务器不支持请求的HTTP协议的版本，无法完成处理</td>
+</tr>
+</tbody>
+</table>
 <h3 id="HTTP-和-HTTPS-的区别？">HTTP 和 HTTPS 的区别？</h3>
 <ol>
 <li><strong>端口</strong> ：HTTP 的 URL 由“http://”起始且默认使用端口80，而HTTPS的URL由“https://”起始且默认使用端口443。</li>
@@ -5524,6 +5791,15 @@ d.有可能会提升数据库表的查询效率。</p>
 <li>对称加密：密钥只有一个，加密解密为同一个密码，且加解密速度快，典型的对称加密算法有 DES、AES 等；</li>
 <li>非对称加密：密钥成对出现（且根据公钥无法推知私钥，根据私钥也无法推知公钥），加密解密使用不同密钥（公钥加密需要私钥解密，私钥加密需要公钥解密），相对对称加密速度较慢，典型的非对称加密算法有 RSA、DSA 等。</li>
 </ul>
+<h3 id="Https加密的过程">Https加密的过程</h3>
+<ul>
+<li>客户端请求服务端的证书</li>
+<li>服务端给客户端发送证书</li>
+<li>客户端生成对称密钥并用公钥发送给服务端</li>
+<li>服务端解析出对称密钥并存储</li>
+<li>客户端使用对称密钥加密数据发送</li>
+<li>服务端使用对称密钥解密数据，并把响应数据用对称密钥加密</li>
+</ul>
 <h3 id="Http中get和post的区别">Http中get和post的区别</h3>
 <ul>
 <li>post更安全（不会作为url的一部分，不会被缓存、保存在服务器日志、以及浏览器浏览记录中）</li>
@@ -5532,6 +5808,13 @@ d.有可能会提升数据库表的查询效率。</p>
 <li>post比get慢</li>
 <li>post用于修改和写入数据，get一般用于搜索排序和筛选之类的操作（淘宝，支付宝的搜索查询都是get提交），目的是资源的获取，读取数据</li>
 </ul>
+<h3 id="Ping命令">Ping命令</h3>
+<p>（1）用来检测网络的连通情况和分析网络速度；</p>
+<p>（2）根据域名得到服务器IP；</p>
+<p>（3）根据ping返回的TTL值来判断对方所使用的操作系统及数据包经过路由器数量。</p>
+<p><strong>原理：</strong></p>
+<p>ping 命令是基于 ICMP 协议来工作的，「 ICMP 」全称为 Internet 控制报文协议。</p>
+<p>ping 命令会发送一份ICMP回显请求报文给目标主机，并等待目标主机返回ICMP回显应答。因为ICMP协议要求目标主机在收到消息之后，必须返回ICMP应答消息给源主机，如果源主机在一定时间内收到了目标主机的应答，则表明两台主机之间网络是可达的。</p>
 <h1>设计模式</h1>
 <h2 id="适配器模式">适配器模式</h2>
 <h1>容器化</h1>
