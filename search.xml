@@ -4332,7 +4332,7 @@ d.有可能会提升数据库表的查询效率。</p>
 <p>Boolean、Character</p>
 <p>Float、Double</p>
 <h2 id="泛型">泛型</h2>
-<p>泛型提供了编译时<strong>类型安全检测机制</strong>，该机制允许程序员在编译阶段检测到非法的类型，也就是说<strong>把操作的数据类型被指定为一个参数</strong>。</p>
+<p>泛型提供了编译时<strong>类型安全检测机制</strong>，该机制允许程序员在编译阶段检测到非法的类型。指定被操作对象或集合列表中的数据类型，规范数据类型。</p>
 <p>Java 的泛型是伪泛型，这是因为 Java 在<strong>运行期间，所有的泛型信息都会被擦掉</strong>，这也就是通常所说类型擦除 。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">java中的泛型的作用就是为程序员的编程提供方便。在编译期间，可以把要操作类实例中的数据指定为某得数据类型。</span><br><span class="line">在运行期间，泛型不起作用。</span><br><span class="line"></span><br><span class="line">常见的泛型有：</span><br><span class="line">HashMap&lt;String,String&gt;、List&lt;Integer&gt;</span><br><span class="line"></span><br><span class="line">泛型一般有三种使用方式: 泛型类、泛型接口、泛型方法。</span><br></pre></td></tr></table></figure>
 <h2 id="和equals的区别">==和equals的区别</h2>
@@ -4793,6 +4793,43 @@ d.有可能会提升数据库表的查询效率。</p>
 <li>初始化对象</li>
 <li>将对象指向分配的内存空间</li>
 </ol>
+<h3 id="内存可见性">内存可见性</h3>
+<p><strong>问题</strong>：当多个线程操作共享数据时，彼此不可见。</p>
+<p><strong>原因</strong>：因为如果没有线程同步机制，会导致数据保存在线程中的缓存中，不能及时刷新到主存，当前线程操纵的共享内存永远是被其修改后的旧值，其他线程对这个修改不可见。</p>
+<p><strong>解决方法</strong>：synchronized关键字和volatile关键字</p>
+<p><strong>Synchronized实现内存可见性介绍：</strong></p>
+<ul>
+<li>线程<strong>解锁</strong>前，必须把共享变量的最新值刷新到主内存中</li>
+<li>线程<strong>加锁</strong>时，将清空工作内存中共享变量的值，从而使用共享变量时需要从主存中重新读取最新的值（注意：加锁与解锁需要是同一把锁）</li>
+<li>线程解锁前对共享变量的修改在下次加锁时对其他线程可见</li>
+</ul>
+<p>缺点：synchronized可以实现原子性（同步）和可见性。但是因为频繁的加锁和释放锁，会使其执行效率很低。</p>
+<p><strong>volatile实现可见性介绍</strong>：</p>
+<p>通过加入<code>内存屏障</code>和<code>禁止重排序</code>优化来实现的</p>
+<ul>
+<li>对volatile变量执行写操作时，会在写操作后加入一条store屏障指令</li>
+<li>对volatile变量执行读操作时，会在读操作前加入一条load屏障指令</li>
+</ul>
+<p><img src="http://r9k10hu3i.hn-bkt.clouddn.com/20210611091420157.png" alt="img"></p>
+<p>线程写volatile变量的过程：</p>
+<ol>
+<li>
+<p>改变线程工作内存中volatile变量副本的值</p>
+</li>
+<li>
+<p>将改变后的副本的值从工作内存刷新到主内存</p>
+</li>
+</ol>
+<p>线程读volatile变量的过程：</p>
+<ol>
+<li>
+<p>从主内存中读取volatile变量的最新值到线程的工作内存中</p>
+</li>
+<li>
+<p>从工作内存中读取volatile变量的副本</p>
+</li>
+</ol>
+<p>通俗的讲就是时时刻刻的将缓存中的内存刷新到主内存中，可以理解为它的操作就是在主存中进行的</p>
 <h3 id="并发编程的三个重要特点">并发编程的三个重要特点</h3>
 <p><strong>原子性</strong> : 一个的操作或者多次操作，要么所有的操作全部都得到执行并且不会受到任何因素的干扰而中断，要么所有的操作都执行，要么都不执行。<code>synchronized</code> 可以保证代码片段的原子性。</p>
 <p><strong>可见性</strong> ：当一个线程对共享变量进行了修改，那么另外的线程都是立即可以看到修改后的最新值。<code>volatile</code> 关键字可以保证共享变量的可见性。</p>
@@ -5382,13 +5419,19 @@ d.有可能会提升数据库表的查询效率。</p>
 <p><a href="https://redis.io/commands/watch"><code>WATCH</code> (opens new window)</a>命令用于监听指定的键，当调用 <code>EXEC</code> 命令执行事务时，如果一个被 <code>WATCH</code> 命令监视的键被修改的话，整个事务都不会执行，直接返回失败。</p>
 <p><strong>Redis不支持原子性</strong>：<strong>Redis不支持事务回滚机制</strong>(rollback)， 即使事务队列中的某个命令在执行期间出现了错误，整个事务也会继续执行下去，直到将事务队列中的所有命令都执行完毕为止。</p>
 <h3 id="缓存穿透和缓存雪崩">缓存穿透和缓存雪崩</h3>
-<p><strong>缓存穿透</strong>：缓存穿透说简单点就是大量请求的 key 根本不存在于缓存中，导致请求直接到了数据库上，根本没有经过缓存这一层。</p>
+<p><strong>缓存穿透</strong>：指缓存和数据库中都没有的数据，而用户不断发起请求。造成数据库压力过大。</p>
 <p>解决方法：</p>
 <ol>
 <li>布隆过滤器</li>
 <li>在前端添加判断语句，防止非法的请求传入。</li>
 <li>缓存无效的key</li>
 </ol>
+<p>**缓存击穿：**是指缓存中没有但数据库中有的数据（一般是缓存时间到期），此时大量并发用户同时请求该缓存，导致数据库压力过大。</p>
+<p>解决方法：</p>
+<ul>
+<li>设置缓存永不过期</li>
+<li>添加互斥锁</li>
+</ul>
 <p><strong>缓存雪崩</strong>：</p>
 <ul>
 <li>场景一：硬件问题，缓存失效。缓存在同一时间大面积的失效，后面的请求都直接落到了数据库上，造成数据库短时间内承受大量请求。</li>
